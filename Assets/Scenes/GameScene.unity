@@ -1641,7 +1641,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Damageable
   maxHealth: 30
-  disableOnDeath: 1
+  respawnAfterDeath: 1
+  respawnDelay: 1.5
 --- !u!61 &1493630827
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -34,9 +34,9 @@ public static class GameSceneBuilder
         CreateCamera();
         new GameObject("GameManager").AddComponent<GameManager>();
         CreateGround(square);
-        PlayerStats stats = CreatePlayer(square);
+        PlayerStats stats = CreatePlayer(square, out AttackController attackController);
         CreateDummy(square);
-        CreateCanvas(stats);
+        CreateCanvas(stats, attackController);
 
         EditorSceneManager.SaveScene(scene, ScenePath);
         AddSceneToBuildSettings();
@@ -112,7 +112,7 @@ public static class GameSceneBuilder
         wall.AddComponent<BoxCollider2D>();
     }
 
-    private static PlayerStats CreatePlayer(Sprite sprite)
+    private static PlayerStats CreatePlayer(Sprite sprite, out AttackController attackController)
     {
         GameObject player = CreateSpriteObject("Player", sprite, new Vector2(-3f, 0f), Vector2.one, new Color(0.2f, 0.75f, 1f));
         var body = player.AddComponent<Rigidbody2D>();
@@ -124,7 +124,8 @@ public static class GameSceneBuilder
         PlayerStats stats = player.AddComponent<PlayerStats>();
         player.AddComponent<PlayerController>();
         player.AddComponent<PlayerDash>();
-        player.AddComponent<AttackController>();
+        attackController = player.AddComponent<AttackController>();
+        player.AddComponent<ArcherController>();
 
         var tester = player.AddComponent<DebugDamageTester>();
         SetReference(tester, "target", stats);
@@ -149,7 +150,7 @@ public static class GameSceneBuilder
         return go;
     }
 
-    private static void CreateCanvas(PlayerStats stats)
+    private static void CreateCanvas(PlayerStats stats, AttackController attackController)
     {
         var canvasGo = new GameObject("Canvas", typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
         Canvas canvas = canvasGo.GetComponent<Canvas>();
@@ -160,8 +161,12 @@ public static class GameSceneBuilder
 
         Slider hp = CreateSlider(canvasGo.transform, "Health Bar", new Vector2(40f, -40f), new Color(0.8f, 0.12f, 0.12f));
         Slider mp = CreateSlider(canvasGo.transform, "Mana Bar", new Vector2(40f, -100f), new Color(0.1f, 0.4f, 0.9f));
+        Slider xp = CreateSlider(canvasGo.transform, "Experience Bar", new Vector2(40f, -160f), new Color(0.85f, 0.65f, 0.08f));
         Text hpText = CreateText(hp.transform, "HP Text", "HP  100 / 100", TextAnchor.MiddleCenter, 22);
         Text mpText = CreateText(mp.transform, "MP Text", "MP  50 / 50", TextAnchor.MiddleCenter, 22);
+        Text xpText = CreateText(xp.transform, "EXP Text", "EXP  0 / 100", TextAnchor.MiddleCenter, 22);
+        Text levelText = CreateLabel(canvasGo.transform, "Level Text", "WARRIOR  LV.1  STR 10  DEF 5", new Vector2(40f, -215f));
+        Text weaponText = CreateLabel(canvasGo.transform, "Weapon Text", "[1/2/3] ONE-HANDED SWORD  ATK 18", new Vector2(40f, -255f));
 
         GameObject deathPanel = new GameObject("Death Panel", typeof(RectTransform), typeof(Image));
         deathPanel.transform.SetParent(canvasGo.transform, false);
@@ -179,8 +184,31 @@ public static class GameSceneBuilder
         SetReference(hud, "manaSlider", mp);
         SetReference(hud, "healthText", hpText);
         SetReference(hud, "manaText", mpText);
+        SetReference(hud, "experienceSlider", xp);
+        SetReference(hud, "experienceText", xpText);
+        SetReference(hud, "levelText", levelText);
+        SetReference(hud, "weaponText", weaponText);
+        SetReference(hud, "attackController", attackController);
         SetReference(hud, "deathPanel", deathPanel);
         deathPanel.SetActive(false);
+    }
+
+    private static Text CreateLabel(Transform parent, string name, string value, Vector2 position)
+    {
+        var go = new GameObject(name, typeof(RectTransform), typeof(Text));
+        go.transform.SetParent(parent, false);
+        RectTransform rect = go.GetComponent<RectTransform>();
+        rect.anchorMin = rect.anchorMax = new Vector2(0f, 1f);
+        rect.pivot = new Vector2(0f, 1f);
+        rect.anchoredPosition = position;
+        rect.sizeDelta = new Vector2(620f, 36f);
+        Text text = go.GetComponent<Text>();
+        text.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        text.text = value;
+        text.alignment = TextAnchor.MiddleLeft;
+        text.fontSize = 22;
+        text.color = Color.white;
+        return text;
     }
 
     private static Slider CreateSlider(Transform parent, string name, Vector2 position, Color fillColor)
