@@ -10,6 +10,7 @@ public static class GameSceneBuilder
 {
     private const string ScenePath = "Assets/Scenes/GameScene.unity";
     private const string SpritePath = "Assets/Sprites/TestSquare.png";
+    private const string WeaponFolder = "Assets/Sprites/Test Weapons";
 
     [InitializeOnLoadMethod]
     private static void BuildMissingSceneOnEditorLoad()
@@ -125,6 +126,9 @@ public static class GameSceneBuilder
         player.AddComponent<PlayerController>();
         player.AddComponent<PlayerDash>();
         attackController = player.AddComponent<AttackController>();
+        SetReference(attackController, "oneHandedSwordSprite", AssetDatabase.LoadAssetAtPath<Sprite>($"{WeaponFolder}/LongSword.png"));
+        SetReference(attackController, "greatswordSprite", AssetDatabase.LoadAssetAtPath<Sprite>($"{WeaponFolder}/GreatSword.png"));
+        SetReference(attackController, "spearSprite", AssetDatabase.LoadAssetAtPath<Sprite>($"{WeaponFolder}/Spear.png"));
         player.AddComponent<ArcherController>();
 
         var tester = player.AddComponent<DebugDamageTester>();

@@ -2086,12 +2086,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b9749c96a1c7f9478abebca85a4fb2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AttackController
-  attackDamage: 10
-  attackRange: 1.5
-  attackCooldown: 0.5
   targetLayers:
     serializedVersion: 2
     m_Bits: 4294967295
+  equippedWeapon: 0
+  oneHandedSwordSprite: {fileID: 21300000, guid: d82f124e24e84667859ed27ea65ee3a1, type: 3}
+  greatswordSprite: {fileID: 21300000, guid: 893033dad1b5412ca95471e220c8afd9, type: 3}
+  spearSprite: {fileID: 21300000, guid: e9c4990aa36d442fb575d7b0dc139349, type: 3}
+  weaponRenderer: {fileID: 0}
+  weaponGripOffset: 0.55
 --- !u!114 &2012544746
 MonoBehaviour:
   m_ObjectHideFlags: 0

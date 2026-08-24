@@ -10,6 +10,13 @@ public class AttackController : MonoBehaviour
 
     [SerializeField] private WeaponType equippedWeapon = WeaponType.OneHandedSword;
 
+    [Header("Weapon Visuals")]
+    [SerializeField] private Sprite oneHandedSwordSprite;
+    [SerializeField] private Sprite greatswordSprite;
+    [SerializeField] private Sprite spearSprite;
+    [SerializeField] private SpriteRenderer weaponRenderer;
+    [SerializeField, Min(0f)] private float weaponGripOffset = 0.55f;
+
     private PlayerController controller;
     private PlayerStats stats;
     private float nextAttackTime;
@@ -26,6 +33,9 @@ public class AttackController : MonoBehaviour
         controller = GetComponent<PlayerController>();
         stats = GetComponent<PlayerStats>();
         if (GetComponent<ArcherController>() == null) gameObject.AddComponent<ArcherController>();
+        CreateWeaponRendererIfMissing();
+        stats.ClassChanged += OnClassChanged;
+        RefreshWeaponVisual();
     }
 
     private void Update()
@@ -37,6 +47,7 @@ public class AttackController : MonoBehaviour
         }
         if (stats.CurrentClass != PlayerStats.PlayerClass.Warrior) return;
         HandleWeaponInput();
+        UpdateWeaponPose();
         if (!stats.IsDead && Time.time >= nextAttackTime && Mouse.current != null &&
             Mouse.current.leftButton.wasPressedThisFrame)
         {
@@ -72,7 +83,55 @@ public class AttackController : MonoBehaviour
     {
         if (equippedWeapon == weapon) return;
         equippedWeapon = weapon;
+        RefreshWeaponVisual();
         WeaponChanged?.Invoke(equippedWeapon);
+    }
+
+    private void CreateWeaponRendererIfMissing()
+    {
+        if (weaponRenderer != null) return;
+        var visual = new GameObject("Equipped Weapon", typeof(SpriteRenderer));
+        visual.transform.SetParent(transform, false);
+        weaponRenderer = visual.GetComponent<SpriteRenderer>();
+        SpriteRenderer playerRenderer = GetComponent<SpriteRenderer>();
+        weaponRenderer.sortingLayerID = playerRenderer != null ? playerRenderer.sortingLayerID : 0;
+        weaponRenderer.sortingOrder = playerRenderer != null ? playerRenderer.sortingOrder + 1 : 1;
+    }
+
+    private void RefreshWeaponVisual()
+    {
+        if (weaponRenderer == null) return;
+        weaponRenderer.sprite = equippedWeapon switch
+        {
+            WeaponType.Greatsword => greatswordSprite,
+            WeaponType.Spear => spearSprite,
+            _ => oneHandedSwordSprite
+        };
+        weaponRenderer.transform.localScale = Vector3.one * (equippedWeapon == WeaponType.Spear ? 0.9f : 0.8f);
+        weaponRenderer.enabled = stats != null && stats.CurrentClass == PlayerStats.PlayerClass.Warrior &&
+                                 weaponRenderer.sprite != null;
+        UpdateWeaponPose();
+    }
+
+    private void UpdateWeaponPose()
+    {
+        if (weaponRenderer == null || controller == null) return;
+        Vector2 direction = controller.LastMoveDirection.normalized;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 45f;
+        Transform visual = weaponRenderer.transform;
+        visual.localPosition = direction * weaponGripOffset;
+        visual.rotation = Quaternion.Euler(0f, 0f, angle);
+    }
+
+    private void OnClassChanged(PlayerStats.PlayerClass playerClass)
+    {
+        if (weaponRenderer != null)
+            weaponRenderer.enabled = playerClass == PlayerStats.PlayerClass.Warrior && weaponRenderer.sprite != null;
+    }
+
+    private void OnDestroy()
+    {
+        if (stats != null) stats.ClassChanged -= OnClassChanged;
     }
 
     private void HandleWeaponInput()
