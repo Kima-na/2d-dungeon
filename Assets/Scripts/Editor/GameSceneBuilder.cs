@@ -10,7 +10,7 @@ public static class GameSceneBuilder
 {
     private const string ScenePath = "Assets/Scenes/GameScene.unity";
     private const string SpritePath = "Assets/Sprites/TestSquare.png";
-    private const string WeaponFolder = "Assets/Sprites/Test Weapons";
+    private const string WeaponFolder = "Assets/Sprites/Warrior Weapons";
 
     [InitializeOnLoadMethod]
     private static void BuildMissingSceneOnEditorLoad()
@@ -34,9 +34,9 @@ public static class GameSceneBuilder
 
         CreateCamera();
         new GameObject("GameManager").AddComponent<GameManager>();
-        CreateGround(square);
         PlayerStats stats = CreatePlayer(square, out AttackController attackController);
-        CreateDummy(square);
+        DungeonGenerator generator = new GameObject("Dungeon Generator").AddComponent<DungeonGenerator>();
+        SetReference(generator, "roomPrefab", AssetDatabase.LoadAssetAtPath<Room>("Assets/Prefabs/Room.prefab"));
         CreateCanvas(stats, attackController);
 
         EditorSceneManager.SaveScene(scene, ScenePath);
@@ -126,21 +126,13 @@ public static class GameSceneBuilder
         player.AddComponent<PlayerController>();
         player.AddComponent<PlayerDash>();
         attackController = player.AddComponent<AttackController>();
-        SetReference(attackController, "oneHandedSwordSprite", AssetDatabase.LoadAssetAtPath<Sprite>($"{WeaponFolder}/LongSword.png"));
-        SetReference(attackController, "greatswordSprite", AssetDatabase.LoadAssetAtPath<Sprite>($"{WeaponFolder}/GreatSword.png"));
-        SetReference(attackController, "spearSprite", AssetDatabase.LoadAssetAtPath<Sprite>($"{WeaponFolder}/Spear.png"));
         player.AddComponent<ArcherController>();
+        player.AddComponent<MageController>();
+        player.AddComponent<SkillController>();
 
         var tester = player.AddComponent<DebugDamageTester>();
         SetReference(tester, "target", stats);
         return stats;
-    }
-
-    private static void CreateDummy(Sprite sprite)
-    {
-        GameObject dummy = CreateSpriteObject("Dummy", sprite, new Vector2(1f, 0f), new Vector2(1.2f, 1.2f), new Color(1f, 0.38f, 0.28f));
-        dummy.AddComponent<BoxCollider2D>();
-        dummy.AddComponent<Damageable>();
     }
 
     private static GameObject CreateSpriteObject(string name, Sprite sprite, Vector2 position, Vector2 scale, Color color)
@@ -165,12 +157,14 @@ public static class GameSceneBuilder
 
         Slider hp = CreateSlider(canvasGo.transform, "Health Bar", new Vector2(40f, -40f), new Color(0.8f, 0.12f, 0.12f));
         Slider mp = CreateSlider(canvasGo.transform, "Mana Bar", new Vector2(40f, -100f), new Color(0.1f, 0.4f, 0.9f));
-        Slider xp = CreateSlider(canvasGo.transform, "Experience Bar", new Vector2(40f, -160f), new Color(0.85f, 0.65f, 0.08f));
+        Slider xp = CreateSlider(canvasGo.transform, "Experience Bar", new Vector2(40f, -154f), new Color(1f, 0.78f, 0.08f), new Vector2(320f, 22f), 3f);
         Text hpText = CreateText(hp.transform, "HP Text", "HP  100 / 100", TextAnchor.MiddleCenter, 22);
         Text mpText = CreateText(mp.transform, "MP Text", "MP  50 / 50", TextAnchor.MiddleCenter, 22);
-        Text xpText = CreateText(xp.transform, "EXP Text", "EXP  0 / 100", TextAnchor.MiddleCenter, 22);
-        Text levelText = CreateLabel(canvasGo.transform, "Level Text", "WARRIOR  LV.1  STR 10  DEF 5", new Vector2(40f, -215f));
-        Text weaponText = CreateLabel(canvasGo.transform, "Weapon Text", "[1/2/3] ONE-HANDED SWORD  ATK 18", new Vector2(40f, -255f));
+        Text xpText = CreateText(xp.transform, "EXP Text", "EXP  0 / 100", TextAnchor.MiddleCenter, 14);
+        Text levelText = CreateLabel(canvasGo.transform, "Level Text", "WARRIOR  LV.1  STR 10  DEF 5", new Vector2(40f, -190f));
+        Text weaponText = CreateLabel(canvasGo.transform, "Weapon Text", "[1/2/3] ONE-HANDED SWORD  ATK 18", new Vector2(40f, -230f));
+        Text skillText = CreateLabel(canvasGo.transform, "Skill Text", "[Q] WHIRLWIND  MP 10  READY", new Vector2(40f, -270f));
+        Text combatStatsText = CreateLabel(canvasGo.transform, "Combat Stats Text", "CRIT 10%  CRIT DMG 150%  ATK SPD 1.00x  MOVE 1.00x", new Vector2(40f, -310f));
 
         GameObject deathPanel = new GameObject("Death Panel", typeof(RectTransform), typeof(Image));
         deathPanel.transform.SetParent(canvasGo.transform, false);
@@ -192,6 +186,8 @@ public static class GameSceneBuilder
         SetReference(hud, "experienceText", xpText);
         SetReference(hud, "levelText", levelText);
         SetReference(hud, "weaponText", weaponText);
+        SetReference(hud, "skillText", skillText);
+        SetReference(hud, "combatStatsText", combatStatsText);
         SetReference(hud, "attackController", attackController);
         SetReference(hud, "deathPanel", deathPanel);
         deathPanel.SetActive(false);
@@ -215,7 +211,8 @@ public static class GameSceneBuilder
         return text;
     }
 
-    private static Slider CreateSlider(Transform parent, string name, Vector2 position, Color fillColor)
+    private static Slider CreateSlider(Transform parent, string name, Vector2 position, Color fillColor,
+        Vector2? size = null, float padding = 4f)
     {
         GameObject root = new GameObject(name, typeof(RectTransform), typeof(Slider));
         root.transform.SetParent(parent, false);
@@ -223,15 +220,15 @@ public static class GameSceneBuilder
         rect.anchorMin = rect.anchorMax = new Vector2(0f, 1f);
         rect.pivot = new Vector2(0f, 1f);
         rect.anchoredPosition = position;
-        rect.sizeDelta = new Vector2(420f, 42f);
+        rect.sizeDelta = size ?? new Vector2(420f, 42f);
 
         Image background = CreateImage(root.transform, "Background", new Color(0.05f, 0.05f, 0.05f, 0.9f));
         Image fill = CreateImage(root.transform, "Fill", fillColor);
         RectTransform fillRect = fill.rectTransform;
         fillRect.anchorMin = Vector2.zero;
         fillRect.anchorMax = Vector2.one;
-        fillRect.offsetMin = new Vector2(4f, 4f);
-        fillRect.offsetMax = new Vector2(-4f, -4f);
+        fillRect.offsetMin = new Vector2(padding, padding);
+        fillRect.offsetMax = new Vector2(-padding, -padding);
 
         Slider slider = root.GetComponent<Slider>();
         slider.fillRect = fillRect;

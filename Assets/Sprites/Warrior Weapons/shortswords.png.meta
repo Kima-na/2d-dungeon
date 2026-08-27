@@ -1,0 +1,1170 @@
+fileFormatVersion: 2
+guid: 50ad648069719f3459bb77dafb3d84d9
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 477625368915006939
+    second: shortswords_0
+  - first:
+      213: 1098710020181657977
+    second: shortswords_1
+  - first:
+      213: 2770017493028159432
+    second: shortswords_2
+  - first:
+      213: -4546031721476454269
+    second: shortswords_3
+  - first:
+      213: -5177275660664038470
+    second: shortswords_4
+  - first:
+      213: 5465535315169249500
+    second: shortswords_5
+  - first:
+      213: -7153025076658542177
+    second: shortswords_6
+  - first:
+      213: 5421443056706117062
+    second: shortswords_7
+  - first:
+      213: -4945852182110366986
+    second: shortswords_8
+  - first:
+      213: -9188910270679407584
+    second: shortswords_9
+  - first:
+      213: 2980013212413236989
+    second: shortswords_10
+  - first:
+      213: 8628559660693198408
+    second: shortswords_11
+  - first:
+      213: -8340346720517197613
+    second: shortswords_12
+  - first:
+      213: 4702819838879064420
+    second: shortswords_13
+  - first:
+      213: 1442157969395288932
+    second: shortswords_14
+  - first:
+      213: 1760926958145395033
+    second: shortswords_15
+  - first:
+      213: -6683732199363674446
+    second: shortswords_16
+  - first:
+      213: -8347529303458629310
+    second: shortswords_17
+  - first:
+      213: -6320915227384730004
+    second: shortswords_18
+  - first:
+      213: -6214641029831232977
+    second: shortswords_19
+  - first:
+      213: -2093735844524477658
+    second: shortswords_20
+  - first:
+      213: -3249914565039108967
+    second: shortswords_21
+  - first:
+      213: 7104739697237262494
+    second: shortswords_22
+  - first:
+      213: -1778330494731433870
+    second: shortswords_23
+  - first:
+      213: 6727190352026043936
+    second: shortswords_24
+  - first:
+      213: -4303454692130868007
+    second: shortswords_25
+  - first:
+      213: 3981000348015203229
+    second: shortswords_26
+  - first:
+      213: -1556120461212851876
+    second: shortswords_27
+  - first:
+      213: -5281630280932434495
+    second: shortswords_28
+  - first:
+      213: 590708541326197817
+    second: shortswords_29
+  - first:
+      213: 4701707364506861400
+    second: shortswords_30
+  - first:
+      213: 6351213162601436613
+    second: shortswords_31
+  - first:
+      213: -4389432743626863154
+    second: shortswords_32
+  - first:
+      213: -641180875297433775
+    second: shortswords_33
+  - first:
+      213: 2376834908795120089
+    second: shortswords_34
+  - first:
+      213: -6883266563727344563
+    second: shortswords_35
+  - first:
+      213: -395109795019137866
+    second: shortswords_36
+  - first:
+      213: 720203409430088039
+    second: shortswords_37
+  - first:
+      213: 6878748682070294900
+    second: shortswords_38
+  - first:
+      213: 4514330825182892790
+    second: shortswords_39
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: shortswords_0
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 145
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bd5d4e11ebdd0a600800000000000000
+      internalID: 477625368915006939
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shortswords_1
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 152
+        width: 15
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 979071031f66f3f00800000000000000
+      internalID: 1098710020181657977
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shortswords_2
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 149
+        width: 20
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8cfbf85db34117620800000000000000
+      internalID: 2770017493028159432
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shortswords_3
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 148
+        width: 20
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3880db73c3049e0c0800000000000000
+      internalID: -4546031721476454269
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shortswords_4
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 129
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: abb18dd873f9628b0800000000000000
+      internalID: -5177275660664038470
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shortswords_5
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 136
+        width: 15
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cd80408596b79db40800000000000000
+      internalID: 5465535315169249500
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shortswords_6
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 133
+        width: 20
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f996e4457995bbc90800000000000000
+      internalID: -7153025076658542177
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shortswords_7
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 132
+        width: 20
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6cdd9fc6cb5dc3b40800000000000000
+      internalID: 5421443056706117062
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shortswords_8
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 114
+        width: 14
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6f298b505adcc5bb0800000000000000
+      internalID: -4945852182110366986
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shortswords_9
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 120
+        width: 15
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 02427333bce6a7080800000000000000
+      internalID: -9188910270679407584
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shortswords_10
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 117
+        width: 20
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: df69cd75a322b5920800000000000000
+      internalID: 2980013212413236989
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shortswords_11
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 116
+        width: 20
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 84612ea9b4dceb770800000000000000
+      internalID: 8628559660693198408
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shortswords_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 96
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3d07af3c8d2214c80800000000000000
+      internalID: -8340346720517197613
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shortswords_13
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 103
+        width: 16
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 461eb031ab5c34140800000000000000
+      internalID: 4702819838879064420
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shortswords_14
+      rect:
+        serializedVersion: 2
+        x: 33
+        y: 102
+        width: 18
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 46b0ec34803930410800000000000000
+      internalID: 1442157969395288932
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shortswords_15
+      rect:
+        serializedVersion: 2
+        x: 63
+        y: 102
+        width: 16
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9595aa71db1107810800000000000000
+      internalID: 1760926958145395033
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shortswords_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 82
+        width: 15
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2be76130afc9e33a0800000000000000
+      internalID: -6683732199363674446
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shortswords_17
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 85
+        width: 15
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2493f2b535e972c80800000000000000
+      internalID: -8347529303458629310
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shortswords_18
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 84
+        width: 19
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c6e206027199748a0800000000000000
+      internalID: -6320915227384730004
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shortswords_19
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 82
+        width: 19
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f227752f8e821c9a0800000000000000
+      internalID: -6214641029831232977
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shortswords_20
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 65
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 623bd9da75e81f2e0800000000000000
+      internalID: -2093735844524477658
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shortswords_21
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 72
+        width: 15
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 99cc9700cebf5e2d0800000000000000
+      internalID: -3249914565039108967
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shortswords_22
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 69
+        width: 20
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e908173bc1b199260800000000000000
+      internalID: 7104739697237262494
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shortswords_23
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 68
+        width: 20
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 278c94846d91257e0800000000000000
+      internalID: -1778330494731433870
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shortswords_24
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 49
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 02682f4abf7cb5d50800000000000000
+      internalID: 6727190352026043936
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shortswords_25
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 56
+        width: 15
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9d43d8812ce0744c0800000000000000
+      internalID: -4303454692130868007
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shortswords_26
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 53
+        width: 20
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d93172a69ba5f3730800000000000000
+      internalID: 3981000348015203229
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shortswords_27
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 52
+        width: 20
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c51e0b96fac876ae0800000000000000
+      internalID: -1556120461212851876
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shortswords_28
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 33
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1cd53162e31e3b6b0800000000000000
+      internalID: -5281630280932434495
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shortswords_29
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 40
+        width: 15
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9348983e94e923800800000000000000
+      internalID: 590708541326197817
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shortswords_30
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 37
+        width: 20
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 85ff443ffe1df3140800000000000000
+      internalID: 4701707364506861400
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shortswords_31
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 36
+        width: 20
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5c5d4a1a8ba042850800000000000000
+      internalID: 6351213162601436613
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shortswords_32
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 18
+        width: 14
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ecd07a60d2a9513c0800000000000000
+      internalID: -4389432743626863154
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shortswords_33
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 24
+        width: 15
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1575f1b14611a17f0800000000000000
+      internalID: -641180875297433775
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shortswords_34
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 21
+        width: 20
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9d92b7ca1c63cf020800000000000000
+      internalID: 2376834908795120089
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shortswords_35
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 20
+        width: 20
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d4c35b68789b970a0800000000000000
+      internalID: -6883266563727344563
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shortswords_36
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6bc5b9c1cb9448af0800000000000000
+      internalID: -395109795019137866
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shortswords_37
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 8
+        width: 15
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7690b116f2daef900800000000000000
+      internalID: 720203409430088039
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shortswords_38
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 5
+        width: 20
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4718cfd2b79367f50800000000000000
+      internalID: 6878748682070294900
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shortswords_39
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 4
+        width: 20
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6f25f91b7ff16ae30800000000000000
+      internalID: 4514330825182892790
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      shortswords_0: 477625368915006939
+      shortswords_1: 1098710020181657977
+      shortswords_10: 2980013212413236989
+      shortswords_11: 8628559660693198408
+      shortswords_12: -8340346720517197613
+      shortswords_13: 4702819838879064420
+      shortswords_14: 1442157969395288932
+      shortswords_15: 1760926958145395033
+      shortswords_16: -6683732199363674446
+      shortswords_17: -8347529303458629310
+      shortswords_18: -6320915227384730004
+      shortswords_19: -6214641029831232977
+      shortswords_2: 2770017493028159432
+      shortswords_20: -2093735844524477658
+      shortswords_21: -3249914565039108967
+      shortswords_22: 7104739697237262494
+      shortswords_23: -1778330494731433870
+      shortswords_24: 6727190352026043936
+      shortswords_25: -4303454692130868007
+      shortswords_26: 3981000348015203229
+      shortswords_27: -1556120461212851876
+      shortswords_28: -5281630280932434495
+      shortswords_29: 590708541326197817
+      shortswords_3: -4546031721476454269
+      shortswords_30: 4701707364506861400
+      shortswords_31: 6351213162601436613
+      shortswords_32: -4389432743626863154
+      shortswords_33: -641180875297433775
+      shortswords_34: 2376834908795120089
+      shortswords_35: -6883266563727344563
+      shortswords_36: -395109795019137866
+      shortswords_37: 720203409430088039
+      shortswords_38: 6878748682070294900
+      shortswords_39: 4514330825182892790
+      shortswords_4: -5177275660664038470
+      shortswords_5: 5465535315169249500
+      shortswords_6: -7153025076658542177
+      shortswords_7: 5421443056706117062
+      shortswords_8: -4945852182110366986
+      shortswords_9: -9188910270679407584
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

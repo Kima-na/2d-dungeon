@@ -1,0 +1,362 @@
+fileFormatVersion: 2
+guid: a7988309c1aa0534e9cf1e36593311ed
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -4467876915326148504
+    second: Shortsword_0
+  - first:
+      213: -2728538465912182627
+    second: Shortsword_1
+  - first:
+      213: -3453428116231491685
+    second: Shortsword_2
+  - first:
+      213: 2022290379907804972
+    second: Shortsword_3
+  - first:
+      213: -4423997427082410088
+    second: Shortsword_4
+  - first:
+      213: -4598064824512589235
+    second: Shortsword_5
+  - first:
+      213: 1702020775722874270
+    second: Shortsword_6
+  - first:
+      213: -5353896161240620685
+    second: Shortsword_7
+  - first:
+      213: 3066419125209499906
+    second: Shortsword_8
+  - first:
+      213: -60463670005456054
+    second: Shortsword_9
+  - first:
+      213: 3793321855114965588
+    second: Shortsword_10
+  - first:
+      213: -2443411398882323808
+    second: Shortsword_11
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 1
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Shortsword_01
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 10
+        width: 106
+        height: 237
+      alignment: 9
+      pivot: {x: 0.5, y: 0.04}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 008b11c8b5c5f764e9e99b155e786f4f
+      internalID: -1609786136
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shortsword_02
+      rect:
+        serializedVersion: 2
+        x: 190
+        y: 9
+        width: 100
+        height: 243
+      alignment: 9
+      pivot: {x: 0.5, y: 0.04}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 609c4b07aae7ba64a9102ca7aad7852e
+      internalID: -399587300
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shortsword_03
+      rect:
+        serializedVersion: 2
+        x: 343
+        y: 9
+        width: 115
+        height: 244
+      alignment: 9
+      pivot: {x: 0.5, y: 0.04}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bc5a6f35ea12b4a4b9261c92b4a98fb8
+      internalID: 1323812149
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shortsword_04
+      rect:
+        serializedVersion: 2
+        x: 505
+        y: 9
+        width: 115
+        height: 243
+      alignment: 9
+      pivot: {x: 0.5, y: 0.04}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a3398ec68a33c9e4c951f49aaf605f67
+      internalID: -1442908596
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shortsword_05
+      rect:
+        serializedVersion: 2
+        x: 673
+        y: 0
+        width: 102
+        height: 253
+      alignment: 9
+      pivot: {x: 0.5, y: 0.04}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e2916c0af65dcb04398dd28540096dd3
+      internalID: 1443343994
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shortsword_06
+      rect:
+        serializedVersion: 2
+        x: 834
+        y: 0
+        width: 113
+        height: 260
+      alignment: 9
+      pivot: {x: 0.5, y: 0.04}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 618525e2861039b47b21fababd154ec8
+      internalID: 1668029934
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shortsword_07
+      rect:
+        serializedVersion: 2
+        x: 1001
+        y: 9
+        width: 114
+        height: 242
+      alignment: 9
+      pivot: {x: 0.5, y: 0.04}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0d5a7200cbfa108488853075c5607596
+      internalID: 1334045048
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shortsword_08
+      rect:
+        serializedVersion: 2
+        x: 1166
+        y: 9
+        width: 112
+        height: 243
+      alignment: 9
+      pivot: {x: 0.5, y: 0.04}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c39666065e3081840871d11c5700d88a
+      internalID: -749828316
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 89617dcf3d68efc448d0ab67a2bb1fff
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Shortsword_0: -4467876915326148504
+      Shortsword_01: -1609786136
+      Shortsword_02: -399587300
+      Shortsword_03: 1323812149
+      Shortsword_04: -1442908596
+      Shortsword_05: 1443343994
+      Shortsword_06: 1668029934
+      Shortsword_07: 1334045048
+      Shortsword_08: -749828316
+      Shortsword_1: -2728538465912182627
+      Shortsword_10: 3793321855114965588
+      Shortsword_11: -2443411398882323808
+      Shortsword_2: -3453428116231491685
+      Shortsword_3: 2022290379907804972
+      Shortsword_4: -4423997427082410088
+      Shortsword_5: -4598064824512589235
+      Shortsword_6: 1702020775722874270
+      Shortsword_7: -5353896161240620685
+      Shortsword_8: 3066419125209499906
+      Shortsword_9: -60463670005456054
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

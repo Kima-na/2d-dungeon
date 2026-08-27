@@ -44,7 +44,7 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         if (!movementLocked && !stats.IsDead)
-            body.MovePosition(body.position + moveInput * moveSpeed * Time.fixedDeltaTime);
+            body.MovePosition(body.position + moveInput * moveSpeed * stats.MoveSpeedMultiplier * Time.fixedDeltaTime);
     }
 
     public void SetMovementLocked(bool locked)

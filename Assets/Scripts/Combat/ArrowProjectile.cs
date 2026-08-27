@@ -13,6 +13,8 @@ public class ArrowProjectile : MonoBehaviour
     private int damage;
     private LayerMask targetLayers;
     private bool isStuck;
+    private StatusEffectType statusEffect;
+    private float statusChance;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     private static void ResetStuckArrowRegistry()
@@ -21,12 +23,15 @@ public class ArrowProjectile : MonoBehaviour
     }
 
     public void Initialize(Transform projectileOwner, PlayerStats stats, Vector2 velocity,
-        int attackDamage, float lifetime, LayerMask layers)
+        int attackDamage, float lifetime, LayerMask layers,
+        StatusEffectType effect = StatusEffectType.Poison, float effectChance = 0f)
     {
         owner = projectileOwner;
         ownerStats = stats;
         damage = attackDamage;
         targetLayers = layers;
+        statusEffect = effect;
+        statusChance = effectChance;
         GetComponent<Rigidbody2D>().linearVelocity = velocity;
         StartCoroutine(DestroyAfterLifetime(lifetime));
     }
@@ -36,20 +41,34 @@ public class ArrowProjectile : MonoBehaviour
         if (isStuck || other.transform.root == owner ||
             (targetLayers.value & (1 << other.gameObject.layer)) == 0) return;
 
-        MonoBehaviour[] behaviours = other.GetComponentsInParent<MonoBehaviour>();
-        foreach (MonoBehaviour behaviour in behaviours)
-        {
-            if (behaviour is not IDamageable damageable || damageable.IsDead) continue;
-            damageable.TakeDamage(damage);
-            if (damageable.IsDead && behaviour is IExperienceSource source)
-                ownerStats.AddExperience(source.ExperienceReward);
-            Destroy(gameObject);
-            return;
-        }
+        Damageable damageable = other.GetComponentInParent<Damageable>();
+        if (TryDamage(damageable, other.gameObject)) return;
 
         // The ground is a large trigger in the prototype scene. Only solid
         // non-damageable colliders (the walls) should catch an arrow.
         if (!other.isTrigger) StickInto(other.transform);
+    }
+
+    private void FixedUpdate()
+    {
+        if (isStuck) return;
+        foreach (EnemyAI enemy in EnemyAI.ActiveEnemies)
+        {
+            if (enemy == null || Vector2.Distance(transform.position, enemy.transform.position) > 0.7f) continue;
+            if (TryDamage(enemy.Health, enemy.gameObject)) return;
+        }
+    }
+
+    private bool TryDamage(Damageable damageable, GameObject hitObject)
+    {
+        if (damageable == null || damageable.IsDead) return false;
+        damage = CombatCalculator.ApplyTargetModifiers(hitObject, damage);
+        damageable.TakeDamage(damage);
+        if (!damageable.IsDead && statusChance > 0f)
+            StatusEffectController.TryApply(hitObject, statusEffect, ownerStats, statusChance);
+        if (damageable.IsDead) ownerStats.AddExperience(damageable.ExperienceReward);
+        Destroy(gameObject);
+        return true;
     }
 
     private void StickInto(Transform surface)

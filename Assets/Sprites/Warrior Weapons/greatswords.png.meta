@@ -1,0 +1,1222 @@
+fileFormatVersion: 2
+guid: 91d928fd8ec92644c882845c95a1df35
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 6327393697372535843
+    second: greatswords_0
+  - first:
+      213: 6633106427471529382
+    second: greatswords_1
+  - first:
+      213: -653591463449820525
+    second: greatswords_2
+  - first:
+      213: 1395621749243322769
+    second: greatswords_3
+  - first:
+      213: 2937226500909031952
+    second: greatswords_4
+  - first:
+      213: 3419890749621890743
+    second: greatswords_5
+  - first:
+      213: 8112139471539825395
+    second: greatswords_6
+  - first:
+      213: -675558824940551429
+    second: greatswords_7
+  - first:
+      213: 1594358055640033546
+    second: greatswords_8
+  - first:
+      213: 3405188756902150134
+    second: greatswords_9
+  - first:
+      213: -5883317343705475687
+    second: greatswords_10
+  - first:
+      213: 7659306789676091100
+    second: greatswords_11
+  - first:
+      213: -8692466686560276554
+    second: greatswords_12
+  - first:
+      213: -1633623906472650889
+    second: greatswords_13
+  - first:
+      213: -637013484346492684
+    second: greatswords_14
+  - first:
+      213: 7159770145493048939
+    second: greatswords_15
+  - first:
+      213: 8241321516876727676
+    second: greatswords_16
+  - first:
+      213: -6375242663759339214
+    second: greatswords_17
+  - first:
+      213: -5136294090615497346
+    second: greatswords_18
+  - first:
+      213: -7644908119300753470
+    second: greatswords_19
+  - first:
+      213: 8990303989238059297
+    second: greatswords_20
+  - first:
+      213: -1853479568972708949
+    second: greatswords_21
+  - first:
+      213: 6761452066340633446
+    second: greatswords_22
+  - first:
+      213: -6595543626440914926
+    second: greatswords_23
+  - first:
+      213: 4751107586162465830
+    second: greatswords_24
+  - first:
+      213: 868163766594354099
+    second: greatswords_25
+  - first:
+      213: -5791033544693938383
+    second: greatswords_26
+  - first:
+      213: 8077056153429002303
+    second: greatswords_27
+  - first:
+      213: 6006722827525942335
+    second: greatswords_28
+  - first:
+      213: -555958800137726263
+    second: greatswords_29
+  - first:
+      213: 3689628723998950047
+    second: greatswords_30
+  - first:
+      213: -2100249434990635515
+    second: greatswords_31
+  - first:
+      213: -808395874453787669
+    second: greatswords_32
+  - first:
+      213: -8810205968765454603
+    second: greatswords_33
+  - first:
+      213: 4785363619400282570
+    second: greatswords_34
+  - first:
+      213: -4067082572097923765
+    second: greatswords_35
+  - first:
+      213: -3157754751086550786
+    second: greatswords_36
+  - first:
+      213: -2800385441061907707
+    second: greatswords_37
+  - first:
+      213: 561000827781182088
+    second: greatswords_38
+  - first:
+      213: 3191317694359529233
+    second: greatswords_39
+  - first:
+      213: -7454815150502368779
+    second: greatswords_40
+  - first:
+      213: -4486375547010821865
+    second: greatswords_41
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: greatswords_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 208
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 32c7fe53b0b6fc750800000000000000
+      internalID: 6327393697372535843
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: greatswords_1
+      rect:
+        serializedVersion: 2
+        x: 33
+        y: 193
+        width: 32
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6a50dcee6278d0c50800000000000000
+      internalID: 6633106427471529382
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: greatswords_2
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 193
+        width: 19
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 39288d0e60afde6f0800000000000000
+      internalID: -653591463449820525
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: greatswords_3
+      rect:
+        serializedVersion: 2
+        x: 95
+        y: 207
+        width: 31
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 191257c269e3e5310800000000000000
+      internalID: 1395621749243322769
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: greatswords_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 176
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 012eb83c0ff13c820800000000000000
+      internalID: 2937226500909031952
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: greatswords_5
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 191
+        width: 31
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7be6bd57484e57f20800000000000000
+      internalID: 3419890749621890743
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: greatswords_6
+      rect:
+        serializedVersion: 2
+        x: 95
+        y: 191
+        width: 31
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3fa6e819edb149070800000000000000
+      internalID: 8112139471539825395
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: greatswords_7
+      rect:
+        serializedVersion: 2
+        x: 95
+        y: 175
+        width: 31
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bf2c986f3deef96f0800000000000000
+      internalID: -675558824940551429
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: greatswords_8
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 159
+        width: 31
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a09e43f443c402610800000000000000
+      internalID: 1594358055640033546
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: greatswords_9
+      rect:
+        serializedVersion: 2
+        x: 33
+        y: 161
+        width: 32
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6ff7e480229a14f20800000000000000
+      internalID: 3405188756902150134
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: greatswords_10
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 161
+        width: 19
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9955a8b0c024a5ea0800000000000000
+      internalID: -5883317343705475687
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: greatswords_11
+      rect:
+        serializedVersion: 2
+        x: 95
+        y: 159
+        width: 31
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cd68168c1f25b4a60800000000000000
+      internalID: 7659306789676091100
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: greatswords_12
+      rect:
+        serializedVersion: 2
+        x: 95
+        y: 144
+        width: 31
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6bf68ad6a972e5780800000000000000
+      internalID: -8692466686560276554
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: greatswords_13
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 144
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7779c1e56b33459e0800000000000000
+      internalID: -1633623906472650889
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: greatswords_14
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 129
+        width: 30
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4f8b46c6c9fd827f0800000000000000
+      internalID: -637013484346492684
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: greatswords_15
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 129
+        width: 18
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b6e5f83630d9c5360800000000000000
+      internalID: 7159770145493048939
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: greatswords_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 112
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c758835514e0f5270800000000000000
+      internalID: 8241321516876727676
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: greatswords_17
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 128
+        width: 31
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 231a5b523969687a0800000000000000
+      internalID: -6375242663759339214
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: greatswords_18
+      rect:
+        serializedVersion: 2
+        x: 95
+        y: 128
+        width: 31
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e7ddce2ecb738b8b0800000000000000
+      internalID: -5136294090615497346
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: greatswords_19
+      rect:
+        serializedVersion: 2
+        x: 95
+        y: 111
+        width: 31
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2c73498e194d7e590800000000000000
+      internalID: -7644908119300753470
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: greatswords_20
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 95
+        width: 31
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 121df4578d9f3cc70800000000000000
+      internalID: 8990303989238059297
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: greatswords_21
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 97
+        width: 30
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ba300f4f62e1746e0800000000000000
+      internalID: -1853479568972708949
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: greatswords_22
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 97
+        width: 18
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 66b7014a4d085dd50800000000000000
+      internalID: 6761452066340633446
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: greatswords_23
+      rect:
+        serializedVersion: 2
+        x: 95
+        y: 95
+        width: 31
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 218c565340ce774a0800000000000000
+      internalID: -6595543626440914926
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: greatswords_24
+      rect:
+        serializedVersion: 2
+        x: 95
+        y: 80
+        width: 31
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 62c90ea5d235fe140800000000000000
+      internalID: 4751107586162465830
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: greatswords_25
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 80
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3bbb8b298565c0c00800000000000000
+      internalID: 868163766594354099
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: greatswords_26
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 65
+        width: 30
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 137852e5cad12afa0800000000000000
+      internalID: -5791033544693938383
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: greatswords_27
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 65
+        width: 18
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f38c40807c7771070800000000000000
+      internalID: 8077056153429002303
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: greatswords_28
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f3ce9ee269a2c5350800000000000000
+      internalID: 6006722827525942335
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: greatswords_29
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 64
+        width: 31
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9c6d908ba66d848f0800000000000000
+      internalID: -555958800137726263
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: greatswords_30
+      rect:
+        serializedVersion: 2
+        x: 95
+        y: 64
+        width: 31
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f920907a6c1343330800000000000000
+      internalID: 3689628723998950047
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: greatswords_31
+      rect:
+        serializedVersion: 2
+        x: 95
+        y: 48
+        width: 31
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5061ba7344a6ad2e0800000000000000
+      internalID: -2100249434990635515
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: greatswords_32
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 32
+        width: 31
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: beb6a493c3008c4f0800000000000000
+      internalID: -808395874453787669
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: greatswords_33
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 33
+        width: 30
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5f675b1995cdbb580800000000000000
+      internalID: -8810205968765454603
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: greatswords_34
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 33
+        width: 18
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ac17e6f9bd6096240800000000000000
+      internalID: 4785363619400282570
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: greatswords_35
+      rect:
+        serializedVersion: 2
+        x: 95
+        y: 32
+        width: 31
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b45dbe1f2f1de87c0800000000000000
+      internalID: -4067082572097923765
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: greatswords_36
+      rect:
+        serializedVersion: 2
+        x: 95
+        y: 17
+        width: 31
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef02fadc8c66d24d0800000000000000
+      internalID: -3157754751086550786
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: greatswords_37
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 17
+        width: 16
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 503545747480329d0800000000000000
+      internalID: -2800385441061907707
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: greatswords_38
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 1
+        width: 29
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 882f892d74319c700800000000000000
+      internalID: 561000827781182088
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: greatswords_39
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 1
+        width: 16
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 117e7b1e886d94c20800000000000000
+      internalID: 3191317694359529233
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: greatswords_40
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 0
+        width: 31
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5f92b103e1d2b8890800000000000000
+      internalID: -7454815150502368779
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: greatswords_41
+      rect:
+        serializedVersion: 2
+        x: 95
+        y: 1
+        width: 31
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 711db67b5313db1c0800000000000000
+      internalID: -4486375547010821865
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      greatswords_0: 6327393697372535843
+      greatswords_1: 6633106427471529382
+      greatswords_10: -5883317343705475687
+      greatswords_11: 7659306789676091100
+      greatswords_12: -8692466686560276554
+      greatswords_13: -1633623906472650889
+      greatswords_14: -637013484346492684
+      greatswords_15: 7159770145493048939
+      greatswords_16: 8241321516876727676
+      greatswords_17: -6375242663759339214
+      greatswords_18: -5136294090615497346
+      greatswords_19: -7644908119300753470
+      greatswords_2: -653591463449820525
+      greatswords_20: 8990303989238059297
+      greatswords_21: -1853479568972708949
+      greatswords_22: 6761452066340633446
+      greatswords_23: -6595543626440914926
+      greatswords_24: 4751107586162465830
+      greatswords_25: 868163766594354099
+      greatswords_26: -5791033544693938383
+      greatswords_27: 8077056153429002303
+      greatswords_28: 6006722827525942335
+      greatswords_29: -555958800137726263
+      greatswords_3: 1395621749243322769
+      greatswords_30: 3689628723998950047
+      greatswords_31: -2100249434990635515
+      greatswords_32: -808395874453787669
+      greatswords_33: -8810205968765454603
+      greatswords_34: 4785363619400282570
+      greatswords_35: -4067082572097923765
+      greatswords_36: -3157754751086550786
+      greatswords_37: -2800385441061907707
+      greatswords_38: 561000827781182088
+      greatswords_39: 3191317694359529233
+      greatswords_4: 2937226500909031952
+      greatswords_40: -7454815150502368779
+      greatswords_41: -4486375547010821865
+      greatswords_5: 3419890749621890743
+      greatswords_6: 8112139471539825395
+      greatswords_7: -675558824940551429
+      greatswords_8: 1594358055640033546
+      greatswords_9: 3405188756902150134
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

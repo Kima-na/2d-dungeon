@@ -705,7 +705,7 @@ MonoBehaviour:
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
-    m_MaxSize: 40
+    m_MaxSize: 72
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -1430,6 +1430,17 @@ MonoBehaviour:
   manaSlider: {fileID: 20557302}
   healthText: {fileID: 397229961}
   manaText: {fileID: 885283036}
+  experienceSlider: {fileID: 0}
+  experienceText: {fileID: 0}
+  levelText: {fileID: 0}
+  weaponText: {fileID: 0}
+  skillText: {fileID: 0}
+  combatStatsText: {fileID: 0}
+  goldText: {fileID: 0}
+  attackController: {fileID: 0}
+  archerController: {fileID: 0}
+  mageController: {fileID: 0}
+  skillController: {fileID: 0}
   deathPanel: {fileID: 4030582}
 --- !u!114 &1465135309
 MonoBehaviour:
@@ -1605,161 +1616,6 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1493630825
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1493630829}
-  - component: {fileID: 1493630828}
-  - component: {fileID: 1493630827}
-  - component: {fileID: 1493630826}
-  m_Layer: 0
-  m_Name: Dummy
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1493630826
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1493630825}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7e38e59cf187e94a838f1aa93ddd41f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Damageable
-  maxHealth: 30
-  respawnAfterDeath: 1
-  respawnDelay: 1.5
---- !u!61 &1493630827
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1493630825}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
---- !u!212 &1493630828
-SpriteRenderer:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1493630825}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_ForceMeshLod: -1
-  m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_MaskInteraction: 0
-  m_Sprite: {fileID: 5689152534686304, guid: 47317e9d5711d814fbbf953c07ece8c5, type: 3}
-  m_Color: {r: 1, g: 0.38, b: 0.28, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_SpriteSortPoint: 0
-  m_BlendShapeWeights: []
---- !u!4 &1493630829
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1493630825}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: 0, z: 0}
-  m_LocalScale: {x: 1.2, y: 1.2, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -2039,6 +1895,7 @@ GameObject:
   - component: {fileID: 2012544746}
   - component: {fileID: 2012544745}
   - component: {fileID: 2012544744}
+  - component: {fileID: 2012544752}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2060,6 +1917,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
   maxHealth: 100
   maxMana: 50
+  manaRegenerationPerSecond: 2
+  criticalChance: 0.1
+  criticalDamageMultiplier: 1.5
+  attackSpeedMultiplier: 1
+  moveSpeedMultiplier: 1
+  criticalChancePerLevel: 0.005
+  attackSpeedPerLevel: 0.02
+  moveSpeedPerLevel: 0.01
+  strength: 10
+  defense: 5
+  level: 1
+  baseExperienceRequirement: 100
+  experienceGrowth: 1.5
+  healthPerLevel: 15
+  manaPerLevel: 5
+  strengthPerLevel: 2
+  defensePerLevel: 1
+  currentClass: 0
+  dexterity: 12
+  dexterityPerLevel: 3
+  intelligence: 14
+  intelligencePerLevel: 3
 --- !u!114 &2012544744
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2089,12 +1968,69 @@ MonoBehaviour:
   targetLayers:
     serializedVersion: 2
     m_Bits: 4294967295
+  meleeHitboxScale: 1.3
   equippedWeapon: 0
-  oneHandedSwordSprite: {fileID: 21300000, guid: d82f124e24e84667859ed27ea65ee3a1, type: 3}
-  greatswordSprite: {fileID: 21300000, guid: 893033dad1b5412ca95471e220c8afd9, type: 3}
-  spearSprite: {fileID: 21300000, guid: e9c4990aa36d442fb575d7b0dc139349, type: 3}
+  weaponGrade: 0
+  shortSwordIdleSprites:
+  - {fileID: -1609786136, guid: a7988309c1aa0534e9cf1e36593311ed, type: 3}
+  - {fileID: -399587300, guid: a7988309c1aa0534e9cf1e36593311ed, type: 3}
+  - {fileID: 1323812149, guid: a7988309c1aa0534e9cf1e36593311ed, type: 3}
+  - {fileID: -1442908596, guid: a7988309c1aa0534e9cf1e36593311ed, type: 3}
+  - {fileID: 1443343994, guid: a7988309c1aa0534e9cf1e36593311ed, type: 3}
+  - {fileID: 1668029934, guid: a7988309c1aa0534e9cf1e36593311ed, type: 3}
+  - {fileID: 1334045048, guid: a7988309c1aa0534e9cf1e36593311ed, type: 3}
+  - {fileID: -749828316, guid: a7988309c1aa0534e9cf1e36593311ed, type: 3}
+  shortSwordActionSprites:
+  - {fileID: -1609786136, guid: a7988309c1aa0534e9cf1e36593311ed, type: 3}
+  - {fileID: -399587300, guid: a7988309c1aa0534e9cf1e36593311ed, type: 3}
+  - {fileID: 1323812149, guid: a7988309c1aa0534e9cf1e36593311ed, type: 3}
+  - {fileID: -1442908596, guid: a7988309c1aa0534e9cf1e36593311ed, type: 3}
+  - {fileID: 1443343994, guid: a7988309c1aa0534e9cf1e36593311ed, type: 3}
+  - {fileID: 1668029934, guid: a7988309c1aa0534e9cf1e36593311ed, type: 3}
+  - {fileID: 1334045048, guid: a7988309c1aa0534e9cf1e36593311ed, type: 3}
+  - {fileID: -749828316, guid: a7988309c1aa0534e9cf1e36593311ed, type: 3}
+  greatswordIdleSprites:
+  - {fileID: 1992045660, guid: 1c3829175d8e4bb42938f9c7dfdfb7cb, type: 3}
+  - {fileID: 1170090634, guid: 1c3829175d8e4bb42938f9c7dfdfb7cb, type: 3}
+  - {fileID: -72547333, guid: 1c3829175d8e4bb42938f9c7dfdfb7cb, type: 3}
+  - {fileID: -1024387677, guid: 1c3829175d8e4bb42938f9c7dfdfb7cb, type: 3}
+  - {fileID: -1252068774, guid: 1c3829175d8e4bb42938f9c7dfdfb7cb, type: 3}
+  - {fileID: -1607757042, guid: 1c3829175d8e4bb42938f9c7dfdfb7cb, type: 3}
+  - {fileID: -1838645870, guid: 1c3829175d8e4bb42938f9c7dfdfb7cb, type: 3}
+  - {fileID: 1024829247, guid: 1c3829175d8e4bb42938f9c7dfdfb7cb, type: 3}
+  greatswordActionSprites:
+  - {fileID: 1992045660, guid: 1c3829175d8e4bb42938f9c7dfdfb7cb, type: 3}
+  - {fileID: 1170090634, guid: 1c3829175d8e4bb42938f9c7dfdfb7cb, type: 3}
+  - {fileID: -72547333, guid: 1c3829175d8e4bb42938f9c7dfdfb7cb, type: 3}
+  - {fileID: -1024387677, guid: 1c3829175d8e4bb42938f9c7dfdfb7cb, type: 3}
+  - {fileID: -1252068774, guid: 1c3829175d8e4bb42938f9c7dfdfb7cb, type: 3}
+  - {fileID: -1607757042, guid: 1c3829175d8e4bb42938f9c7dfdfb7cb, type: 3}
+  - {fileID: -1838645870, guid: 1c3829175d8e4bb42938f9c7dfdfb7cb, type: 3}
+  - {fileID: 1024829247, guid: 1c3829175d8e4bb42938f9c7dfdfb7cb, type: 3}
+  spearIdleSprites:
+  - {fileID: 1555387983, guid: 947a75625ed04ef47bc48cadd0bdee62, type: 3}
+  - {fileID: -593923385, guid: 947a75625ed04ef47bc48cadd0bdee62, type: 3}
+  - {fileID: 2056375212, guid: 947a75625ed04ef47bc48cadd0bdee62, type: 3}
+  - {fileID: 867552059, guid: 947a75625ed04ef47bc48cadd0bdee62, type: 3}
+  - {fileID: -1307517990, guid: 947a75625ed04ef47bc48cadd0bdee62, type: 3}
+  - {fileID: -76755955, guid: 947a75625ed04ef47bc48cadd0bdee62, type: 3}
+  - {fileID: -1926261738, guid: 947a75625ed04ef47bc48cadd0bdee62, type: 3}
+  - {fileID: -772391506, guid: 947a75625ed04ef47bc48cadd0bdee62, type: 3}
+  spearActionSprites:
+  - {fileID: 1555387983, guid: 947a75625ed04ef47bc48cadd0bdee62, type: 3}
+  - {fileID: -593923385, guid: 947a75625ed04ef47bc48cadd0bdee62, type: 3}
+  - {fileID: 2056375212, guid: 947a75625ed04ef47bc48cadd0bdee62, type: 3}
+  - {fileID: 867552059, guid: 947a75625ed04ef47bc48cadd0bdee62, type: 3}
+  - {fileID: -1307517990, guid: 947a75625ed04ef47bc48cadd0bdee62, type: 3}
+  - {fileID: -76755955, guid: 947a75625ed04ef47bc48cadd0bdee62, type: 3}
+  - {fileID: -1926261738, guid: 947a75625ed04ef47bc48cadd0bdee62, type: 3}
+  - {fileID: -772391506, guid: 947a75625ed04ef47bc48cadd0bdee62, type: 3}
   weaponRenderer: {fileID: 0}
+  weaponActionRenderer: {fileID: 0}
   weaponGripOffset: 0.55
+  oneHandedSwordLength: 1.45
+  greatswordLength: 2.05
+  spearLength: 2.4
 --- !u!114 &2012544746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2266,11 +2202,60 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -3, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 0}
+  m_LocalScale: {x: 0.85, y: 0.85, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2012544752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2012544742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c9c6744f0eca4e42875b23129d21b2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EquipmentInventory
+  startingEquipment:
+  - {fileID: 11400000, guid: 2330e4ba04cc95d489c6cc202fa32b11, type: 2}
+  - {fileID: 11400000, guid: a262ae49b90d01a46ab215c28dec3e70, type: 2}
+  - {fileID: 11400000, guid: 07848837843eb294cacb11e4aa454826, type: 2}
+  - {fileID: 11400000, guid: 9e6a3f47169061542b756a9e394aa87f, type: 2}
+  - {fileID: 11400000, guid: ddb0f9e96c36e7a49a7e33b387230473, type: 2}
+  lootTemplates:
+  - {fileID: 11400000, guid: 2330e4ba04cc95d489c6cc202fa32b11, type: 2}
+  - {fileID: 11400000, guid: c2498a7978c583d419a24e3e98d50bcb, type: 2}
+  - {fileID: 11400000, guid: c48d4cf6b1b79f148b0ba34dee46a2f5, type: 2}
+  - {fileID: 11400000, guid: d0a8c268135731142a8239cb1f6289c1, type: 2}
+  - {fileID: 11400000, guid: 5ee3e55e607be4649b026bf3be6e2da7, type: 2}
+  - {fileID: 11400000, guid: 461d1038f7bb3fc44814638b332ef52e, type: 2}
+  - {fileID: 11400000, guid: ea35e5bbc84311d4c90398ed00a9d806, type: 2}
+  - {fileID: 11400000, guid: 2fd79b80273975f48adad4d88f073fbb, type: 2}
+  - {fileID: 11400000, guid: 8258086a4f4910047917753b69c6736a, type: 2}
+  - {fileID: 11400000, guid: 9f4b5f9611dc1a244b56aed750194d5e, type: 2}
+  - {fileID: 11400000, guid: d8624870750a3d945bc97155ae5d4b20, type: 2}
+  - {fileID: 11400000, guid: 48e9a67c3347f2a45a80567b2e881d8c, type: 2}
+  - {fileID: 11400000, guid: 9397ad72c0e327e438598b8599f060ad, type: 2}
+  - {fileID: 11400000, guid: 45922b4f9e760d24f9d0dca8c967df9e, type: 2}
+  - {fileID: 11400000, guid: 35bd5e6a0e47cb94c9ec93487c82bd88, type: 2}
+  - {fileID: 11400000, guid: 15d4d3b6d9c2d3e478a717e0c48238b7, type: 2}
+  - {fileID: 11400000, guid: b5e638d9eb7edf64fb37110282d32833, type: 2}
+  - {fileID: 11400000, guid: 50e96c7589d31c345aa2f73a370dd08d, type: 2}
+  - {fileID: 11400000, guid: 43a38a3677354be42ad6a9bcdbdd89d7, type: 2}
+  - {fileID: 11400000, guid: af050c9046390d748a45ea3b4b6e6ca0, type: 2}
+  - {fileID: 11400000, guid: 0e571d10d28834940940ac59023cfece, type: 2}
+  - {fileID: 11400000, guid: 06a7c0e7ae84f024f8ccb4967b622f8c, type: 2}
+  - {fileID: 11400000, guid: 4cb0b82d4fc6b8c43903933b5314c8c6, type: 2}
+  - {fileID: 11400000, guid: bab6a77c83334c9459c4a478e78cba8a, type: 2}
+  - {fileID: 11400000, guid: a262ae49b90d01a46ab215c28dec3e70, type: 2}
+  - {fileID: 11400000, guid: 07848837843eb294cacb11e4aa454826, type: 2}
+  - {fileID: 11400000, guid: 9e6a3f47169061542b756a9e394aa87f, type: 2}
+  - {fileID: 11400000, guid: ddb0f9e96c36e7a49a7e33b387230473, type: 2}
+  ownedItems: []
+  equippedItems: []
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -2283,5 +2268,4 @@ SceneRoots:
   - {fileID: 1766088751}
   - {fileID: 11497314}
   - {fileID: 2012544751}
-  - {fileID: 1493630829}
   - {fileID: 1465135312}

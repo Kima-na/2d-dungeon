@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b41884874c897794ebadbcfebb9b852b, type: 3}
+  m_Name: Spear_05
+  m_EditorClassIdentifier: Assembly-CSharp::EquipmentData
+  itemId: warrior_spear_05
+  displayName: Spear 05
+  slot: 0
+  rarity: 3
+  warriorWeaponType: 2
+  attackPower: 15
+  defense: 0
+  maxHealth: 0
+  criticalChance: 0
+  criticalDamage: 0
+  attackSpeed: 0.015
+  moveSpeed: 0
+  maxMana: 0
+  icon: {fileID: 0}
+  equippedSprite: {fileID: -1307517990, guid: 947a75625ed04ef47bc48cadd0bdee62, type: 3}
+  attackSprite: {fileID: -1307517990, guid: 947a75625ed04ef47bc48cadd0bdee62, type: 3}
