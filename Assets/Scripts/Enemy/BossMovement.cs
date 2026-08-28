@@ -9,6 +9,7 @@ public sealed class BossMovement : MonoBehaviour
     private Rigidbody2D body;
     private BossHealth health;
     private BossCombat combat;
+    private NightmareBossCombat nightmareCombat;
     private BossAnimator bossAnimator;
     private Transform target;
     private Room ownerRoom;
@@ -31,6 +32,7 @@ public sealed class BossMovement : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
         health = GetComponent<BossHealth>();
         combat = GetComponent<BossCombat>();
+        nightmareCombat = GetComponent<NightmareBossCombat>();
         bossAnimator = GetComponent<BossAnimator>();
         ownerRoom = GetComponentInParent<Room>();
         body.gravityScale = 0f;
@@ -43,7 +45,8 @@ public sealed class BossMovement : MonoBehaviour
         if (health.IsDead) { Stop(); return; }
         FindTarget();
         if (target == null || DistanceToTarget <= stoppingDistance ||
-            (combat != null && combat.IsAttacking))
+            (combat != null && combat.IsAttacking) ||
+            (nightmareCombat != null && nightmareCombat.IsAttacking))
         {
             Stop();
             return;

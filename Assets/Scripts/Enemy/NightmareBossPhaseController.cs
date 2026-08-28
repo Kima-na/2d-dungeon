@@ -1,12 +1,12 @@
 using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(BossHealth), typeof(BossCombat), typeof(BossMovement))]
+[RequireComponent(typeof(BossHealth), typeof(NightmareBossCombat), typeof(BossMovement))]
 public sealed class NightmareBossPhaseController : MonoBehaviour
 {
     private readonly Sprite[] phaseSprites = new Sprite[3];
     private BossHealth health;
-    private BossCombat combat;
+    private NightmareBossCombat combat;
     private BossMovement movement;
     private SpriteRenderer spriteRenderer;
     private int currentPhase;
@@ -17,7 +17,7 @@ public sealed class NightmareBossPhaseController : MonoBehaviour
     private void Awake()
     {
         health = GetComponent<BossHealth>();
-        combat = GetComponent<BossCombat>();
+        combat = GetComponent<NightmareBossCombat>();
         movement = GetComponent<BossMovement>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         for (int i = 0; i < phaseSprites.Length; i++)
@@ -50,7 +50,7 @@ public sealed class NightmareBossPhaseController : MonoBehaviour
         if (spriteRenderer != null && phaseSprites[currentPhase - 1] != null)
             spriteRenderer.sprite = phaseSprites[currentPhase - 1];
 
-        combat.ConfigureNightmarePhase(currentPhase);
+        combat.SetPhase(currentPhase);
         movement.ConfigureSpeed(currentPhase switch { 1 => 2.1f, 2 => 2.55f, _ => 3.05f });
         transform.localScale = Vector3.one * (currentPhase switch { 1 => 1f, 2 => 1.05f, _ => 1.1f });
 

@@ -86,6 +86,7 @@ public class PlayerStats : MonoBehaviour, IDamageable
         initialAttackSpeed = attackSpeedMultiplier; initialMoveSpeed = moveSpeedMultiplier;
         equipment = GetComponent<EquipmentInventory>();
         if (equipment == null) equipment = gameObject.AddComponent<EquipmentInventory>();
+        if (GetComponent<PlayerPotionController>() == null) gameObject.AddComponent<PlayerPotionController>();
         equipment.EquipmentChanged += OnEquipmentChanged;
         CurrentHealth = MaxHealth;
         CurrentMana = MaxMana;

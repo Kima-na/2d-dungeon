@@ -15,14 +15,14 @@ public static class EquipmentSystemSetup
         EnsureFolder("Assets/Resources", "Equipment");
         EnsureFolder(Folder, "Warrior Weapons");
 
-        EquipmentData helmet = CreateArmor("starter_helmet", "철제 투구", EquipmentSlot.Helmet,
+        var helmets = CreateArmorSet("Helmet", "수호자의 투구", EquipmentSlot.Helmet,
             0, 2, 8, 0f, 0f, 0f, 0f, 0);
-        EquipmentData armor = CreateArmor("starter_armor", "기사의 갑옷", EquipmentSlot.Armor,
+        var armors = CreateArmorSet("Armor", "수호자의 갑옷", EquipmentSlot.Armor,
             0, 5, 18, 0f, 0f, 0f, 0f, 0);
-        EquipmentData boots = CreateArmor("starter_boots", "가죽 장화", EquipmentSlot.Boots,
-            0, 1, 0, 0f, 0f, 0f, 0.06f, 0);
-        EquipmentData ring = CreateArmor("starter_ring", "붉은 수정 반지", EquipmentSlot.Accessory,
-            2, 0, 0, 0.03f, 0.08f, 0f, 0f, 10);
+        var boots = CreateArmorSet("Boots", "질풍의 장화", EquipmentSlot.Boots,
+            0, 1, 0, 0f, 0f, 0f, 0.04f, 0);
+        var accessories = CreateArmorSet("Accessory", "마력의 반지", EquipmentSlot.Accessory,
+            2, 0, 0, 0.02f, 0.06f, 0f, 0f, 8);
 
         var weapons = new List<EquipmentData>();
         CreateWeaponSet(weapons, "Shortsword", AttackController.WeaponType.OneHandedSword,
@@ -47,8 +47,10 @@ public static class EquipmentSystemSetup
         EquipmentInventory inventory = player.GetComponent<EquipmentInventory>();
         if (inventory == null) inventory = player.AddComponent<EquipmentInventory>();
         SerializedObject serialized = new(inventory);
-        var starting = new List<EquipmentData> { weapons[0], helmet, armor, boots, ring };
-        var loot = new List<EquipmentData>(weapons) { helmet, armor, boots, ring };
+        var starting = new List<EquipmentData>
+            { weapons[0], helmets[0], armors[0], boots[0], accessories[0] };
+        var loot = new List<EquipmentData>(weapons);
+        loot.AddRange(helmets); loot.AddRange(armors); loot.AddRange(boots); loot.AddRange(accessories);
         SetArray(serialized.FindProperty("startingEquipment"), starting);
         SetArray(serialized.FindProperty("lootTemplates"), loot);
         serialized.ApplyModifiedPropertiesWithoutUndo();
@@ -57,6 +59,30 @@ public static class EquipmentSystemSetup
         EditorSceneManager.SaveScene(player.scene);
         AssetDatabase.SaveAssets();
         Debug.Log($"Equipment system setup complete: {weapons.Count} warrior weapon assets connected.");
+    }
+
+    private static List<EquipmentData> CreateArmorSet(string folderName, string displayName,
+        EquipmentSlot slot, int attackPower, int defense, int health, float criticalChance,
+        float criticalDamage, float attackSpeed, float moveSpeed, int mana)
+    {
+        EnsureFolder(Folder, folderName);
+        var output = new List<EquipmentData>();
+        for (int i = 0; i < 5; i++)
+        {
+            EquipmentRarity rarity = (EquipmentRarity)i;
+            float power = EquipmentRarityUtility.Power(rarity);
+            string id = $"{slot.ToString().ToLowerInvariant()}_{i + 1:00}";
+            EquipmentData data = LoadOrCreate($"{Folder}/{folderName}/{folderName}_{i + 1:00}.asset");
+            SerializedObject serialized = new(data);
+            SetCommon(serialized, id, $"{displayName} {i + 1:00}", slot, rarity,
+                Mathf.RoundToInt(attackPower * power), Mathf.RoundToInt(defense * power),
+                Mathf.RoundToInt(health * power), criticalChance * power, criticalDamage * power,
+                attackSpeed * power, moveSpeed * power, Mathf.RoundToInt(mana * power));
+            serialized.ApplyModifiedPropertiesWithoutUndo();
+            EditorUtility.SetDirty(data);
+            output.Add(data);
+        }
+        return output;
     }
 
     private static void CreateWeaponSet(List<EquipmentData> output, string name,

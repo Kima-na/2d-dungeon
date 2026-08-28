@@ -1437,10 +1437,12 @@ MonoBehaviour:
   skillText: {fileID: 0}
   combatStatsText: {fileID: 0}
   goldText: {fileID: 0}
+  potionText: {fileID: 0}
   attackController: {fileID: 0}
   archerController: {fileID: 0}
   mageController: {fileID: 0}
   skillController: {fileID: 0}
+  potionController: {fileID: 0}
   deathPanel: {fileID: 4030582}
 --- !u!114 &1465135309
 MonoBehaviour:
@@ -2221,10 +2223,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EquipmentInventory
   startingEquipment:
   - {fileID: 11400000, guid: 2330e4ba04cc95d489c6cc202fa32b11, type: 2}
-  - {fileID: 11400000, guid: a262ae49b90d01a46ab215c28dec3e70, type: 2}
-  - {fileID: 11400000, guid: 07848837843eb294cacb11e4aa454826, type: 2}
-  - {fileID: 11400000, guid: 9e6a3f47169061542b756a9e394aa87f, type: 2}
-  - {fileID: 11400000, guid: ddb0f9e96c36e7a49a7e33b387230473, type: 2}
+  - {fileID: 11400000, guid: 17f5c47dd5545c846982f54a59a67706, type: 2}
+  - {fileID: 11400000, guid: 68dc2ab484a7d1b44998e1d22b508fa2, type: 2}
+  - {fileID: 11400000, guid: 07e017281db30f14c8d8585f04f4dc81, type: 2}
+  - {fileID: 11400000, guid: cd01f26cfcab01e409a0138a6614a136, type: 2}
   lootTemplates:
   - {fileID: 11400000, guid: 2330e4ba04cc95d489c6cc202fa32b11, type: 2}
   - {fileID: 11400000, guid: c2498a7978c583d419a24e3e98d50bcb, type: 2}
@@ -2250,10 +2252,26 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 06a7c0e7ae84f024f8ccb4967b622f8c, type: 2}
   - {fileID: 11400000, guid: 4cb0b82d4fc6b8c43903933b5314c8c6, type: 2}
   - {fileID: 11400000, guid: bab6a77c83334c9459c4a478e78cba8a, type: 2}
-  - {fileID: 11400000, guid: a262ae49b90d01a46ab215c28dec3e70, type: 2}
-  - {fileID: 11400000, guid: 07848837843eb294cacb11e4aa454826, type: 2}
-  - {fileID: 11400000, guid: 9e6a3f47169061542b756a9e394aa87f, type: 2}
-  - {fileID: 11400000, guid: ddb0f9e96c36e7a49a7e33b387230473, type: 2}
+  - {fileID: 11400000, guid: 17f5c47dd5545c846982f54a59a67706, type: 2}
+  - {fileID: 11400000, guid: 70fc8422f736b304c926c7db9549047a, type: 2}
+  - {fileID: 11400000, guid: f2ca88bab91459c468c78e0cacd8eb81, type: 2}
+  - {fileID: 11400000, guid: eeb6b7a7caffdf84b9628498215f0b36, type: 2}
+  - {fileID: 11400000, guid: 1bd8cbf8541b35946823e34a73098955, type: 2}
+  - {fileID: 11400000, guid: 68dc2ab484a7d1b44998e1d22b508fa2, type: 2}
+  - {fileID: 11400000, guid: 7cc26f7efb8b6e640b6ee057c85cc821, type: 2}
+  - {fileID: 11400000, guid: 71dd18b2bec395247b8f686c91a04d36, type: 2}
+  - {fileID: 11400000, guid: eaf9516c806d9fc4fbe8aaa2741b24f1, type: 2}
+  - {fileID: 11400000, guid: e80181016a6b20f4796bd08656eef780, type: 2}
+  - {fileID: 11400000, guid: 07e017281db30f14c8d8585f04f4dc81, type: 2}
+  - {fileID: 11400000, guid: 0b46ec4f9c8efc24ab1f3d47afdf9634, type: 2}
+  - {fileID: 11400000, guid: cc097eda644e2b64997eb0112ddd89bc, type: 2}
+  - {fileID: 11400000, guid: 919b16f0c2e02044c9131d33db3e1446, type: 2}
+  - {fileID: 11400000, guid: b9c322c392dcf8c4abb07b1e121b5746, type: 2}
+  - {fileID: 11400000, guid: cd01f26cfcab01e409a0138a6614a136, type: 2}
+  - {fileID: 11400000, guid: 84cd34fdd74de9d4c9fae8adb3c24ebc, type: 2}
+  - {fileID: 11400000, guid: e80a62b22512e0a48aff9dc91032c616, type: 2}
+  - {fileID: 11400000, guid: 8204c66a28b5a1548b1b3461254198e2, type: 2}
+  - {fileID: 11400000, guid: 526117fcde78e414ea4efa147bb71b56, type: 2}
   ownedItems: []
   equippedItems: []
 --- !u!1660057539 &9223372036854775807

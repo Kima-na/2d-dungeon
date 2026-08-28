@@ -29,9 +29,9 @@ public static class DungeonDifficultyTable
     public static DifficultyModifiers Get(DungeonDifficulty difficulty) => difficulty switch
     {
         DungeonDifficulty.Easy => new(10, 14, 1.15f, 1.1f, 0.9f, 1f, 6, 9),
-        DungeonDifficulty.Normal => new(14, 20, 1.8f, 1.7f, 1f, 1.15f, 8, 12),
-        DungeonDifficulty.Hard => new(18, 24, 2.7f, 2.5f, 1.1f, 1.35f, 10, 15),
-        DungeonDifficulty.Nightmare => new(22, 30, 4.2f, 3.8f, 1.2f, 1.8f, 13, 18),
+        DungeonDifficulty.Normal => new(14, 20, 1.8f, 1.7f, 1f, 1.5f, 8, 12),
+        DungeonDifficulty.Hard => new(18, 24, 2.7f, 2.5f, 1.1f, 2.25f, 10, 15),
+        DungeonDifficulty.Nightmare => new(22, 30, 4.2f, 3.8f, 1.2f, 3.5f, 13, 18),
         _ => new(10, 14, 1.15f, 1.1f, 1f, 1f, 6, 9)
     };
 }

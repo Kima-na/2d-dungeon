@@ -15,10 +15,12 @@ public class PlayerHUD : MonoBehaviour
     [SerializeField] private Text skillText;
     [SerializeField] private Text combatStatsText;
     [SerializeField] private Text goldText;
+    [SerializeField] private Text potionText;
     [SerializeField] private AttackController attackController;
     [SerializeField] private ArcherController archerController;
     [SerializeField] private MageController mageController;
     [SerializeField] private SkillController skillController;
+    [SerializeField] private PlayerPotionController potionController;
     [SerializeField] private GameObject deathPanel;
 
     private void Awake()
@@ -32,6 +34,8 @@ public class PlayerHUD : MonoBehaviour
             mageController = playerStats.GetComponent<MageController>();
         if (skillController == null && playerStats != null)
             skillController = playerStats.GetComponent<SkillController>();
+        if (potionController == null && playerStats != null)
+            potionController = playerStats.GetComponent<PlayerPotionController>();
         ApplyPlayerBarStyle();
         CreateMissingGrowthLabels();
         if (deathPanel != null) deathPanel.SetActive(false);
@@ -84,6 +88,8 @@ public class PlayerHUD : MonoBehaviour
             goldText = CreateRuntimeLabel("Gold Text", new Vector2(40f, -350f));
             goldText.color = new Color(1f, 0.78f, 0.12f);
         }
+        if (potionText == null)
+            potionText = CreateRuntimeLabel("Potion Text", new Vector2(40f, -390f));
     }
 
     private Slider CreateRuntimeExperienceBar()
@@ -150,6 +156,16 @@ public class PlayerHUD : MonoBehaviour
             skillText.text = remaining > 0f
                 ? $"[Q] {skillController.CurrentSkillName}  CD {remaining:0.0}s"
                 : $"[Q] {skillController.CurrentSkillName}  MP {skillController.CurrentManaCost}  READY";
+        }
+        if (potionController == null && playerStats != null)
+            potionController = playerStats.GetComponent<PlayerPotionController>();
+        if (potionText != null && potionController != null)
+        {
+            string health = potionController.HealthCooldownRemaining > 0f
+                ? $"CD {potionController.HealthCooldownRemaining:0.0}s" : "READY";
+            string mana = potionController.ManaCooldownRemaining > 0f
+                ? $"CD {potionController.ManaCooldownRemaining:0.0}s" : "READY";
+            potionText.text = $"[F1] HP POTION {health}    [F2] MP POTION {mana}";
         }
         RefreshEquippedWeaponText();
     }

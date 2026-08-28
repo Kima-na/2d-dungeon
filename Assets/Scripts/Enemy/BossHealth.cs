@@ -107,9 +107,11 @@ public sealed class BossHealth : MonoBehaviour
     {
         BossMovement movement = GetComponent<BossMovement>();
         BossCombat combat = GetComponent<BossCombat>();
+        NightmareBossCombat nightmareCombat = GetComponent<NightmareBossCombat>();
         BossAnimator bossAnimator = GetComponent<BossAnimator>();
         if (movement != null) movement.enabled = false;
         if (combat != null) combat.enabled = false;
+        if (nightmareCombat != null) nightmareCombat.enabled = false;
         if (bossAnimator != null) bossAnimator.SetDead();
         Rigidbody2D body = GetComponent<Rigidbody2D>();
         if (body != null) body.linearVelocity = Vector2.zero;

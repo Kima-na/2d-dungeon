@@ -64,7 +64,7 @@ public static class BossRoster
     {
         GameObject boss = new("Nightmare Boss", typeof(SpriteRenderer), typeof(Rigidbody2D),
             typeof(CapsuleCollider2D), typeof(Damageable), typeof(BossHealth),
-            typeof(BossMovement), typeof(BossCombat), typeof(NightmareBossPhaseController));
+            typeof(BossMovement), typeof(NightmareBossCombat), typeof(NightmareBossPhaseController));
         boss.transform.SetParent(parent, true);
         boss.transform.position = position;
 
