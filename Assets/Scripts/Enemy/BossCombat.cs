@@ -42,6 +42,7 @@ public sealed class BossCombat : MonoBehaviour
     private BossVisualDatabase visuals;
     private float nextGlobalAttack;
     private int lastSkill = -1;
+    private int nightmarePhase;
     private readonly CircleCollider2D[] skillHitboxes = new CircleCollider2D[4];
     public bool IsAttacking { get; private set; }
     public SkillType? CurrentSkill { get; private set; }
@@ -69,6 +70,8 @@ public sealed class BossCombat : MonoBehaviour
         for (int i = 0; i < readyTimes.Length; i++)
         {
             if (i == lastSkill || Time.time < readyTimes[i]) continue;
+            if (nightmarePhase == 1 && i > 1) continue;
+            if (nightmarePhase == 2 && i == 2) continue;
             bool usable = i switch
             {
                 0 => distance <= skill1Range,
@@ -97,6 +100,31 @@ public sealed class BossCombat : MonoBehaviour
         IsAttacking = false;
         CurrentSkill = null;
         bossAnimator?.EndAttack();
+    }
+
+    public void ConfigureNightmarePhase(int phase)
+    {
+        nightmarePhase = Mathf.Clamp(phase, 1, 3);
+        switch (nightmarePhase)
+        {
+            case 1:
+                skill1Damage = 50; skill2Damage = 58; skill3Damage = 20; skill4Damage = 18;
+                skill1Cooldown = 3.2f; skill2Cooldown = 5f; skill3Cooldown = 4f; skill4Cooldown = 7f;
+                globalAttackCooldown = 0.7f;
+                break;
+            case 2:
+                skill1Damage = 62; skill2Damage = 74; skill3Damage = 26; skill4Damage = 24;
+                skill1Cooldown = 2.6f; skill2Cooldown = 4f; skill3Cooldown = 3.2f; skill4Cooldown = 5.5f;
+                globalAttackCooldown = 0.55f;
+                break;
+            default:
+                skill1Damage = 78; skill2Damage = 92; skill3Damage = 34; skill4Damage = 30;
+                skill1Cooldown = 1.9f; skill2Cooldown = 3f; skill3Cooldown = 2.4f; skill4Cooldown = 4f;
+                globalAttackCooldown = 0.4f;
+                break;
+        }
+
+        for (int i = 0; i < readyTimes.Length; i++) readyTimes[i] = Mathf.Min(readyTimes[i], Time.time + 0.35f);
     }
 
     private IEnumerator ExecuteSkill(SkillType skill)
@@ -196,6 +224,8 @@ public sealed class BossCombat : MonoBehaviour
                 transform.parent, position, visuals != null ? visuals.shadowMinion : null);
             summon.name = "Summoned Shadow";
             summon.SetDropsEnabled(false);
+            SpriteRenderer summonRenderer = summon.GetComponent<SpriteRenderer>();
+            if (summonRenderer != null) summonRenderer.color = Color.white;
             summon.Configure(EnemyAI.MonsterType.GoblinWarrior, 24, 0, 4.5f, 10f, 0.8f,
                 skill4Damage, 0.9f);
             summon.gameObject.AddComponent<BossSummonLifetime>().SetLifetime(skill4SummonLifetime);

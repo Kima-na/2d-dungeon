@@ -58,4 +58,30 @@ public static class BossRoster
             Mathf.RoundToInt(180f * modifiers.Reward), $"{difficulty} Dummy Boss", 0, 0.2f);
         return health;
     }
+
+    public static BossHealth SpawnNightmare(Transform parent, Vector2 position,
+        DifficultyModifiers modifiers)
+    {
+        GameObject boss = new("Nightmare Boss", typeof(SpriteRenderer), typeof(Rigidbody2D),
+            typeof(CapsuleCollider2D), typeof(Damageable), typeof(BossHealth),
+            typeof(BossMovement), typeof(BossCombat), typeof(NightmareBossPhaseController));
+        boss.transform.SetParent(parent, true);
+        boss.transform.position = position;
+
+        SpriteRenderer renderer = boss.GetComponent<SpriteRenderer>();
+        renderer.sprite = Resources.Load<Sprite>("NightmareBoss/Phase1");
+        renderer.color = Color.white;
+        renderer.sortingOrder = 8;
+        boss.transform.localScale = Vector3.one;
+
+        Rigidbody2D body = boss.GetComponent<Rigidbody2D>();
+        body.gravityScale = 0f;
+        body.freezeRotation = true;
+        body.interpolation = RigidbodyInterpolation2D.Interpolate;
+
+        BossHealth health = boss.GetComponent<BossHealth>();
+        health.Configure(Mathf.RoundToInt(30000f * modifiers.EnemyHealth),
+            Mathf.RoundToInt(750f * modifiers.Reward), "혼돈의 대마도사", 18, 1.2f);
+        return health;
+    }
 }

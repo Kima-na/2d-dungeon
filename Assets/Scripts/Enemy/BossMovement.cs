@@ -24,6 +24,8 @@ public sealed class BossMovement : MonoBehaviour
     public float DistanceToTarget => target == null ? float.PositiveInfinity :
         Vector2.Distance(transform.position, target.position);
 
+    public void ConfigureSpeed(float speed) => moveSpeed = Mathf.Max(0.1f, speed);
+
     private void Awake()
     {
         body = GetComponent<Rigidbody2D>();

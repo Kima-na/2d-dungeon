@@ -1,0 +1,572 @@
+fileFormatVersion: 2
+guid: ed53a573ab1f76d41b92a167bc572f10
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 1883405333142604465
+    second: phase1_0
+  - first:
+      213: 2425689470652946037
+    second: phase1_1
+  - first:
+      213: 4904500795457284603
+    second: phase1_2
+  - first:
+      213: -885064277659112898
+    second: phase1_3
+  - first:
+      213: -9037742788482129601
+    second: phase1_4
+  - first:
+      213: -8479105279636149071
+    second: phase1_5
+  - first:
+      213: -8801107775750516252
+    second: phase1_6
+  - first:
+      213: 6715379564243252128
+    second: phase1_7
+  - first:
+      213: -8828766062695463783
+    second: phase1_8
+  - first:
+      213: -4726867058096827873
+    second: phase1_9
+  - first:
+      213: 6223763915248356706
+    second: phase1_10
+  - first:
+      213: 7169288927413822617
+    second: phase1_11
+  - first:
+      213: -4478964104515876288
+    second: phase1_12
+  - first:
+      213: 3414492810210588990
+    second: phase1_13
+  - first:
+      213: 9010499319351401438
+    second: phase1_14
+  - first:
+      213: 9042657367687647083
+    second: phase1_15
+  - first:
+      213: -2640220077759215425
+    second: phase1_16
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: phase1_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 755
+        width: 481
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1ba8a0afb23332a10800000000000000
+      internalID: 1883405333142604465
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: phase1_1
+      rect:
+        serializedVersion: 2
+        x: 523
+        y: 270
+        width: 638
+        height: 734
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5769ca1c8b7c9a120800000000000000
+      internalID: 2425689470652946037
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: phase1_2
+      rect:
+        serializedVersion: 2
+        x: 1334
+        y: 983
+        width: 13
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bf92ad10d79401440800000000000000
+      internalID: 4904500795457284603
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: phase1_3
+      rect:
+        serializedVersion: 2
+        x: 368
+        y: 753
+        width: 161
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e3aadbe8abe97b3f0800000000000000
+      internalID: -885064277659112898
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: phase1_4
+      rect:
+        serializedVersion: 2
+        x: 1163
+        y: 749
+        width: 189
+        height: 213
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f31ac2161dc739280800000000000000
+      internalID: -9037742788482129601
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: phase1_5
+      rect:
+        serializedVersion: 2
+        x: 1346
+        y: 755
+        width: 190
+        height: 205
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1bce5222caa245a80800000000000000
+      internalID: -8479105279636149071
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: phase1_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 513
+        width: 373
+        height: 241
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4e15674bb1f2cd580800000000000000
+      internalID: -8801107775750516252
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: phase1_7
+      rect:
+        serializedVersion: 2
+        x: 375
+        y: 501
+        width: 380
+        height: 221
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0a3f2a25222d13d50800000000000000
+      internalID: 6715379564243252128
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: phase1_8
+      rect:
+        serializedVersion: 2
+        x: 1106
+        y: 503
+        width: 419
+        height: 221
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9944304fa0ce97580800000000000000
+      internalID: -8828766062695463783
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: phase1_9
+      rect:
+        serializedVersion: 2
+        x: 1478
+        y: 711
+        width: 11
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f1294a5647bc66eb0800000000000000
+      internalID: -4726867058096827873
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: phase1_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 29
+        width: 234
+        height: 485
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 26dc5465e404f5650800000000000000
+      internalID: 6223763915248356706
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: phase1_11
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 277
+        width: 164
+        height: 205
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 99464a28b4e6e7360800000000000000
+      internalID: 7169288927413822617
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: phase1_12
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 235
+        width: 167
+        height: 248
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 04a0b94a0e587d1c0800000000000000
+      internalID: -4478964104515876288
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: phase1_13
+      rect:
+        serializedVersion: 2
+        x: 970
+        y: 17
+        width: 553
+        height: 469
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e393ab0ce17b26f20800000000000000
+      internalID: 3414492810210588990
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: phase1_14
+      rect:
+        serializedVersion: 2
+        x: 1312
+        y: 271
+        width: 211
+        height: 227
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: edbd6da2469bb0d70800000000000000
+      internalID: 9010499319351401438
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: phase1_15
+      rect:
+        serializedVersion: 2
+        x: 186
+        y: 29
+        width: 317
+        height: 199
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b6f479247f8fd7d70800000000000000
+      internalID: 9042657367687647083
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: phase1_16
+      rect:
+        serializedVersion: 2
+        x: 520
+        y: 27
+        width: 505
+        height: 245
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fb8ce48e3dd0c5bd0800000000000000
+      internalID: -2640220077759215425
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      phase1_0: 1883405333142604465
+      phase1_1: 2425689470652946037
+      phase1_10: 6223763915248356706
+      phase1_11: 7169288927413822617
+      phase1_12: -4478964104515876288
+      phase1_13: 3414492810210588990
+      phase1_14: 9010499319351401438
+      phase1_15: 9042657367687647083
+      phase1_16: -2640220077759215425
+      phase1_2: 4904500795457284603
+      phase1_3: -885064277659112898
+      phase1_4: -9037742788482129601
+      phase1_5: -8479105279636149071
+      phase1_6: -8801107775750516252
+      phase1_7: 6715379564243252128
+      phase1_8: -8828766062695463783
+      phase1_9: -4726867058096827873
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

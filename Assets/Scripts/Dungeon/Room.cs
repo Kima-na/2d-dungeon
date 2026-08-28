@@ -78,9 +78,12 @@ public class Room : MonoBehaviour
             LockDoors(true);
             Transform dummy = transform.Find("Boss Dummy");
             if (dummy != null) dummy.gameObject.SetActive(false);
-            boss = generator.Difficulty == DungeonDifficulty.Easy
-                ? BossRoster.SpawnEasy(transform, transform.position, generator.Modifiers)
-                : BossRoster.SpawnDummy(transform, transform.position, generator.Difficulty, generator.Modifiers);
+            boss = generator.Difficulty switch
+            {
+                DungeonDifficulty.Easy => BossRoster.SpawnEasy(transform, transform.position, generator.Modifiers),
+                DungeonDifficulty.Nightmare => BossRoster.SpawnNightmare(transform, transform.position, generator.Modifiers),
+                _ => BossRoster.SpawnDummy(transform, transform.position, generator.Difficulty, generator.Modifiers)
+            };
             boss.Defeated += OnBossDefeated;
             BossUI.Show(boss);
         }
