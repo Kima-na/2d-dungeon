@@ -254,9 +254,9 @@ public class PlayerHUD : MonoBehaviour
         if (levelText == null) return;
         levelText.text = playerStats.CurrentClass switch
         {
-            PlayerStats.PlayerClass.Archer => $"[F1/F2/F3] ARCHER  LV.{currentLevel}  DEX {playerStats.Dexterity}  DEF {playerStats.Defense}",
-            PlayerStats.PlayerClass.Mage => $"[F1/F2/F3] MAGE  LV.{currentLevel}  INT {playerStats.Intelligence}  DEF {playerStats.Defense}",
-            _ => $"[F1/F2/F3] WARRIOR  LV.{currentLevel}  STR {playerStats.Strength}  DEF {playerStats.Defense}"
+            PlayerStats.PlayerClass.Archer => $"ARCHER  LV.{currentLevel}  DEX {playerStats.Dexterity}  DEF {playerStats.Defense}",
+            PlayerStats.PlayerClass.Mage => $"MAGE  LV.{currentLevel}  INT {playerStats.Intelligence}  DEF {playerStats.Defense}",
+            _ => $"WARRIOR  LV.{currentLevel}  STR {playerStats.Strength}  DEF {playerStats.Defense}"
         };
         if (combatStatsText != null)
             combatStatsText.text = $"CRIT {playerStats.CriticalChance * 100f:0.#}%  " +

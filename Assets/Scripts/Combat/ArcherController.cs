@@ -34,7 +34,7 @@ public class ArcherController : MonoBehaviour
 
     private void Update()
     {
-        if (stats.IsDead || stats.CurrentClass != PlayerStats.PlayerClass.Archer) return;
+        if (controller.IsInputLocked || stats.IsDead || stats.CurrentClass != PlayerStats.PlayerClass.Archer) return;
         if (Keyboard.current != null)
         {
             if (Keyboard.current.digit1Key.wasPressedThisFrame) equippedWeapon = RangedWeapon.Bow;
@@ -49,7 +49,7 @@ public class ArcherController : MonoBehaviour
 
     public void Shoot()
     {
-        if (stats.IsDead || stats.CurrentClass != PlayerStats.PlayerClass.Archer || Time.time < nextAttackTime) return;
+        if (controller.IsInputLocked || stats.IsDead || stats.CurrentClass != PlayerStats.PlayerClass.Archer || Time.time < nextAttackTime) return;
         nextAttackTime = Time.time + AttackCooldown;
 
         FireArrow(GetAimDirection(), CombatCalculator.RollDamage(stats, AttackDamage, out _));

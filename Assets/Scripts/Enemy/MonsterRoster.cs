@@ -48,6 +48,15 @@ public static class MonsterRoster
 
     public static EnemyAI Spawn(EnemyAI.MonsterType type, Transform parent, Vector2 position, Sprite sprite,
         DifficultyModifiers modifiers)
+        => SpawnInternal(type, parent, position, sprite, modifiers, 0);
+
+    public static EnemyAI SpawnSlimeDivision(Transform parent, Vector2 position, int generation,
+        DifficultyModifiers modifiers)
+        => SpawnInternal(EnemyAI.MonsterType.Slime, parent, position, PlaceholderSprite,
+            modifiers, Mathf.Clamp(generation, 1, 3));
+
+    private static EnemyAI SpawnInternal(EnemyAI.MonsterType type, Transform parent, Vector2 position,
+        Sprite sprite, DifficultyModifiers modifiers, int slimeGeneration)
     {
         string objectName;
         Vector2 scale;
@@ -83,12 +92,31 @@ public static class MonsterRoster
                 health = 85; reward = 90; speed = 1.75f; sight = 6.5f; range = 1.3f; damage = 16; cooldown = 1.35f; break;
         }
 
+        if (type == EnemyAI.MonsterType.Slime && slimeGeneration > 0)
+        {
+            float generationScale = Mathf.Pow(0.72f, slimeGeneration);
+            scale *= generationScale;
+            health = Mathf.Max(6, Mathf.RoundToInt(health * Mathf.Pow(0.58f, slimeGeneration)));
+            reward = Mathf.Max(4, Mathf.RoundToInt(reward * Mathf.Pow(0.5f, slimeGeneration)));
+            damage = Mathf.Max(2, Mathf.RoundToInt(damage * Mathf.Pow(0.75f, slimeGeneration)));
+            speed *= 1f + slimeGeneration * 0.12f;
+        }
+
         GameObject enemy = null;
         if (type == EnemyAI.MonsterType.Slime)
         {
             SlimeVisualDatabase database = Resources.Load<SlimeVisualDatabase>("SlimeVisualDatabase");
             if (database != null && database.slimePrefab != null)
                 enemy = Object.Instantiate(database.slimePrefab);
+        }
+        else if ((sprite == null || sprite == PlaceholderSprite) &&
+                 type is EnemyAI.MonsterType.GoblinWarrior or
+                 EnemyAI.MonsterType.GoblinArcher or EnemyAI.MonsterType.GoblinMage)
+        {
+            GoblinWarriorVisualDatabase database =
+                Resources.Load<GoblinWarriorVisualDatabase>("GoblinWarriorVisualDatabase");
+            GameObject prefab = database != null ? database.GetEnemyPrefab(type) : null;
+            if (prefab != null) enemy = Object.Instantiate(prefab);
         }
         if (enemy == null)
             enemy = new GameObject(objectName, typeof(SpriteRenderer), typeof(Rigidbody2D),
@@ -97,14 +125,52 @@ public static class MonsterRoster
         if (parent != null) enemy.transform.SetParent(parent, true);
         enemy.transform.position = position;
         enemy.transform.localScale = scale;
+        ConfigureHitbox(enemy.GetComponent<Collider2D>(), type);
         SpriteRenderer renderer = enemy.GetComponent<SpriteRenderer>();
         if (renderer.sprite == null) renderer.sprite = sprite != null ? sprite : PlaceholderSprite;
-        renderer.color = color;
+        bool usesGoblinSheet = type is EnemyAI.MonsterType.GoblinWarrior or
+            EnemyAI.MonsterType.GoblinArcher or EnemyAI.MonsterType.GoblinMage;
+        renderer.color = usesGoblinSheet && enemy.GetComponent<Animator>() != null
+            ? Color.white : color;
+        if (usesGoblinSheet)
+            enemy.GetComponent<Damageable>().SetDamageReduction(type == EnemyAI.MonsterType.GoblinWarrior ? 2 : 1);
         EnemyAI ai = enemy.GetComponent<EnemyAI>();
         ai.Configure(type, Mathf.Max(1, Mathf.RoundToInt(health * modifiers.EnemyHealth)),
             Mathf.Max(1, Mathf.RoundToInt(reward * modifiers.Reward)), speed * modifiers.EnemySpeed,
             sight, range, Mathf.Max(1, Mathf.RoundToInt(damage * modifiers.EnemyDamage)), cooldown, keepDistance);
+        if (type == EnemyAI.MonsterType.Slime)
+            ai.ConfigureSlimeDivision(slimeGeneration, modifiers);
         return ai;
+    }
+
+    private static void ConfigureHitbox(Collider2D collider, EnemyAI.MonsterType type)
+    {
+        if (collider == null) return;
+        collider.isTrigger = false;
+        if (collider is BoxCollider2D box)
+        {
+            bool slime = type == EnemyAI.MonsterType.Slime;
+            bool goblin = type is EnemyAI.MonsterType.GoblinWarrior or
+                EnemyAI.MonsterType.GoblinArcher or EnemyAI.MonsterType.GoblinMage;
+            bool berserker = type == EnemyAI.MonsterType.Berserker;
+            box.size = slime ? new Vector2(0.64f, 0.46f) : goblin ? new Vector2(0.46f, 0.52f) :
+                berserker ? new Vector2(0.62f, 0.7f) : new Vector2(0.54f, 0.68f);
+            box.offset = slime ? new Vector2(0f, -0.11f) :
+                goblin ? new Vector2(0f, 0.26f) : new Vector2(0f, -0.08f);
+        }
+        else if (collider is CapsuleCollider2D capsule)
+        {
+            capsule.direction = CapsuleDirection2D.Vertical;
+            capsule.size = type == EnemyAI.MonsterType.Slime
+                ? new Vector2(0.64f, 0.46f) : new Vector2(0.54f, 0.72f);
+            capsule.offset = type == EnemyAI.MonsterType.Slime
+                ? new Vector2(0f, -0.11f) : new Vector2(0f, -0.08f);
+        }
+        else if (collider is CircleCollider2D circle)
+        {
+            circle.radius = type == EnemyAI.MonsterType.Slime ? 0.3f : 0.34f;
+            circle.offset = new Vector2(0f, -0.08f);
+        }
     }
 
 #if UNITY_EDITOR

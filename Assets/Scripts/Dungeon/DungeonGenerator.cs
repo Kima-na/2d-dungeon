@@ -6,16 +6,16 @@ using UnityEngine;
 public class DungeonGenerator : MonoBehaviour
 {
     [Header("Generation")]
-    [SerializeField, Min(2)] private int minimumRooms = 10;
-    [SerializeField, Min(2)] private int maximumRooms = 15;
+    [SerializeField, Min(2)] private int minimumRooms = 14;
+    [SerializeField, Min(2)] private int maximumRooms = 20;
     [SerializeField] private Room roomPrefab;
     [SerializeField] private bool useRandomSeed = true;
     [SerializeField] private int seed = 12345;
     [SerializeField] private DungeonDifficulty difficulty = DungeonDifficulty.Normal;
 
     [Header("Layout")]
-    [SerializeField] private Vector2 roomWorldSize = new(20f, 12f);
-    [SerializeField] private Vector2 entryOffset = new(7.4f, 3.7f);
+    [SerializeField] private Vector2 roomWorldSize = new(26f, 16f);
+    [SerializeField] private Vector2 entryOffset = new(9.8f, 5.2f);
 
     private static readonly Vector2Int[] Directions =
     {
@@ -209,6 +209,7 @@ public class DungeonGenerator : MonoBehaviour
     private void SnapCamera(Vector2 position)
     {
         if (mainCamera == null) return;
+        mainCamera.orthographicSize = 7.5f;
         mainCamera.transform.position = new Vector3(position.x, position.y, mainCamera.transform.position.z);
     }
 
@@ -226,8 +227,9 @@ public class DungeonGenerator : MonoBehaviour
 
     private Sprite FindPlaceholderSprite()
     {
-        SpriteRenderer renderer = FindAnyObjectByType<PlayerController>()?.GetComponent<SpriteRenderer>();
-        return renderer != null && renderer.sprite != null ? renderer.sprite : MonsterRoster.PlaceholderSprite;
+        // Room geometry must never reuse the currently selected player design.
+        // A neutral one-pixel sprite keeps character selection visual-only.
+        return MonsterRoster.PlaceholderSprite;
     }
 
     private Vector3 GridToWorld(Vector2Int coordinate) =>

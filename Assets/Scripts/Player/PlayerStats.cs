@@ -160,6 +160,15 @@ public class PlayerStats : MonoBehaviour, IDamageable
         GoldChanged?.Invoke(Gold);
     }
 
+    public bool TrySpendGold(int amount)
+    {
+        int price = Mathf.Max(0, amount);
+        if (Gold < price) return false;
+        Gold -= price;
+        GoldChanged?.Invoke(Gold);
+        return true;
+    }
+
     public int GetExperienceRequirement(int targetLevel)
     {
         int safeLevel = Mathf.Max(1, targetLevel);

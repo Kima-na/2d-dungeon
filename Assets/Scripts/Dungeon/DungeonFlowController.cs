@@ -38,10 +38,11 @@ public sealed class DungeonFlowController : MonoBehaviour
     PlayerController player;
     PlayerStats stats;
     EquipmentInventory inventory;
-    GameObject main, confirm, jobs, difficulty, settings, defeated, message, exitDungeon;
+    GameObject main, confirm, jobs, designs, difficulty, settings, defeated, message, exitDungeon;
     Text bgmLabel, sfxLabel, messageLabel;
     bool bgm, sfx, resultShown;
-    GameObject[] Panels => new[] { main, confirm, jobs, difficulty, settings, defeated, message };
+    PlayerStats.PlayerClass pendingClass;
+    GameObject[] Panels => new[] { main, confirm, jobs, designs, difficulty, settings, defeated, message };
     public bool IsDifficultySelectionVisible => difficulty != null && difficulty.activeSelf;
     public bool IsBossDefeatedVisible => defeated != null && defeated.activeSelf;
 
@@ -83,9 +84,17 @@ public sealed class DungeonFlowController : MonoBehaviour
     {
         GameSaveData data = GameSaveSystem.Load();
         if (data == null) { messageLabel.text = "저장된 게임이 없습니다."; Show(message); return; }
-        DungeonProgress.Apply(data); inventory?.ApplySave(data.equipment); stats?.ApplySave(data); ShowDifficulty();
+        DungeonProgress.Apply(data); inventory?.ApplySave(data.equipment); stats?.ApplySave(data);
+        player?.GetComponent<PlayerVisualController>()?.SetDesign(data.characterDesign);
+        ShowDifficulty();
     }
-    void ChooseClass(PlayerStats.PlayerClass c) { stats?.ResetForNewGame(c); Save(true); ShowDifficulty(); }
+    void ChooseClass(PlayerStats.PlayerClass c) { pendingClass = c; Show(designs); }
+    void ChooseDesign(int index)
+    {
+        stats?.ResetForNewGame(pendingClass);
+        player?.GetComponent<PlayerVisualController>()?.SetDesign(index);
+        Save(true); ShowDifficulty();
+    }
     public void SelectDifficulty(DungeonDifficulty d)
     {
         if (!DungeonProgress.IsUnlocked(d) || generator == null) return;
@@ -153,6 +162,21 @@ public sealed class DungeonFlowController : MonoBehaviour
         Button(jobs, "WARRIOR", 105, () => ChooseClass(PlayerStats.PlayerClass.Warrior));
         Button(jobs, "ARCHER", 20, () => ChooseClass(PlayerStats.PlayerClass.Archer));
         Button(jobs, "MAGE", -65, () => ChooseClass(PlayerStats.PlayerClass.Mage)); Button(jobs, "뒤로", -175, () => Show(main));
+        designs = Panel("Character Design Selection", new Vector2(820, 620));
+        Text(designs, "CHARACTER DESIGN", 0, 245, 40);
+        PlayerVisualDatabase visualDatabase = Resources.Load<PlayerVisualDatabase>("PlayerVisualDatabase");
+        for (int i = 0; i < 4; i++)
+        {
+            int selected = i;
+            float x = -270 + i * 180;
+            Button choice = Button(designs, $"DESIGN {i + 1}", -75, () => ChooseDesign(selected), x);
+            choice.GetComponent<RectTransform>().sizeDelta = new Vector2(150, 190);
+            Image preview = CreateImage(choice.gameObject, new Vector2(0, 35), new Vector2(96, 108));
+            if (visualDatabase != null && i < visualDatabase.designs.Length)
+                preview.sprite = visualDatabase.designs[i].Preview;
+            choice.GetComponentInChildren<Text>().rectTransform.anchoredPosition = new Vector2(0, -65);
+        }
+        Button(designs, "뒤로", -235, () => Show(jobs));
         difficulty = Panel("Difficulty Selection", new Vector2(650, 760)); Text(difficulty, "DUNGEON DIFFICULTY", 0, 305, 36);
         RebuildDifficulties(); Button(difficulty, "뒤로", -300, () => Show(main));
         settings = Panel("Settings", new Vector2(620, 500)); Text(settings, "설정", 0, 180, 40);
@@ -202,6 +226,13 @@ public sealed class DungeonFlowController : MonoBehaviour
         go.GetComponent<Image>().color = enabled ? new Color(.14f, .36f, .56f) : new Color(.13f, .14f, .17f);
         var b = go.GetComponent<Button>(); b.interactable = enabled; b.onClick.AddListener(action);
         var t = Text(go, label, 0, 0, 22); t.rectTransform.sizeDelta = r.sizeDelta; if (!enabled) t.color = Color.gray; return b;
+    }
+    static Image CreateImage(GameObject parent, Vector2 position, Vector2 size)
+    {
+        var go = new GameObject("Preview", typeof(RectTransform), typeof(Image)); go.transform.SetParent(parent.transform, false);
+        var rect = (RectTransform)go.transform; rect.anchorMin = rect.anchorMax = new Vector2(.5f, .5f);
+        rect.anchoredPosition = position; rect.sizeDelta = size;
+        Image image = go.GetComponent<Image>(); image.preserveAspect = true; image.raycastTarget = false; return image;
     }
     static void EnsureEventSystem()
     {

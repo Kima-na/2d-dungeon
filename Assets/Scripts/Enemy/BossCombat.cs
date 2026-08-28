@@ -196,7 +196,7 @@ public sealed class BossCombat : MonoBehaviour
                 transform.parent, position, visuals != null ? visuals.shadowMinion : null);
             summon.name = "Summoned Shadow";
             summon.SetDropsEnabled(false);
-            summon.Configure(EnemyAI.MonsterType.GoblinWarrior, 24, 0, 2.8f, 10f, 0.8f,
+            summon.Configure(EnemyAI.MonsterType.GoblinWarrior, 24, 0, 4.5f, 10f, 0.8f,
                 skill4Damage, 0.9f);
             summon.gameObject.AddComponent<BossSummonLifetime>().SetLifetime(skill4SummonLifetime);
         }

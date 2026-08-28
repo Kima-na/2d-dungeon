@@ -419,8 +419,8 @@ public static class BossSpriteSetup
         animator.runtimeAnimatorController = controller;
         animator.applyRootMotion = false;
         CapsuleCollider2D collider = root.GetComponent<CapsuleCollider2D>();
-        collider.size = new Vector2(1.15f, 1.45f);
-        collider.offset = new Vector2(0f, -0.18f);
+        collider.size = new Vector2(0.82f, 0.96f);
+        collider.offset = new Vector2(0f, -0.2f);
         Rigidbody2D body = root.GetComponent<Rigidbody2D>();
         body.gravityScale = 0f;
         body.freezeRotation = true;

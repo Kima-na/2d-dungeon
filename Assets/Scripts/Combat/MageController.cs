@@ -37,7 +37,7 @@ public class MageController : MonoBehaviour
 
     private void Update()
     {
-        if (stats.IsDead || stats.CurrentClass != PlayerStats.PlayerClass.Mage) return;
+        if (controller.IsInputLocked || stats.IsDead || stats.CurrentClass != PlayerStats.PlayerClass.Mage) return;
         if (Keyboard.current != null)
         {
             if (Keyboard.current.digit1Key.wasPressedThisFrame) equippedWeapon = MagicWeapon.Staff;
@@ -51,7 +51,7 @@ public class MageController : MonoBehaviour
 
     public void Cast()
     {
-        if (stats.IsDead || stats.CurrentClass != PlayerStats.PlayerClass.Mage ||
+        if (controller.IsInputLocked || stats.IsDead || stats.CurrentClass != PlayerStats.PlayerClass.Mage ||
             Time.time < nextAttackTime || !stats.UseMana(ManaCost)) return;
         nextAttackTime = Time.time + AttackCooldown;
         FireMagicProjectile(GetAimDirection(), CombatCalculator.RollDamage(stats, AttackDamage, out _));

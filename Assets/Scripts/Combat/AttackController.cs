@@ -70,14 +70,8 @@ public class AttackController : MonoBehaviour
 
     private void Update()
     {
-        if (Keyboard.current != null)
-        {
-            if (Keyboard.current.f1Key.wasPressedThisFrame) stats.SelectClass(PlayerStats.PlayerClass.Warrior);
-            else if (Keyboard.current.f2Key.wasPressedThisFrame) stats.SelectClass(PlayerStats.PlayerClass.Archer);
-            else if (Keyboard.current.f3Key.wasPressedThisFrame) stats.SelectClass(PlayerStats.PlayerClass.Mage);
-        }
         UpdateClassWeaponPose();
-        if (stats.CurrentClass != PlayerStats.PlayerClass.Warrior) return;
+        if (controller.IsInputLocked || stats.CurrentClass != PlayerStats.PlayerClass.Warrior) return;
         HandleWeaponInput();
         UpdateWeaponPose();
         if (!stats.IsDead && Time.time >= nextAttackTime && Mouse.current != null &&
@@ -89,7 +83,7 @@ public class AttackController : MonoBehaviour
 
     public void Attack()
     {
-        if (stats.IsDead || Time.time < nextAttackTime) return;
+        if (controller.IsInputLocked || stats.IsDead || Time.time < nextAttackTime) return;
         nextAttackTime = Time.time + AttackCooldown;
         Vector2 attackDirection = GetAttackDirection();
         PlayWeaponAction(attackDirection);
@@ -271,8 +265,8 @@ public class AttackController : MonoBehaviour
             WeaponType.Spear => spearIdleSprites,
             _ => shortSwordIdleSprites
         });
-        weaponRenderer.enabled = stats != null && stats.CurrentClass == PlayerStats.PlayerClass.Warrior &&
-                                 weaponRenderer.sprite != null;
+        // Warrior weapons are drawn only during the attack interaction.
+        weaponRenderer.enabled = false;
         RefreshTemporaryWarriorWeapon();
         UpdateWeaponPose();
     }
@@ -298,8 +292,9 @@ public class AttackController : MonoBehaviour
 
     private void PlayWeaponAction(Vector2 direction)
     {
-        if (temporaryWarriorWeapon != null && temporaryWarriorWeapon.gameObject.activeSelf)
+        if (weaponRenderer == null || weaponRenderer.sprite == null)
         {
+            ShowTemporaryWeaponForAction();
             if (weaponActionRoutine != null) StopCoroutine(weaponActionRoutine);
             weaponActionRoutine = StartCoroutine(TemporaryWeaponActionRoutine(direction));
             return;
@@ -335,6 +330,7 @@ public class AttackController : MonoBehaviour
             }
             yield return null;
         }
+        if (temporaryWarriorWeapon != null) temporaryWarriorWeapon.gameObject.SetActive(false);
         weaponActionRoutine = null;
         UpdateWeaponPose();
     }
@@ -381,12 +377,16 @@ public class AttackController : MonoBehaviour
 
     private void RefreshTemporaryWarriorWeapon()
     {
-        bool warrior = stats != null && stats.CurrentClass == PlayerStats.PlayerClass.Warrior &&
-                       (weaponRenderer == null || weaponRenderer.sprite == null);
-        if (temporaryWarriorWeapon != null) temporaryWarriorWeapon.gameObject.SetActive(warrior);
-        if (temporarySword != null) temporarySword.gameObject.SetActive(warrior && equippedWeapon == WeaponType.OneHandedSword);
-        if (temporaryGreatsword != null) temporaryGreatsword.gameObject.SetActive(warrior && equippedWeapon == WeaponType.Greatsword);
-        if (temporarySpear != null) temporarySpear.gameObject.SetActive(warrior && equippedWeapon == WeaponType.Spear);
+        if (temporaryWarriorWeapon != null) temporaryWarriorWeapon.gameObject.SetActive(false);
+    }
+
+    private void ShowTemporaryWeaponForAction()
+    {
+        if (temporaryWarriorWeapon == null) return;
+        temporaryWarriorWeapon.gameObject.SetActive(true);
+        if (temporarySword != null) temporarySword.gameObject.SetActive(equippedWeapon == WeaponType.OneHandedSword);
+        if (temporaryGreatsword != null) temporaryGreatsword.gameObject.SetActive(equippedWeapon == WeaponType.Greatsword);
+        if (temporarySpear != null) temporarySpear.gameObject.SetActive(equippedWeapon == WeaponType.Spear);
     }
 
     private IEnumerator WeaponActionRoutine(Vector2 direction)
@@ -435,7 +435,7 @@ public class AttackController : MonoBehaviour
             yield return null;
         }
         weaponActionRenderer.enabled = false;
-        weaponRenderer.enabled = stats.CurrentClass == PlayerStats.PlayerClass.Warrior && weaponRenderer.sprite != null;
+        weaponRenderer.enabled = false;
         weaponActionRoutine = null;
     }
 
@@ -510,12 +510,7 @@ public class AttackController : MonoBehaviour
         SpriteRenderer playerRenderer = GetComponent<SpriteRenderer>();
         if (playerRenderer != null)
         {
-            playerRenderer.color = playerClass switch
-            {
-                PlayerStats.PlayerClass.Archer => new Color(0.25f, 0.85f, 0.4f),
-                PlayerStats.PlayerClass.Mage => new Color(0.65f, 0.3f, 1f),
-                _ => new Color(0.2f, 0.75f, 1f)
-            };
+            playerRenderer.color = Color.white;
         }
     }
 

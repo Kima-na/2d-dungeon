@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6acee9b05a1f194489e56fc021cd829, type: 3}
+  m_Name: GoblinWarriorVisualDatabase
+  m_EditorClassIdentifier: Assembly-CSharp::GoblinWarriorVisualDatabase
+  warriorPrefab: {fileID: 5846253974518402511, guid: 763505f4864e74a46a1814d6ef68b514, type: 3}
+  archerPrefab: {fileID: 7092573917041759286, guid: 2ec7939c025afff49870f68c2ac9ddf9, type: 3}
+  magePrefab: {fileID: 5959917968888366243, guid: d96d8aaedbcb59b4789cbe77c0c55497, type: 3}
+  arrowProjectilePrefab: {fileID: 8870529043880768831, guid: 737d8b8e031f98243b1ac498f105fbfb, type: 3}
+  magicProjectilePrefab: {fileID: 2731154796348901311, guid: ef93ab3c804221048a7e30911d18e9d2, type: 3}

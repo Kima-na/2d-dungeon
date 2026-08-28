@@ -10,13 +10,23 @@ public class EnemyProjectile : MonoBehaviour
     public static void Spawn(Transform projectileOwner, Vector2 direction, int attackDamage,
         float speed, Color color, bool isMagic)
     {
-        var projectile = new GameObject(isMagic ? "Goblin Magic" : "Goblin Arrow",
-            typeof(SpriteRenderer), typeof(Rigidbody2D), typeof(CircleCollider2D), typeof(EnemyProjectile));
+        GoblinWarriorVisualDatabase database =
+            Resources.Load<GoblinWarriorVisualDatabase>("GoblinWarriorVisualDatabase");
+        GameObject prefab = database != null ? database.GetProjectilePrefab(isMagic) : null;
+        GameObject projectile = prefab != null ? Instantiate(prefab) :
+            new GameObject(isMagic ? "Goblin Magic" : "Goblin Arrow",
+                typeof(SpriteRenderer), typeof(Rigidbody2D), typeof(CircleCollider2D), typeof(EnemyProjectile));
+        projectile.name = isMagic ? "Goblin Magic" : "Goblin Arrow";
         projectile.transform.position = projectileOwner.position + (Vector3)(direction * 0.65f);
-        projectile.transform.localScale = isMagic ? Vector3.one * 0.28f : new Vector3(0.5f, 0.12f, 1f);
+        projectile.transform.rotation = Quaternion.Euler(0f, 0f,
+            Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
         SpriteRenderer renderer = projectile.GetComponent<SpriteRenderer>();
-        renderer.sprite = MonsterRoster.PlaceholderSprite;
-        renderer.color = color;
+        if (renderer.sprite == null) renderer.sprite = MonsterRoster.PlaceholderSprite;
+        if (prefab == null)
+        {
+            projectile.transform.localScale = isMagic ? Vector3.one * 0.28f : new Vector3(0.5f, 0.12f, 1f);
+            renderer.color = color;
+        }
         var collider = projectile.GetComponent<CircleCollider2D>();
         collider.isTrigger = true;
         var body = projectile.GetComponent<Rigidbody2D>();

@@ -20,7 +20,7 @@ public static class BossRoster
         }
 
         BossHealth health = boss.GetComponent<BossHealth>();
-        health.Configure(Mathf.RoundToInt(1000f * modifiers.EnemyHealth),
+        health.Configure(Mathf.RoundToInt(10000f * modifiers.EnemyHealth),
             Mathf.RoundToInt(300f * modifiers.Reward));
         return health;
     }
@@ -49,9 +49,9 @@ public static class BossRoster
 
         int baseHealth = difficulty switch
         {
-            DungeonDifficulty.Hard => 550,
-            DungeonDifficulty.Nightmare => 800,
-            _ => 350
+            DungeonDifficulty.Hard => 15000,
+            DungeonDifficulty.Nightmare => 30000,
+            _ => 8000
         };
         BossHealth health = boss.GetComponent<BossHealth>();
         health.Configure(Mathf.RoundToInt(baseHealth * modifiers.EnemyHealth),

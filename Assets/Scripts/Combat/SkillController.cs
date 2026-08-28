@@ -15,6 +15,7 @@ public class SkillController : MonoBehaviour
     [SerializeField] private LayerMask targetLayers = ~0;
 
     private PlayerStats stats;
+    private PlayerController controller;
     private ArcherController archer;
     private float[] nextUseTimes = new float[3];
     private PlayerStats Stats => stats != null ? stats : stats = GetComponent<PlayerStats>();
@@ -45,19 +46,20 @@ public class SkillController : MonoBehaviour
     private void Awake()
     {
         stats = GetComponent<PlayerStats>();
+        controller = GetComponent<PlayerController>();
         archer = GetComponent<ArcherController>();
     }
 
     private void Update()
     {
-        if (!stats.IsDead && Keyboard.current != null && Keyboard.current.qKey.wasPressedThisFrame)
+        if (!controller.IsInputLocked && !stats.IsDead && Keyboard.current != null && Keyboard.current.qKey.wasPressedThisFrame)
             TryUseSkill();
     }
 
     public bool TryUseSkill()
     {
         int classIndex = (int)stats.CurrentClass;
-        if (stats.IsDead || Time.time < nextUseTimes[classIndex] || !stats.UseMana(CurrentManaCost)) return false;
+        if (controller.IsInputLocked || stats.IsDead || Time.time < nextUseTimes[classIndex] || !stats.UseMana(CurrentManaCost)) return false;
 
         nextUseTimes[classIndex] = Time.time + GetCurrentCooldown();
         switch (stats.CurrentClass)

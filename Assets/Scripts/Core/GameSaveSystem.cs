@@ -18,6 +18,7 @@ public sealed class GameSaveData
     public int version = 1;
     public long savedAtUtcTicks;
     public int playerClass;
+    public int characterDesign;
     public int level = 1;
     public int experience;
     public int health;
@@ -52,7 +53,9 @@ public static class GameSaveSystem
         var data = new GameSaveData
         {
             savedAtUtcTicks = DateTime.UtcNow.Ticks,
-            playerClass = (int)player.CurrentClass, level = player.Level,
+            playerClass = (int)player.CurrentClass,
+            characterDesign = player.GetComponent<PlayerVisualController>()?.DesignIndex ?? 0,
+            level = player.Level,
             experience = player.CurrentExperience, health = player.CurrentHealth,
             maxHealth = player.BaseMaxHealth, mana = player.CurrentMana, maxMana = player.BaseMaxMana,
             strength = player.Strength, defense = player.BaseDefense, dexterity = player.Dexterity,

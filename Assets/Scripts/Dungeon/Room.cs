@@ -34,9 +34,11 @@ public class Room : MonoBehaviour
         roomType = type;
         placeholderSprite = sprite;
         random = dungeonRandom;
+        transform.localScale = Vector3.one * 1.3f;
         name = $"Room {coordinate.x},{coordinate.y} [{type}]";
         if (doorTop == null || doorBottom == null || doorLeft == null || doorRight == null)
             BuildFallbackVisuals();
+        NormalizeRoomGeometrySprites();
         doorTop.Bind(this);
         doorBottom.Bind(this);
         doorLeft.Bind(this);
@@ -46,6 +48,13 @@ public class Room : MonoBehaviour
         EnsureRoomDesign();
         CreateSpecialRoomDummy();
         ApplyRoomColor();
+    }
+
+    private void NormalizeRoomGeometrySprites()
+    {
+        Sprite neutral = MonsterRoster.PlaceholderSprite;
+        foreach (SpriteRenderer renderer in GetComponentsInChildren<SpriteRenderer>(true))
+            renderer.sprite = neutral;
     }
 
     public void SetConnection(Vector2Int direction, bool connected)
@@ -114,8 +123,8 @@ public class Room : MonoBehaviour
     {
         Vector2 center = transform.position;
         return new Vector2(
-            Mathf.Clamp(worldPosition.x, center.x - 8.25f + padding, center.x + 8.25f - padding),
-            Mathf.Clamp(worldPosition.y, center.y - 4.25f + padding, center.y + 4.25f - padding));
+            Mathf.Clamp(worldPosition.x, center.x - 10.7f + padding, center.x + 10.7f - padding),
+            Mathf.Clamp(worldPosition.y, center.y - 5.5f + padding, center.y + 5.5f - padding));
     }
 
     private void SpawnEnemies()
@@ -125,16 +134,26 @@ public class Room : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             float angle = (Mathf.PI * 2f * i / count) + (float)random.NextDouble();
-            Vector2 offset = new(Mathf.Cos(angle) * 3.2f, Mathf.Sin(angle) * 2.2f);
+            Vector2 offset = new(Mathf.Cos(angle) * 4.6f, Mathf.Sin(angle) * 3.1f);
             EnemyAI enemy = MonsterRoster.SpawnRandom(transform, (Vector2)transform.position + offset, random, modifiers);
             enemies.Add(enemy);
             enemy.Defeated += OnEnemyDefeated;
+            enemy.OffspringSpawned += OnEnemyOffspringSpawned;
         }
+    }
+
+    private void OnEnemyOffspringSpawned(EnemyAI offspring)
+    {
+        if (offspring == null) return;
+        enemies.Add(offspring);
+        offspring.Defeated += OnEnemyDefeated;
+        offspring.OffspringSpawned += OnEnemyOffspringSpawned;
     }
 
     private void OnEnemyDefeated(EnemyAI defeated)
     {
         defeated.Defeated -= OnEnemyDefeated;
+        defeated.OffspringSpawned -= OnEnemyOffspringSpawned;
         enemies.Remove(defeated);
         if (enemies.Count == 0) CompleteCombat();
     }
@@ -185,6 +204,8 @@ public class Room : MonoBehaviour
     private void CreateSpecialRoomDummy()
     {
         Sprite sprite = placeholderSprite != null ? placeholderSprite : MonsterRoster.PlaceholderSprite;
+        if (roomType == RoomType.Treasure && transform.Find("Treasure Chest") == null)
+            TreasureChest.Spawn(transform, Vector2.zero);
         if (roomType == RoomType.Shop && transform.Find("Shop Dummy") == null)
         {
             GameObject counter = CreateSprite("Shop Counter", new Vector2(0f, 1.1f),
@@ -196,6 +217,9 @@ public class Room : MonoBehaviour
                 new Color(1f, 0.75f, 0.15f), sprite, 0);
             CreateSprite("Shop Item Right", new Vector2(2.4f, -0.7f), new Vector2(0.7f, 0.7f),
                 new Color(0.3f, 0.7f, 1f), sprite, 0);
+            ShopItemStand.Spawn(transform, new Vector2(-3f, -1.4f), 15, "일반 장비", EquipmentRarity.Common);
+            ShopItemStand.Spawn(transform, new Vector2(0f, -1.4f), 25, "고급 장비", EquipmentRarity.Uncommon);
+            ShopItemStand.Spawn(transform, new Vector2(3f, -1.4f), 40, "희귀 장비", EquipmentRarity.Rare);
         }
         // Boss rooms spawn their gameplay boss on first entry. Keeping a visual
         // dummy here would display two bosses and leave a stray collider behind.

@@ -13,11 +13,14 @@ public class PlayerController : MonoBehaviour
 
     public Vector2 MoveInput => moveInput;
     public Vector2 LastMoveDirection { get; private set; } = Vector2.right;
+    public bool IsInputLocked => movementLocked;
 
     private void Awake()
     {
         body = GetComponent<Rigidbody2D>();
         stats = GetComponent<PlayerStats>();
+        if (GetComponent<PlayerVisualController>() == null)
+            gameObject.AddComponent<PlayerVisualController>();
     }
 
     private void Update()

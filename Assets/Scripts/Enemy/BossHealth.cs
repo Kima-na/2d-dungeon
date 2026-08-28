@@ -36,6 +36,19 @@ public sealed class BossHealth : MonoBehaviour
         WorldHealthBar bar = GetComponent<WorldHealthBar>();
         if (bar == null) bar = gameObject.AddComponent<WorldHealthBar>();
         bar.Bind(damageable, true);
+        ConfigureBodyCollider();
+        WorldShadow.Ensure(transform, spriteRenderer != null ? spriteRenderer.sortingOrder - 1 : -1,
+            1.25f, -0.34f);
+    }
+
+    private void ConfigureBodyCollider()
+    {
+        CapsuleCollider2D capsule = GetComponent<CapsuleCollider2D>();
+        if (capsule == null) return;
+        capsule.direction = CapsuleDirection2D.Vertical;
+        capsule.size = new Vector2(0.82f, 0.96f);
+        capsule.offset = new Vector2(0f, -0.2f);
+        capsule.isTrigger = false;
     }
 
     private void OnEnable()

@@ -48,6 +48,13 @@ public class EquipmentInventory : MonoBehaviour
         return AddRandom(data, rarity);
     }
 
+    public EquipmentItem RollRandomLoot(EquipmentRarity rarity)
+    {
+        List<EquipmentData> source = lootTemplates.Count > 0 ? lootTemplates : startingEquipment;
+        if (source.Count == 0) return null;
+        return AddRandom(source[UnityEngine.Random.Range(0, source.Count)], rarity);
+    }
+
     public bool Add(EquipmentData data) => AddRandom(data, data != null ? data.Rarity : null) != null;
 
     public bool Equip(EquipmentItem item)

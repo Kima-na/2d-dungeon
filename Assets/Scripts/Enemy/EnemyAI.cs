@@ -36,6 +36,13 @@ public class EnemyAI : MonoBehaviour
     private bool dropsEnabled = true;
     private Animator animator;
     private Vector2 lastFacingDirection = Vector2.down;
+    private int slimeDivisionGeneration;
+    private DifficultyModifiers slimeDifficulty;
+    private float visualActionUntil;
+    private int visualAction;
+    private Coroutine attackRoutine;
+    private Coroutine deathRoutine;
+    private int lastKnownHealth;
 
     public MonsterType Type => monsterType;
     public bool IsPermanentlyDefeated => permanentlyDefeated;
@@ -50,6 +57,7 @@ public class EnemyAI : MonoBehaviour
         }
     }
     public event Action<EnemyAI> Defeated;
+    public event Action<EnemyAI> OffspringSpawned;
     public void SetDropsEnabled(bool value) => dropsEnabled = value;
 
     private void Awake()
@@ -103,14 +111,18 @@ public class EnemyAI : MonoBehaviour
             case State.Return: MoveTowards(spawnPosition, CurrentSpeed); break;
             default: body.linearVelocity = Vector2.zero; break;
         }
-        UpdateDirectionalAnimation();
+        UpdateVisualAnimation();
     }
 
-    private void UpdateDirectionalAnimation()
+    private void UpdateVisualAnimation()
     {
-        if (animator == null || monsterType != MonsterType.Slime) return;
+        if (!HasAnimator || (monsterType != MonsterType.Slime && !IsGoblinFamily)) return;
         Vector2 velocity = body.linearVelocity;
-        if (velocity.sqrMagnitude > 0.01f) lastFacingDirection = velocity.normalized;
+        // Combatants keep their eyes on the player, including ranged enemies
+        // that are backing away. Returning enemies face their actual movement.
+        Vector2 facing = target != null && state != State.Return
+            ? (Vector2)target.position - (Vector2)transform.position : velocity;
+        if (facing.sqrMagnitude > 0.01f) lastFacingDirection = facing.normalized;
 
         int direction;
         if (Mathf.Abs(lastFacingDirection.y) > Mathf.Abs(lastFacingDirection.x))
@@ -118,9 +130,26 @@ public class EnemyAI : MonoBehaviour
         else
             direction = lastFacingDirection.x < 0f ? 3 : 2; // Left : Right
         animator.SetInteger("Direction", direction);
-        // The dedicated Left sheet is authored facing screen-right, so mirror it
-        // only while the slime is travelling left. Other directions stay intact.
-        if (spriteRenderer != null) spriteRenderer.flipX = direction == 3;
+        if (IsGoblinFamily)
+        {
+            if (Time.time >= visualActionUntil) visualAction = velocity.sqrMagnitude > 0.01f ? 1 : 0;
+            animator.SetInteger("Action", visualAction);
+        }
+        // All animator-backed enemies use authored direction clips. The slime
+        // Left sheet already faces left, so applying flipX here reversed it.
+        if (spriteRenderer != null) spriteRenderer.flipX = false;
+    }
+
+    private bool IsGoblinFamily => monsterType is MonsterType.GoblinWarrior or
+        MonsterType.GoblinArcher or MonsterType.GoblinMage;
+
+    private bool HasAnimator
+    {
+        get
+        {
+            if (animator == null) animator = GetComponent<Animator>();
+            return animator != null;
+        }
     }
 
     public void Configure(MonsterType type, int healthPoints, int reward, float speed,
@@ -140,6 +169,18 @@ public class EnemyAI : MonoBehaviour
         health.Configure(healthPoints, type == MonsterType.Skeleton ? 0 : reward,
             false, type == MonsterType.Skeleton);
         ownerRoom = GetComponentInParent<Room>();
+        float shadowSize = type == MonsterType.Slime ? 0.86f : IsGoblinFamily ? 0.88f :
+            type == MonsterType.Berserker ? 1.12f : 0.94f;
+        float shadowOffset = type == MonsterType.Slime ? -0.27f : IsGoblinFamily ? -0.035f : -0.38f;
+        WorldShadow.Ensure(transform,
+            spriteRenderer != null ? spriteRenderer.sortingOrder - 1 : -1,
+            shadowSize, shadowOffset);
+    }
+
+    public void ConfigureSlimeDivision(int generation, DifficultyModifiers modifiers)
+    {
+        slimeDivisionGeneration = Mathf.Max(0, generation);
+        slimeDifficulty = modifiers;
     }
 
     private void LateUpdate()
@@ -199,7 +240,7 @@ public class EnemyAI : MonoBehaviour
     {
         Vector2 direction = (destination - (Vector2)transform.position).normalized;
         body.linearVelocity = direction * speed;
-        if (Mathf.Abs(direction.x) > 0.01f)
+        if (Mathf.Abs(direction.x) > 0.01f && !HasAnimator)
             transform.localScale = new Vector3(Mathf.Sign(direction.x) * Mathf.Abs(transform.localScale.x),
                 transform.localScale.y, transform.localScale.z);
     }
@@ -210,13 +251,38 @@ public class EnemyAI : MonoBehaviour
         if (target == null || Time.time < nextAttackTime) return;
         nextAttackTime = Time.time + attackCooldown;
 
-        if (monsterType is MonsterType.GoblinArcher or MonsterType.GoblinMage)
-            FireProjectile();
-        else
+        if (attackRoutine == null) attackRoutine = StartCoroutine(AttackRoutine());
+    }
+
+    private IEnumerator AttackRoutine()
+    {
+        Vector2 direction = target != null ? ((Vector2)target.position - (Vector2)transform.position).normalized : lastFacingDirection;
+        if (direction.sqrMagnitude > 0.01f) lastFacingDirection = direction;
+        SetVisualAction(2, 0.36f);
+        yield return new WaitForSeconds(monsterType is MonsterType.GoblinArcher or MonsterType.GoblinMage ? 0.22f : 0.12f);
+        if (!health.IsDead && target != null)
         {
-            PlayerStats player = target.GetComponent<PlayerStats>();
-            if (player != null) player.TakeDamage(CurrentDamage);
+            if (monsterType is MonsterType.GoblinArcher or MonsterType.GoblinMage) FireProjectile();
+            else
+            {
+                PlayerStats player = target.GetComponent<PlayerStats>();
+                if (player != null) player.TakeDamage(CurrentDamage);
+            }
         }
+        yield return new WaitForSeconds(0.14f);
+        attackRoutine = null;
+    }
+
+    private void SetVisualAction(int action, float duration)
+    {
+        if (!IsGoblinFamily || !HasAnimator) return;
+        // Exactly one visual state owns the SpriteRenderer. Higher actions
+        // have priority: Death > Hit > Attack > Walk > Idle.
+        if (visualAction == 4) return;
+        if (Time.time < visualActionUntil && visualAction > action) return;
+        visualAction = action;
+        visualActionUntil = Mathf.Max(visualActionUntil, Time.time + duration);
+        animator.SetInteger("Action", visualAction);
     }
 
     private void FireProjectile()
@@ -236,16 +302,51 @@ public class EnemyAI : MonoBehaviour
             Invoke(nameof(ReviveSkeleton), 2.5f);
             return;
         }
+        if (monsterType == MonsterType.Slime && slimeDivisionGeneration < 3)
+            SpawnSlimeOffspring();
         permanentlyDefeated = true;
         if (dropsEnabled)
             GoldPickup.Spawn(transform.position, UnityEngine.Random.Range(1, 4) + (int)monsterType);
-        health.SetDeactivateOnDeath(true);
+        if (IsGoblinFamily)
+        {
+            health.SetDeactivateOnDeath(false);
+            SetVisualAction(4, 10f);
+            foreach (Collider2D hitbox in GetComponentsInChildren<Collider2D>()) hitbox.enabled = false;
+            deathRoutine = StartCoroutine(GoblinDeathRoutine());
+        }
+        else health.SetDeactivateOnDeath(true);
         Defeated?.Invoke(this);
+    }
+
+    private IEnumerator GoblinDeathRoutine()
+    {
+        yield return new WaitForSeconds(0.65f);
+        deathRoutine = null;
+        gameObject.SetActive(false);
+    }
+
+    private void SpawnSlimeOffspring()
+    {
+        Vector2 center = transform.position;
+        Vector2 side = UnityEngine.Random.value < 0.5f ? Vector2.right : Vector2.up;
+        for (int i = 0; i < 2; i++)
+        {
+            float sign = i == 0 ? -1f : 1f;
+            Vector2 position = center + side * sign * 0.38f;
+            EnemyAI child = MonsterRoster.SpawnSlimeDivision(transform.parent, position,
+                slimeDivisionGeneration + 1, slimeDifficulty);
+            child.SetDropsEnabled(dropsEnabled);
+            OffspringSpawned?.Invoke(child);
+        }
     }
 
     private void OnHealthChanged(int current, int maximum)
     {
-        if (current <= 0 || spriteRenderer == null) return;
+        bool tookDamage = current > 0 && current < maximum &&
+            (lastKnownHealth <= 0 || current < lastKnownHealth);
+        lastKnownHealth = current;
+        if (!tookDamage || spriteRenderer == null) return;
+        SetVisualAction(3, 0.14f);
         if (hitFlashRoutine != null) StopCoroutine(hitFlashRoutine);
         hitFlashRoutine = StartCoroutine(HitFlashRoutine());
     }

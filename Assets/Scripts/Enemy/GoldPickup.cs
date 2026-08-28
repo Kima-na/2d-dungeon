@@ -14,13 +14,15 @@ public class GoldPickup : MonoBehaviour
         GameObject go = new("Gold", typeof(SpriteRenderer), typeof(CircleCollider2D),
             typeof(Rigidbody2D), typeof(GoldPickup));
         go.transform.position = position;
-        go.transform.localScale = new Vector3(0.38f, 0.38f, 1f);
+        go.transform.localScale = new Vector3(1.35f, 1.35f, 1f);
         SpriteRenderer renderer = go.GetComponent<SpriteRenderer>();
-        renderer.sprite = MonsterRoster.PlaceholderSprite;
-        renderer.color = new Color(1f, 0.72f, 0.08f);
+        LootVisualDatabase visuals = Resources.Load<LootVisualDatabase>("LootVisualDatabase");
+        renderer.sprite = visuals != null && visuals.coin != null ? visuals.coin : MonsterRoster.PlaceholderSprite;
+        renderer.color = Color.white;
         renderer.sortingOrder = 3;
         CircleCollider2D collider = go.GetComponent<CircleCollider2D>();
         collider.isTrigger = true;
+        collider.radius = 0.38f;
         Rigidbody2D body = go.GetComponent<Rigidbody2D>();
         body.gravityScale = 0f;
         body.bodyType = RigidbodyType2D.Kinematic;
