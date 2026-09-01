@@ -16,7 +16,10 @@ MonoBehaviour:
   displayName: Spear 02
   slot: 0
   rarity: 1
+  weaponClass: 0
   warriorWeaponType: 2
+  archerWeaponType: 0
+  mageWeaponType: 0
   attackPower: 9
   defense: 0
   maxHealth: 0

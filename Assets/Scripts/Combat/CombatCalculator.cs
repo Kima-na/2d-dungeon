@@ -5,8 +5,9 @@ public static class CombatCalculator
     public static int RollDamage(PlayerStats attacker, int baseDamage, out bool critical)
     {
         critical = attacker != null && Random.value < attacker.CriticalChance;
+        int manaAdjustedDamage = baseDamage + (attacker != null ? attacker.ManaDamageBonus : 0);
         float multiplier = critical ? attacker.CriticalDamageMultiplier : 1f;
-        return Mathf.Max(1, Mathf.RoundToInt(baseDamage * multiplier));
+        return Mathf.Max(1, Mathf.RoundToInt(manaAdjustedDamage * multiplier));
     }
 
     public static int ApplyTargetModifiers(GameObject target, int damage)

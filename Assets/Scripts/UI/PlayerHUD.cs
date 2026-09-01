@@ -22,6 +22,8 @@ public class PlayerHUD : MonoBehaviour
     [SerializeField] private SkillController skillController;
     [SerializeField] private PlayerPotionController potionController;
     [SerializeField] private GameObject deathPanel;
+    private DungeonFlowController flowController;
+    private bool hudVisible = true;
 
     private void Awake()
     {
@@ -38,7 +40,92 @@ public class PlayerHUD : MonoBehaviour
             potionController = playerStats.GetComponent<PlayerPotionController>();
         ApplyPlayerBarStyle();
         CreateMissingGrowthLabels();
+        ApplyReadableLayout();
         if (deathPanel != null) deathPanel.SetActive(false);
+    }
+
+    private void ApplyReadableLayout()
+    {
+        RectTransform panel = EnsurePanel("Player HUD Panel", new Vector2(20f, -20f), new Vector2(500f, 154f));
+        EnsurePanel("Player HUD Accent", new Vector2(20f, -20f), new Vector2(5f, 154f),
+            new Color(0.15f, 0.72f, 1f, 0.95f));
+
+        StyleBar(healthSlider, new Vector2(40f, -58f), new Vector2(330f, 34f),
+            new Color(0.82f, 0.09f, 0.12f, 1f));
+        StyleBar(manaSlider, new Vector2(40f, -98f), new Vector2(330f, 28f),
+            new Color(0.08f, 0.38f, 0.95f, 1f));
+        StyleBar(experienceSlider, new Vector2(40f, -132f), new Vector2(330f, 16f),
+            new Color(1f, 0.68f, 0.06f, 1f));
+
+        StyleText(healthText, 18, FontStyle.Bold, Color.white, TextAnchor.MiddleCenter);
+        StyleText(manaText, 15, FontStyle.Bold, Color.white, TextAnchor.MiddleCenter);
+        StyleText(experienceText, 11, FontStyle.Bold, new Color(1f, 0.93f, 0.65f), TextAnchor.MiddleCenter);
+        PlaceLabel(levelText, new Vector2(40f, -27f), 330f, 24f, 16, new Color(0.55f, 0.88f, 1f), true);
+        PlaceLabel(goldText, new Vector2(382f, -54f), 110f, 24f, 15, new Color(1f, 0.78f, 0.12f), true);
+        PlaceLabel(potionText, new Vector2(382f, -84f), 110f, 55f, 12, new Color(0.52f, 1f, 0.66f), true);
+        RectTransform skillPanel = EnsurePanel("Skill HUD Panel", Vector2.zero, new Vector2(840f, 58f),
+            new Color(0.018f, 0.025f, 0.045f, 0.88f));
+        skillPanel.anchorMin = skillPanel.anchorMax = new Vector2(0.5f, 0f);
+        skillPanel.pivot = new Vector2(0.5f, 0f); skillPanel.anchoredPosition = new Vector2(0f, 18f);
+        skillPanel.SetAsFirstSibling();
+        if (skillText != null)
+        {
+            RectTransform skillRect = skillText.rectTransform;
+            skillRect.anchorMin = skillRect.anchorMax = new Vector2(0.5f, 0f);
+            skillRect.pivot = new Vector2(0.5f, 0f); skillRect.anchoredPosition = new Vector2(0f, 22f);
+            skillRect.sizeDelta = new Vector2(810f, 42f);
+            StyleText(skillText, 17, FontStyle.Bold, Color.white, TextAnchor.MiddleCenter);
+            skillText.supportRichText = true;
+            skillText.transform.SetAsLastSibling();
+        }
+        if (weaponText != null) weaponText.gameObject.SetActive(false);
+        if (combatStatsText != null) combatStatsText.gameObject.SetActive(false);
+        if (skillText != null) skillText.horizontalOverflow = HorizontalWrapMode.Wrap;
+        if (potionText != null) potionText.horizontalOverflow = HorizontalWrapMode.Wrap;
+
+        panel.SetAsFirstSibling();
+        Transform accent = transform.Find("Player HUD Accent");
+        if (accent != null) accent.SetSiblingIndex(1);
+    }
+
+    private RectTransform EnsurePanel(string objectName, Vector2 position, Vector2 size, Color? tint = null)
+    {
+        Transform existing = transform.Find(objectName);
+        GameObject go = existing != null ? existing.gameObject : new GameObject(objectName, typeof(RectTransform), typeof(Image));
+        if (existing == null) go.transform.SetParent(transform, false);
+        RectTransform rect = go.GetComponent<RectTransform>();
+        rect.anchorMin = rect.anchorMax = new Vector2(0f, 1f); rect.pivot = new Vector2(0f, 1f);
+        rect.anchoredPosition = position; rect.sizeDelta = size;
+        Image image = go.GetComponent<Image>(); image.color = tint ?? new Color(0.018f, 0.025f, 0.045f, 0.9f); image.raycastTarget = false;
+        return rect;
+    }
+
+    private static void StyleBar(Slider slider, Vector2 position, Vector2 size, Color fillColor)
+    {
+        if (slider == null) return;
+        RectTransform rect = slider.GetComponent<RectTransform>(); rect.anchoredPosition = position; rect.sizeDelta = size;
+        Image background = slider.transform.Find("Background")?.GetComponent<Image>();
+        Image fill = slider.fillRect != null ? slider.fillRect.GetComponent<Image>() : null;
+        if (background != null) { background.color = new Color(0.025f, 0.03f, 0.045f, 0.98f); background.raycastTarget = false; }
+        if (fill != null) { fill.color = fillColor; fill.raycastTarget = false; }
+    }
+
+    private static void PlaceLabel(Text text, Vector2 position, float width, float height, int size, Color color, bool bold)
+    {
+        if (text == null) return;
+        RectTransform rect = text.rectTransform; rect.anchoredPosition = position; rect.sizeDelta = new Vector2(width, height);
+        StyleText(text, size, bold ? FontStyle.Bold : FontStyle.Normal, color, TextAnchor.MiddleLeft);
+    }
+
+    private static void StyleText(Text text, int size, FontStyle style, Color color, TextAnchor alignment)
+    {
+        if (text == null) return;
+        text.fontSize = size; text.fontStyle = style; text.color = color; text.alignment = alignment;
+        text.horizontalOverflow = HorizontalWrapMode.Overflow; text.verticalOverflow = VerticalWrapMode.Overflow;
+        Outline outline = text.GetComponent<Outline>();
+        if (outline == null) outline = text.gameObject.AddComponent<Outline>();
+        outline.effectColor = new Color(0f, 0f, 0f, 0.9f); outline.effectDistance = new Vector2(1.5f, -1.5f);
+        text.raycastTarget = false;
     }
 
     private void ApplyPlayerBarStyle()
@@ -148,14 +235,14 @@ public class PlayerHUD : MonoBehaviour
 
     private void Update()
     {
+        SyncHudVisibility();
         if (skillController == null && playerStats != null)
             skillController = playerStats.GetComponent<SkillController>();
         if (skillText != null && skillController != null)
         {
-            float remaining = skillController.CooldownRemaining;
-            skillText.text = remaining > 0f
-                ? $"[Q] {skillController.CurrentSkillName}  CD {remaining:0.0}s"
-                : $"[Q] {skillController.CurrentSkillName}  MP {skillController.CurrentManaCost}  READY";
+            skillText.text = FormatSkillLine(SkillController.SkillSlot.Q) + "    " +
+                             FormatSkillLine(SkillController.SkillSlot.E) + "    " +
+                             FormatSkillLine(SkillController.SkillSlot.R);
         }
         if (potionController == null && playerStats != null)
             potionController = playerStats.GetComponent<PlayerPotionController>();
@@ -165,9 +252,42 @@ public class PlayerHUD : MonoBehaviour
                 ? $"CD {potionController.HealthCooldownRemaining:0.0}s" : "READY";
             string mana = potionController.ManaCooldownRemaining > 0f
                 ? $"CD {potionController.ManaCooldownRemaining:0.0}s" : "READY";
-            potionText.text = $"[F1] HP POTION {health}    [F2] MP POTION {mana}";
+            potionText.text = $"F1 HP {health}\nF2 MP {mana}";
         }
         RefreshEquippedWeaponText();
+    }
+
+    private void SyncHudVisibility()
+    {
+        if (flowController == null) flowController = FindAnyObjectByType<DungeonFlowController>();
+        bool shouldShow = flowController == null || !flowController.IsMenuVisible;
+        if (hudVisible == shouldShow) return;
+        hudVisible = shouldShow;
+        GameObject[] elements =
+        {
+            healthSlider != null ? healthSlider.gameObject : null,
+            manaSlider != null ? manaSlider.gameObject : null,
+            experienceSlider != null ? experienceSlider.gameObject : null,
+            levelText != null ? levelText.gameObject : null,
+            skillText != null ? skillText.gameObject : null,
+            goldText != null ? goldText.gameObject : null,
+            potionText != null ? potionText.gameObject : null,
+            transform.Find("Player HUD Panel")?.gameObject,
+            transform.Find("Player HUD Accent")?.gameObject,
+            transform.Find("Skill HUD Panel")?.gameObject
+        };
+        foreach (GameObject element in elements)
+            if (element != null) element.SetActive(shouldShow);
+    }
+
+    private string FormatSkillLine(SkillController.SkillSlot slot)
+    {
+        float remaining = skillController.GetCooldownRemaining(slot);
+        string key = slot.ToString();
+        return remaining > 0f
+            ? $"<color=#FFD166>[{key}]</color> {skillController.GetSkillName(slot)}  <color=#FF9F43>{remaining:0.0}s</color>"
+            : $"<color=#65DFFF>[{key}]</color> {skillController.GetSkillName(slot)}  " +
+              $"<color=#7CFF9B>{skillController.GetManaCost(slot)} MP READY</color>";
     }
 
     private void RefreshEquippedWeaponText()
@@ -178,14 +298,14 @@ public class PlayerHUD : MonoBehaviour
             if (archerController == null) archerController = playerStats.GetComponent<ArcherController>();
             if (archerController == null) return;
             string weapon = archerController.EquippedWeapon == ArcherController.RangedWeapon.Crossbow ? "CROSSBOW" : "BOW";
-            weaponText.text = $"[1/2] {weapon}  ATK {archerController.AttackDamage}  AIM: MOUSE";
+            weaponText.text = $"{weapon}  ATK {archerController.AttackDamage}  AIM: MOUSE";
         }
         else if (playerStats.CurrentClass == PlayerStats.PlayerClass.Mage)
         {
             if (mageController == null) mageController = playerStats.GetComponent<MageController>();
             if (mageController == null) return;
             string weapon = mageController.EquippedWeapon == MageController.MagicWeapon.Spellbook ? "SPELLBOOK" : "STAFF";
-            weaponText.text = $"[1/2] {weapon}  ATK {mageController.AttackDamage}  MP {mageController.ManaCost}  AIM: MOUSE";
+            weaponText.text = $"{weapon}  ATK {mageController.AttackDamage}  MP {mageController.ManaCost}  AIM: MOUSE";
         }
     }
 
@@ -309,6 +429,6 @@ public class PlayerHUD : MonoBehaviour
             AttackController.WeaponType.Spear => "SPEAR",
             _ => "ONE-HANDED SWORD"
         };
-        weaponText.text = $"[1/2/3] {displayName}  ATK {attackController.AttackDamage}";
+        weaponText.text = $"{displayName}  ATK {attackController.AttackDamage}";
     }
 }

@@ -21,6 +21,7 @@ public sealed class PlayerVisualController : MonoBehaviour
         stats = GetComponent<PlayerStats>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.color = Color.white;
+        WorldShadow.Ensure(transform, spriteRenderer.sortingOrder - 1, 0.78f, -0.31f);
         SetDesign(designIndex);
     }
 

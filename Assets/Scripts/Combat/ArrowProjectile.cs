@@ -64,6 +64,7 @@ public class ArrowProjectile : MonoBehaviour
         if (damageable == null || damageable.IsDead) return false;
         damage = CombatCalculator.ApplyTargetModifiers(hitObject, damage);
         damageable.TakeDamage(damage);
+        PlayerAttackVfx.SpawnImpact(transform.position, GetComponent<SpriteRenderer>().color, 0.65f);
         if (!damageable.IsDead && statusChance > 0f)
             StatusEffectController.TryApply(hitObject, statusEffect, ownerStats, statusChance);
         if (damageable.IsDead) ownerStats.AddExperience(damageable.ExperienceReward);
@@ -74,6 +75,7 @@ public class ArrowProjectile : MonoBehaviour
     private void StickInto(Transform surface)
     {
         isStuck = true;
+        PlayerAttackVfx.SpawnImpact(transform.position, GetComponent<SpriteRenderer>().color, 0.42f);
         Rigidbody2D body = GetComponent<Rigidbody2D>();
         body.linearVelocity = Vector2.zero;
         body.angularVelocity = 0f;

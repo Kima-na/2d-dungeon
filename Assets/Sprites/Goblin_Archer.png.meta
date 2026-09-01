@@ -320,9 +320,9 @@ TextureImporter:
       name: GoblinArcher_0_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 7
         y: 819
-        width: 192
+        width: 178
         height: 205
       alignment: 9
       pivot: {x: 0.5, y: 0.07}
@@ -342,9 +342,9 @@ TextureImporter:
       name: GoblinArcher_0_1
       rect:
         serializedVersion: 2
-        x: 192
+        x: 199
         y: 819
-        width: 192
+        width: 178
         height: 205
       alignment: 9
       pivot: {x: 0.5, y: 0.07}
@@ -364,9 +364,9 @@ TextureImporter:
       name: GoblinArcher_0_2
       rect:
         serializedVersion: 2
-        x: 384
+        x: 391
         y: 819
-        width: 192
+        width: 178
         height: 205
       alignment: 9
       pivot: {x: 0.5, y: 0.07}
@@ -386,9 +386,9 @@ TextureImporter:
       name: GoblinArcher_0_3
       rect:
         serializedVersion: 2
-        x: 576
+        x: 583
         y: 819
-        width: 192
+        width: 178
         height: 205
       alignment: 9
       pivot: {x: 0.5, y: 0.07}
@@ -408,9 +408,9 @@ TextureImporter:
       name: GoblinArcher_0_4
       rect:
         serializedVersion: 2
-        x: 768
+        x: 775
         y: 819
-        width: 192
+        width: 178
         height: 205
       alignment: 9
       pivot: {x: 0.5, y: 0.07}
@@ -430,9 +430,9 @@ TextureImporter:
       name: GoblinArcher_0_5
       rect:
         serializedVersion: 2
-        x: 960
+        x: 967
         y: 819
-        width: 192
+        width: 178
         height: 205
       alignment: 9
       pivot: {x: 0.5, y: 0.07}
@@ -452,9 +452,9 @@ TextureImporter:
       name: GoblinArcher_0_6
       rect:
         serializedVersion: 2
-        x: 1152
+        x: 1159
         y: 819
-        width: 192
+        width: 178
         height: 205
       alignment: 9
       pivot: {x: 0.5, y: 0.07}
@@ -474,9 +474,9 @@ TextureImporter:
       name: GoblinArcher_0_7
       rect:
         serializedVersion: 2
-        x: 1344
+        x: 1351
         y: 819
-        width: 192
+        width: 178
         height: 205
       alignment: 9
       pivot: {x: 0.5, y: 0.07}
@@ -496,9 +496,9 @@ TextureImporter:
       name: GoblinArcher_1_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 7
         y: 614
-        width: 192
+        width: 178
         height: 205
       alignment: 9
       pivot: {x: 0.5, y: 0.07}
@@ -518,9 +518,9 @@ TextureImporter:
       name: GoblinArcher_1_1
       rect:
         serializedVersion: 2
-        x: 192
+        x: 199
         y: 614
-        width: 192
+        width: 178
         height: 205
       alignment: 9
       pivot: {x: 0.5, y: 0.07}
@@ -540,9 +540,9 @@ TextureImporter:
       name: GoblinArcher_1_2
       rect:
         serializedVersion: 2
-        x: 384
+        x: 391
         y: 614
-        width: 192
+        width: 178
         height: 205
       alignment: 9
       pivot: {x: 0.5, y: 0.07}
@@ -562,9 +562,9 @@ TextureImporter:
       name: GoblinArcher_1_3
       rect:
         serializedVersion: 2
-        x: 576
+        x: 583
         y: 614
-        width: 192
+        width: 178
         height: 205
       alignment: 9
       pivot: {x: 0.5, y: 0.07}
@@ -584,9 +584,9 @@ TextureImporter:
       name: GoblinArcher_1_4
       rect:
         serializedVersion: 2
-        x: 768
+        x: 775
         y: 614
-        width: 192
+        width: 178
         height: 205
       alignment: 9
       pivot: {x: 0.5, y: 0.07}
@@ -606,9 +606,9 @@ TextureImporter:
       name: GoblinArcher_1_5
       rect:
         serializedVersion: 2
-        x: 960
+        x: 967
         y: 614
-        width: 192
+        width: 178
         height: 205
       alignment: 9
       pivot: {x: 0.5, y: 0.07}
@@ -628,9 +628,9 @@ TextureImporter:
       name: GoblinArcher_1_6
       rect:
         serializedVersion: 2
-        x: 1152
+        x: 1159
         y: 614
-        width: 192
+        width: 178
         height: 205
       alignment: 9
       pivot: {x: 0.5, y: 0.07}
@@ -672,9 +672,9 @@ TextureImporter:
       name: GoblinArcher_2_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 7
         y: 410
-        width: 192
+        width: 178
         height: 204
       alignment: 9
       pivot: {x: 0.5, y: 0.07}
@@ -694,9 +694,9 @@ TextureImporter:
       name: GoblinArcher_2_1
       rect:
         serializedVersion: 2
-        x: 192
+        x: 199
         y: 410
-        width: 192
+        width: 178
         height: 204
       alignment: 9
       pivot: {x: 0.5, y: 0.07}
@@ -716,9 +716,9 @@ TextureImporter:
       name: GoblinArcher_2_2
       rect:
         serializedVersion: 2
-        x: 384
+        x: 391
         y: 410
-        width: 192
+        width: 178
         height: 204
       alignment: 9
       pivot: {x: 0.5, y: 0.07}
@@ -738,9 +738,9 @@ TextureImporter:
       name: GoblinArcher_2_3
       rect:
         serializedVersion: 2
-        x: 576
+        x: 583
         y: 410
-        width: 192
+        width: 178
         height: 204
       alignment: 9
       pivot: {x: 0.5, y: 0.07}
@@ -760,9 +760,9 @@ TextureImporter:
       name: GoblinArcher_2_4
       rect:
         serializedVersion: 2
-        x: 768
+        x: 775
         y: 410
-        width: 192
+        width: 178
         height: 204
       alignment: 9
       pivot: {x: 0.5, y: 0.07}
@@ -782,9 +782,9 @@ TextureImporter:
       name: GoblinArcher_2_5
       rect:
         serializedVersion: 2
-        x: 960
+        x: 967
         y: 410
-        width: 192
+        width: 178
         height: 204
       alignment: 9
       pivot: {x: 0.5, y: 0.07}
@@ -804,9 +804,9 @@ TextureImporter:
       name: GoblinArcher_2_6
       rect:
         serializedVersion: 2
-        x: 1152
+        x: 1159
         y: 410
-        width: 192
+        width: 178
         height: 204
       alignment: 9
       pivot: {x: 0.5, y: 0.07}
@@ -826,9 +826,9 @@ TextureImporter:
       name: GoblinArcher_2_7
       rect:
         serializedVersion: 2
-        x: 1344
+        x: 1351
         y: 410
-        width: 192
+        width: 178
         height: 204
       alignment: 9
       pivot: {x: 0.5, y: 0.07}
@@ -848,9 +848,9 @@ TextureImporter:
       name: GoblinArcher_3_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 7
         y: 205
-        width: 192
+        width: 178
         height: 205
       alignment: 9
       pivot: {x: 0.5, y: 0.07}
@@ -870,9 +870,9 @@ TextureImporter:
       name: GoblinArcher_3_1
       rect:
         serializedVersion: 2
-        x: 192
+        x: 199
         y: 205
-        width: 192
+        width: 178
         height: 205
       alignment: 9
       pivot: {x: 0.5, y: 0.07}
@@ -892,9 +892,9 @@ TextureImporter:
       name: GoblinArcher_3_2
       rect:
         serializedVersion: 2
-        x: 384
+        x: 391
         y: 205
-        width: 192
+        width: 178
         height: 205
       alignment: 9
       pivot: {x: 0.5, y: 0.07}
@@ -914,9 +914,9 @@ TextureImporter:
       name: GoblinArcher_3_3
       rect:
         serializedVersion: 2
-        x: 576
+        x: 583
         y: 205
-        width: 192
+        width: 178
         height: 205
       alignment: 9
       pivot: {x: 0.5, y: 0.07}
@@ -936,9 +936,9 @@ TextureImporter:
       name: GoblinArcher_3_4
       rect:
         serializedVersion: 2
-        x: 768
+        x: 775
         y: 205
-        width: 192
+        width: 178
         height: 205
       alignment: 9
       pivot: {x: 0.5, y: 0.07}
@@ -958,9 +958,9 @@ TextureImporter:
       name: GoblinArcher_3_5
       rect:
         serializedVersion: 2
-        x: 960
+        x: 967
         y: 205
-        width: 192
+        width: 178
         height: 205
       alignment: 9
       pivot: {x: 0.5, y: 0.07}
@@ -980,9 +980,9 @@ TextureImporter:
       name: GoblinArcher_3_6
       rect:
         serializedVersion: 2
-        x: 1152
+        x: 1159
         y: 205
-        width: 192
+        width: 178
         height: 205
       alignment: 9
       pivot: {x: 0.5, y: 0.07}
@@ -1002,9 +1002,9 @@ TextureImporter:
       name: GoblinArcher_3_7
       rect:
         serializedVersion: 2
-        x: 1344
+        x: 1351
         y: 205
-        width: 192
+        width: 178
         height: 205
       alignment: 9
       pivot: {x: 0.5, y: 0.07}
@@ -1024,9 +1024,9 @@ TextureImporter:
       name: GoblinArcher_4_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 7
         y: 0
-        width: 192
+        width: 178
         height: 205
       alignment: 9
       pivot: {x: 0.5, y: 0.07}
@@ -1046,9 +1046,9 @@ TextureImporter:
       name: GoblinArcher_4_1
       rect:
         serializedVersion: 2
-        x: 192
+        x: 199
         y: 0
-        width: 192
+        width: 178
         height: 205
       alignment: 9
       pivot: {x: 0.5, y: 0.07}
@@ -1068,9 +1068,9 @@ TextureImporter:
       name: GoblinArcher_4_2
       rect:
         serializedVersion: 2
-        x: 384
+        x: 391
         y: 0
-        width: 192
+        width: 178
         height: 205
       alignment: 9
       pivot: {x: 0.5, y: 0.07}
@@ -1090,9 +1090,9 @@ TextureImporter:
       name: GoblinArcher_4_3
       rect:
         serializedVersion: 2
-        x: 576
+        x: 583
         y: 0
-        width: 192
+        width: 178
         height: 205
       alignment: 9
       pivot: {x: 0.5, y: 0.07}

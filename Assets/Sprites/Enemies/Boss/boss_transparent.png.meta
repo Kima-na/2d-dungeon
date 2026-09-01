@@ -257,9 +257,9 @@ TextureImporter:
       name: Boss_0
       rect:
         serializedVersion: 2
-        x: 61
+        x: 72
         y: 635
-        width: 242
+        width: 220
         height: 216
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -279,9 +279,9 @@ TextureImporter:
       name: Boss_1
       rect:
         serializedVersion: 2
-        x: 303
+        x: 314
         y: 635
-        width: 242
+        width: 220
         height: 216
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -301,9 +301,9 @@ TextureImporter:
       name: Boss_2
       rect:
         serializedVersion: 2
-        x: 545
+        x: 556
         y: 635
-        width: 242
+        width: 220
         height: 216
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -323,9 +323,9 @@ TextureImporter:
       name: Boss_3
       rect:
         serializedVersion: 2
-        x: 787
+        x: 798
         y: 635
-        width: 242
+        width: 220
         height: 216
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -345,9 +345,9 @@ TextureImporter:
       name: Boss_4
       rect:
         serializedVersion: 2
-        x: 1029
+        x: 1040
         y: 635
-        width: 242
+        width: 220
         height: 216
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -367,9 +367,9 @@ TextureImporter:
       name: Boss_5
       rect:
         serializedVersion: 2
-        x: 1271
+        x: 1282
         y: 635
-        width: 242
+        width: 220
         height: 216
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -389,10 +389,10 @@ TextureImporter:
       name: Boss_6
       rect:
         serializedVersion: 2
-        x: 61
+        x: 72
         y: 428
-        width: 242
-        height: 216
+        width: 220
+        height: 207
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -411,10 +411,10 @@ TextureImporter:
       name: Boss_7
       rect:
         serializedVersion: 2
-        x: 303
+        x: 314
         y: 428
-        width: 242
-        height: 216
+        width: 220
+        height: 207
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -433,10 +433,10 @@ TextureImporter:
       name: Boss_8
       rect:
         serializedVersion: 2
-        x: 545
+        x: 556
         y: 428
-        width: 242
-        height: 216
+        width: 220
+        height: 207
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -455,10 +455,10 @@ TextureImporter:
       name: Boss_9
       rect:
         serializedVersion: 2
-        x: 787
+        x: 798
         y: 428
-        width: 242
-        height: 216
+        width: 220
+        height: 207
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -477,10 +477,10 @@ TextureImporter:
       name: Boss_10
       rect:
         serializedVersion: 2
-        x: 1029
+        x: 1040
         y: 428
-        width: 242
-        height: 216
+        width: 220
+        height: 207
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -499,10 +499,10 @@ TextureImporter:
       name: Boss_11
       rect:
         serializedVersion: 2
-        x: 1271
+        x: 1282
         y: 428
-        width: 242
-        height: 216
+        width: 220
+        height: 207
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -521,10 +521,10 @@ TextureImporter:
       name: Boss_12
       rect:
         serializedVersion: 2
-        x: 61
+        x: 72
         y: 238
-        width: 242
-        height: 216
+        width: 220
+        height: 190
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -543,10 +543,10 @@ TextureImporter:
       name: Boss_13
       rect:
         serializedVersion: 2
-        x: 303
+        x: 314
         y: 238
-        width: 242
-        height: 216
+        width: 220
+        height: 190
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -565,10 +565,10 @@ TextureImporter:
       name: Boss_14
       rect:
         serializedVersion: 2
-        x: 545
+        x: 556
         y: 238
-        width: 242
-        height: 216
+        width: 220
+        height: 190
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -587,10 +587,10 @@ TextureImporter:
       name: Boss_15
       rect:
         serializedVersion: 2
-        x: 787
+        x: 798
         y: 238
-        width: 242
-        height: 216
+        width: 220
+        height: 190
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -609,10 +609,10 @@ TextureImporter:
       name: Boss_16
       rect:
         serializedVersion: 2
-        x: 1029
+        x: 1040
         y: 238
-        width: 242
-        height: 216
+        width: 220
+        height: 190
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -631,10 +631,10 @@ TextureImporter:
       name: Boss_17
       rect:
         serializedVersion: 2
-        x: 1271
+        x: 1282
         y: 238
-        width: 242
-        height: 216
+        width: 220
+        height: 190
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -653,10 +653,10 @@ TextureImporter:
       name: Boss_18
       rect:
         serializedVersion: 2
-        x: 61
+        x: 72
         y: 49
-        width: 242
-        height: 216
+        width: 220
+        height: 189
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -675,10 +675,10 @@ TextureImporter:
       name: Boss_19
       rect:
         serializedVersion: 2
-        x: 303
+        x: 314
         y: 49
-        width: 242
-        height: 216
+        width: 220
+        height: 189
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -697,10 +697,10 @@ TextureImporter:
       name: Boss_20
       rect:
         serializedVersion: 2
-        x: 545
+        x: 556
         y: 49
-        width: 242
-        height: 216
+        width: 220
+        height: 189
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -719,10 +719,10 @@ TextureImporter:
       name: Boss_21
       rect:
         serializedVersion: 2
-        x: 787
+        x: 798
         y: 49
-        width: 242
-        height: 216
+        width: 220
+        height: 189
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -741,10 +741,10 @@ TextureImporter:
       name: Boss_22
       rect:
         serializedVersion: 2
-        x: 1029
+        x: 1040
         y: 49
-        width: 242
-        height: 216
+        width: 220
+        height: 189
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -763,10 +763,10 @@ TextureImporter:
       name: Boss_23
       rect:
         serializedVersion: 2
-        x: 1271
+        x: 1282
         y: 49
-        width: 242
-        height: 216
+        width: 220
+        height: 189
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}

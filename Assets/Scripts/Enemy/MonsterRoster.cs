@@ -118,6 +118,16 @@ public static class MonsterRoster
             GameObject prefab = database != null ? database.GetEnemyPrefab(type) : null;
             if (prefab != null) enemy = Object.Instantiate(prefab);
         }
+        else if (type == EnemyAI.MonsterType.Skeleton)
+        {
+            GameObject prefab = Resources.Load<GameObject>("Skeleton/Skeleton");
+            if (prefab != null) enemy = Object.Instantiate(prefab);
+        }
+        else if (type == EnemyAI.MonsterType.Berserker)
+        {
+            GameObject prefab = Resources.Load<GameObject>("Berserker/Berserker");
+            if (prefab != null) enemy = Object.Instantiate(prefab);
+        }
         if (enemy == null)
             enemy = new GameObject(objectName, typeof(SpriteRenderer), typeof(Rigidbody2D),
                 typeof(BoxCollider2D), typeof(Damageable), typeof(EnemyAI));
@@ -130,7 +140,9 @@ public static class MonsterRoster
         if (renderer.sprite == null) renderer.sprite = sprite != null ? sprite : PlaceholderSprite;
         bool usesGoblinSheet = type is EnemyAI.MonsterType.GoblinWarrior or
             EnemyAI.MonsterType.GoblinArcher or EnemyAI.MonsterType.GoblinMage;
-        renderer.color = usesGoblinSheet && enemy.GetComponent<Animator>() != null
+        bool usesSkeletonSheet = type == EnemyAI.MonsterType.Skeleton && enemy.GetComponent<SkeletonVisualAnimator>() != null;
+        bool usesBerserkerSheet = type == EnemyAI.MonsterType.Berserker && enemy.GetComponent<BerserkerVisualAnimator>() != null;
+        renderer.color = usesGoblinSheet && enemy.GetComponent<Animator>() != null || usesSkeletonSheet || usesBerserkerSheet
             ? Color.white : color;
         if (usesGoblinSheet)
             enemy.GetComponent<Damageable>().SetDamageReduction(type == EnemyAI.MonsterType.GoblinWarrior ? 2 : 1);

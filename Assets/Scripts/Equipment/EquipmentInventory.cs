@@ -38,28 +38,68 @@ public class EquipmentInventory : MonoBehaviour
 
     public EquipmentItem RollRandomLoot()
     {
-        List<EquipmentData> source = lootTemplates.Count > 0 ? lootTemplates : startingEquipment;
-        if (source.Count == 0) return null;
-        EquipmentData data = source[UnityEngine.Random.Range(0, source.Count)];
-        float roll = UnityEngine.Random.value;
-        EquipmentRarity rarity = roll < 0.03f ? EquipmentRarity.Legendary :
-            roll < 0.12f ? EquipmentRarity.Epic : roll < 0.32f ? EquipmentRarity.Rare :
-            roll < 0.62f ? EquipmentRarity.Uncommon : EquipmentRarity.Common;
-        return AddRandom(data, rarity);
+        EquipmentItem item = CreateRandomLoot();
+        return Add(item) ? item : null;
     }
 
     public EquipmentItem RollRandomLoot(EquipmentRarity rarity)
     {
-        List<EquipmentData> source = lootTemplates.Count > 0 ? lootTemplates : startingEquipment;
+        EquipmentItem item = CreateRandomLoot(rarity);
+        return Add(item) ? item : null;
+    }
+
+    public EquipmentItem RollShopLoot(EquipmentRarity rarity, PlayerStats.PlayerClass playerClass)
+    {
+        EquipmentData[] catalog = Resources.LoadAll<EquipmentData>("Equipment");
+        var candidates = new List<EquipmentData>();
+        foreach (EquipmentData data in catalog)
+            if (data != null && data.IsUsableBy(playerClass)) candidates.Add(data);
+
+        // Keep locally assigned templates as a safe fallback for test scenes,
+        // while preserving the same strict class restriction.
+        if (candidates.Count == 0)
+        {
+            List<EquipmentData> local = lootTemplates.Count > 0 ? lootTemplates : startingEquipment;
+            foreach (EquipmentData data in local)
+                if (data != null && data.IsUsableBy(playerClass) && !candidates.Contains(data)) candidates.Add(data);
+        }
+        if (candidates.Count == 0) return null;
+        EquipmentItem item = candidates[UnityEngine.Random.Range(0, candidates.Count)].Roll(rarity);
+        return Add(item) ? item : null;
+    }
+
+    public EquipmentItem CreateRandomLoot(EquipmentRarity? forcedRarity = null)
+    {
+        List<EquipmentData> source = GetLootCandidates();
         if (source.Count == 0) return null;
-        return AddRandom(source[UnityEngine.Random.Range(0, source.Count)], rarity);
+        float roll = UnityEngine.Random.value;
+        EquipmentRarity rarity = forcedRarity ?? (roll < 0.03f ? EquipmentRarity.Legendary :
+            roll < 0.12f ? EquipmentRarity.Epic : roll < 0.32f ? EquipmentRarity.Rare :
+            roll < 0.62f ? EquipmentRarity.Uncommon : EquipmentRarity.Common);
+        return source[UnityEngine.Random.Range(0, source.Count)].Roll(rarity);
+    }
+
+    public bool Add(EquipmentItem item)
+    {
+        if (item?.data == null) return false;
+        ownedItems.Add(item); InventoryChanged?.Invoke(); return true;
+    }
+
+    private List<EquipmentData> GetLootCandidates()
+    {
+        List<EquipmentData> catalog = lootTemplates.Count > 0 ? lootTemplates : startingEquipment;
+        PlayerStats stats = GetComponent<PlayerStats>();
+        if (stats == null) return new List<EquipmentData>(catalog);
+        return catalog.FindAll(data => data != null && data.IsUsableBy(stats.CurrentClass));
     }
 
     public bool Add(EquipmentData data) => AddRandom(data, data != null ? data.Rarity : null) != null;
 
     public bool Equip(EquipmentItem item)
     {
-        if (item?.data == null || !ownedItems.Contains(item)) return false;
+        PlayerStats stats = GetComponent<PlayerStats>();
+        if (item?.data == null || !ownedItems.Contains(item) ||
+            (stats != null && !item.data.IsUsableBy(stats.CurrentClass))) return false;
         Unequip(item.data.Slot, false);
         equippedItems.Add(item);
         EquipmentChanged?.Invoke();
@@ -83,11 +123,17 @@ public class EquipmentInventory : MonoBehaviour
     public EquipmentItem GetEquipped(EquipmentSlot slot) =>
         equippedItems.Find(item => item?.data != null && item.data.Slot == slot);
 
+    public EquipmentItem GetUsableEquippedWeapon(PlayerStats.PlayerClass playerClass) =>
+        equippedItems.Find(item => item?.data != null && item.data.Slot == EquipmentSlot.Weapon &&
+                                   item.data.IsUsableBy(playerClass));
+
     public float Sum(EquipmentStat stat)
     {
         float total = 0f;
+        PlayerStats stats = GetComponent<PlayerStats>();
         foreach (EquipmentItem item in equippedItems)
-            if (item?.data != null) total += item.GetBonus(stat);
+            if (item?.data != null && (stats == null || item.data.IsUsableBy(stats.CurrentClass)))
+                total += item.GetBonus(stat);
         return total;
     }
 
@@ -100,8 +146,12 @@ public class EquipmentInventory : MonoBehaviour
             if (data == null) continue;
             EquipmentItem item = data.Roll(data.Rarity);
             ownedItems.Add(item);
-            equippedItems.RemoveAll(value => value?.data != null && value.data.Slot == data.Slot);
-            equippedItems.Add(item);
+            PlayerStats stats = GetComponent<PlayerStats>();
+            if (stats != null && data.IsUsableBy(stats.CurrentClass))
+            {
+                equippedItems.RemoveAll(value => value?.data != null && value.data.Slot == data.Slot);
+                equippedItems.Add(item);
+            }
         }
         InventoryChanged?.Invoke();
         EquipmentChanged?.Invoke();

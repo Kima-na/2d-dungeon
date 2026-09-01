@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum EquipmentSlot { Weapon, Helmet, Armor, Boots, Accessory }
+public enum WeaponClass { Warrior, Archer, Mage }
 public enum EquipmentRarity { Common, Uncommon, Rare, Epic, Legendary }
 public enum EquipmentStat
 {
@@ -22,13 +23,15 @@ public sealed class EquipmentAffix
     public EquipmentStat stat;
     public float value;
 
-    public string Description => stat switch
+    public string Description => Describe(stat, value);
+
+    public static string Describe(EquipmentStat targetStat, float targetValue) => targetStat switch
     {
-        EquipmentStat.CriticalChance => $"치명타 확률 +{value * 100f:0.#}%",
-        EquipmentStat.CriticalDamage => $"치명타 피해 +{value * 100f:0.#}%",
-        EquipmentStat.AttackSpeed => $"공격 속도 +{value * 100f:0.#}%",
-        EquipmentStat.MoveSpeed => $"이동 속도 +{value * 100f:0.#}%",
-        _ => $"{KoreanName(stat)} +{value:0}"
+        EquipmentStat.CriticalChance => $"치명타 확률 +{targetValue * 100f:0.#}%",
+        EquipmentStat.CriticalDamage => $"치명타 피해 +{targetValue * 100f:0.#}%",
+        EquipmentStat.AttackSpeed => $"공격 속도 +{targetValue * 100f:0.#}%",
+        EquipmentStat.MoveSpeed => $"이동 속도 +{targetValue * 100f:0.#}%",
+        _ => $"{KoreanName(targetStat)} +{targetValue:0}"
     };
 
     private static string KoreanName(EquipmentStat stat) => stat switch
@@ -89,8 +92,12 @@ public class EquipmentData : ScriptableObject
     [SerializeField] private string displayName = "Equipment";
     [SerializeField] private EquipmentSlot slot;
     [SerializeField] private EquipmentRarity rarity;
-    [Header("Warrior Weapon")]
+    [Header("Class Restriction")]
+    [SerializeField] private WeaponClass weaponClass;
+    [Header("Weapon Type")]
     [SerializeField] private AttackController.WeaponType warriorWeaponType;
+    [SerializeField] private ArcherController.RangedWeapon archerWeaponType;
+    [SerializeField] private MageController.MagicWeapon mageWeaponType;
     [SerializeField, Min(0)] private int attackPower;
     [SerializeField, Min(0)] private int defense;
     [SerializeField, Min(0)] private int maxHealth;
@@ -108,6 +115,10 @@ public class EquipmentData : ScriptableObject
     public EquipmentSlot Slot => slot;
     public EquipmentRarity Rarity => rarity;
     public AttackController.WeaponType WarriorWeaponType => warriorWeaponType;
+    public ArcherController.RangedWeapon ArcherWeaponType => archerWeaponType;
+    public MageController.MagicWeapon MageWeaponType => mageWeaponType;
+    public WeaponClass WeaponClass => weaponClass;
+    public bool IsUsableBy(PlayerStats.PlayerClass playerClass) => (int)weaponClass == (int)playerClass;
     public Sprite Icon => icon;
     public Sprite EquippedSprite => equippedSprite;
     public Sprite AttackSprite => attackSprite != null ? attackSprite : equippedSprite;
@@ -129,9 +140,11 @@ public class EquipmentData : ScriptableObject
     {
         EquipmentRarity rolled = forcedRarity ?? rarity;
         var item = new EquipmentItem { data = this, rarity = rolled };
-        var available = new List<EquipmentStat>((EquipmentStat[])Enum.GetValues(typeof(EquipmentStat)));
-        for (int i = 0; i < EquipmentRarityUtility.AffixCount(rolled) && available.Count > 0; i++)
+        List<EquipmentStat> available = GetAffixPool();
+        int affixCount = EquipmentRarityUtility.AffixCount(rolled);
+        for (int i = 0; i < affixCount; i++)
         {
+            if (available.Count == 0) available = GetAffixPool();
             int index = UnityEngine.Random.Range(0, available.Count);
             EquipmentStat stat = available[index];
             available.RemoveAt(index);
@@ -149,5 +162,21 @@ public class EquipmentData : ScriptableObject
             item.affixes.Add(new EquipmentAffix { stat = stat, value = value });
         }
         return item;
+    }
+
+    private List<EquipmentStat> GetAffixPool()
+    {
+        if (slot == EquipmentSlot.Weapon)
+            return new List<EquipmentStat>((EquipmentStat[])Enum.GetValues(typeof(EquipmentStat)));
+
+        return weaponClass switch
+        {
+            WeaponClass.Archer => new List<EquipmentStat>
+                { EquipmentStat.AttackSpeed, EquipmentStat.AttackPower, EquipmentStat.MoveSpeed, EquipmentStat.MaxHealth },
+            WeaponClass.Mage => new List<EquipmentStat>
+                { EquipmentStat.MaxMana, EquipmentStat.MaxHealth, EquipmentStat.AttackPower },
+            _ => new List<EquipmentStat>
+                { EquipmentStat.AttackPower, EquipmentStat.Defense, EquipmentStat.MaxHealth }
+        };
     }
 }

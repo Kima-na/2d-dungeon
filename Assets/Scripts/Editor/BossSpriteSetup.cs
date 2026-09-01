@@ -87,7 +87,24 @@ public static class BossSpriteSetup
         database.playerManaFill = AssetDatabase.LoadAllAssetsAtPath("Assets/UI/ui/bar_mp.png").OfType<Sprite>().FirstOrDefault();
         EditorUtility.SetDirty(database);
         AssetDatabase.SaveAssets();
-        Debug.Log("Easy boss setup complete. Source rows: Down, Up, Left, Right (no flip). 24 frames imported.");
+        ValidateDirectionalFrames(idle, walk);
+        Debug.Log("Easy boss setup complete. Down, Up, Left and Right were independently cleaned and rebuilt (24 frames).");
+    }
+
+    private static void ValidateDirectionalFrames(AnimationClip[] idle, AnimationClip[] walk)
+    {
+        string[] directions = { "Down", "Up", "Left", "Right" };
+        for (int direction = 0; direction < 4; direction++)
+        {
+            int expectedFirstFrame = direction * 6;
+            ObjectReferenceKeyframe[] keys = AnimationUtility.GetObjectReferenceCurve(walk[direction],
+                AnimationUtility.GetObjectReferenceCurveBindings(walk[direction]).First());
+            Sprite first = keys.Length > 0 ? keys[0].value as Sprite : null;
+            Debug.Assert(first != null && first.name == $"Boss_{expectedFirstFrame}",
+                $"Easy boss {directions[direction]} clip references the wrong sprite row.");
+            Debug.Assert(idle[direction] != null && keys.Length == 10,
+                $"Easy boss {directions[direction]} animation was not rebuilt completely.");
+        }
     }
 
     private static void CreateTransparentCopy()
@@ -118,7 +135,15 @@ public static class BossSpriteSetup
             if (x + 1 < width) Enqueue(x + 1, y);
             if (y > 0) Enqueue(x, y - 1);
             if (y + 1 < height) Enqueue(x, y + 1);
+            // Anti-aliased checker pixels often touch only diagonally. Including
+            // diagonal neighbours removes those isolated white specks as well.
+            if (x > 0 && y > 0) Enqueue(x - 1, y - 1);
+            if (x + 1 < width && y > 0) Enqueue(x + 1, y - 1);
+            if (x > 0 && y + 1 < height) Enqueue(x - 1, y + 1);
+            if (x + 1 < width && y + 1 < height) Enqueue(x + 1, y + 1);
         }
+
+        RemoveSmallFrameComponents(pixels, width);
 
         Texture2D output = new(width, height, TextureFormat.RGBA32, false);
         output.SetPixels32(pixels);
@@ -140,7 +165,65 @@ public static class BossSpriteSetup
     {
         int max = Mathf.Max(color.r, Mathf.Max(color.g, color.b));
         int min = Mathf.Min(color.r, Mathf.Min(color.g, color.b));
-        return min >= 225 && max - min <= 8;
+        // The supplied sheet's checkerboard ranges from near-white to light
+        // gray and contains compression/anti-alias variations. It is safe to
+        // broaden this only because removal is flood-filled from the image edge;
+        // enclosed white armor highlights remain untouched.
+        return min >= 205 && max - min <= 20;
+    }
+
+    private static void RemoveSmallFrameComponents(Color32[] pixels, int textureWidth)
+    {
+        const int frameStride = 242, frameWidth = 220, firstX = 61;
+        int[] rowBottoms = { 635, 428, 238, 49 };
+        int[] rowHeights = { 216, 207, 190, 189 };
+        for (int row = 0; row < 4; row++)
+        for (int column = 0; column < 6; column++)
+        {
+            int left = firstX + column * frameStride + 11;
+            int right = left + frameWidth;
+            int bottom = rowBottoms[row], top = bottom + rowHeights[row];
+            var remaining = new HashSet<int>();
+            for (int y = bottom; y < top; y++)
+            for (int x = left; x < right; x++)
+            {
+                int index = y * textureWidth + x;
+                if (pixels[index].a > 20) remaining.Add(index);
+            }
+            var components = new List<List<int>>();
+            while (remaining.Count > 0)
+            {
+                int start = remaining.First();
+                remaining.Remove(start);
+                var component = new List<int>();
+                var componentQueue = new Queue<int>();
+                componentQueue.Enqueue(start);
+                while (componentQueue.Count > 0)
+                {
+                    int index = componentQueue.Dequeue();
+                    component.Add(index);
+                    int x = index % textureWidth, y = index / textureWidth;
+                    TryAdd(index - 1, x > left);
+                    TryAdd(index + 1, x + 1 < right);
+                    TryAdd(index - textureWidth, y > bottom);
+                    TryAdd(index + textureWidth, y + 1 < top);
+                }
+                components.Add(component);
+
+                void TryAdd(int index, bool inside)
+                { if (inside && remaining.Remove(index)) componentQueue.Enqueue(index); }
+            }
+            // Every movement pose is one connected character silhouette. Any
+            // additional component belongs to a neighbouring montage cell or
+            // leftover checker/anti-alias pixels, regardless of its exact size.
+            List<int> body = components.OrderByDescending(value => value.Count).FirstOrDefault();
+            foreach (List<int> component in components)
+            {
+                if (component == body) continue;
+                foreach (int index in component)
+                { Color32 color = pixels[index]; color.a = 0; pixels[index] = color; }
+            }
+        }
     }
 
     private static void ConfigureAndSlice()
@@ -154,12 +237,15 @@ public static class BossSpriteSetup
         importer.mipmapEnabled = false;
         importer.alphaIsTransparency = true;
         var frames = new SpriteMetaData[24];
-        const float frameWidth = 242f;
-        const float frameHeight = 216f;
+        const float frameStride = 242f;
+        const float frameWidth = 220f;
         const float firstX = 61f;
         // The supplied montage has slightly irregular vertical spacing. These
         // measured row bottoms keep the helmet/feet of every direction intact.
         float[] rowBottoms = { 635f, 428f, 238f, 49f };
+        // Each row ends exactly where the next begins. The previous uniform
+        // 216px height overlapped adjacent direction rows by 9-27px.
+        float[] rowHeights = { 216f, 207f, 190f, 189f };
         for (int row = 0; row < 4; row++)
         for (int column = 0; column < 6; column++)
         {
@@ -167,8 +253,10 @@ public static class BossSpriteSetup
             frames[index] = new SpriteMetaData
             {
                 name = $"Boss_{index}",
-                rect = new Rect(firstX + column * frameWidth, rowBottoms[row],
-                    frameWidth, frameHeight),
+                // Center-trim each cell to prevent the neighbouring pose's shoulder
+                // from entering the lower-right corner of front-facing frames.
+                rect = new Rect(firstX + column * frameStride + 11f, rowBottoms[row],
+                    frameWidth, rowHeights[row]),
                 alignment = (int)SpriteAlignment.Center,
                 pivot = new Vector2(0.5f, 0.5f)
             };

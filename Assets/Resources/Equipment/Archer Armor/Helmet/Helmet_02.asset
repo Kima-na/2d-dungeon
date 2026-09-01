@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b41884874c897794ebadbcfebb9b852b, type: 3}
+  m_Name: Helmet_02
+  m_EditorClassIdentifier: Assembly-CSharp::EquipmentData
+  itemId: archer_helmet_02
+  displayName: "\uAD81\uC218 \uD22C\uAD6C 02"
+  slot: 1
+  rarity: 1
+  weaponClass: 1
+  warriorWeaponType: 0
+  archerWeaponType: 0
+  mageWeaponType: 0
+  attackPower: 3
+  defense: 0
+  maxHealth: 10
+  criticalChance: 0
+  criticalDamage: 0
+  attackSpeed: 0.0276
+  moveSpeed: 0.0276
+  maxMana: 0
+  icon: {fileID: 0}
+  equippedSprite: {fileID: 0}
+  attackSprite: {fileID: 0}

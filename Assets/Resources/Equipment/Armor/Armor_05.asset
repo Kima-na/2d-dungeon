@@ -13,11 +13,14 @@ MonoBehaviour:
   m_Name: Armor_05
   m_EditorClassIdentifier: Assembly-CSharp::EquipmentData
   itemId: armor_05
-  displayName: "\uC218\uD638\uC790\uC758 \uAC11\uC637 05"
+  displayName: "\uC804\uC0AC \uAC11\uC637 05"
   slot: 2
   rarity: 4
+  weaponClass: 0
   warriorWeaponType: 0
-  attackPower: 0
+  archerWeaponType: 0
+  mageWeaponType: 0
+  attackPower: 8
   defense: 13
   maxHealth: 45
   criticalChance: 0

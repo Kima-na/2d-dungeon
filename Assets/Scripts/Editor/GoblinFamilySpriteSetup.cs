@@ -1,6 +1,7 @@
 #if UNITY_EDITOR
 using System.IO;
 using System.Linq;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
@@ -9,6 +10,8 @@ public static class GoblinFamilySpriteSetup
 {
     private const float PixelsPerUnit = 200f;
     private const float FrameRate = 8f;
+    private const int CellHorizontalPadding = 7;
+    private const string CleanWarriorPath = "Assets/Sprites/Enemies/GoblinWarrior_clean.png";
     private const string AnimationRoot = "Assets/Animations/Enemies";
     private const string PrefabRoot = "Assets/Prefabs/Enemies";
     private const string DatabasePath = "Assets/Resources/GoblinWarriorVisualDatabase.asset";
@@ -51,6 +54,9 @@ public static class GoblinFamilySpriteSetup
         if (warrior == null || archer == null || mage == null) return;
         GameObject arrowPrefab = BuildProjectile("GoblinArrowProjectile", arrow, false);
         GameObject magicPrefab = BuildProjectile("GoblinMagicProjectile", magic, true);
+        AssignController(warrior, Warrior);
+        AssignController(archer, Archer);
+        AssignController(mage, Mage);
         UpdateDatabase(warrior, archer, mage, arrowPrefab, magicPrefab);
         AssetDatabase.SaveAssets();
         Debug.Log("Goblin family setup complete: grounded pivots, exact cell slicing, five animation states, and projectile prefabs created.");
@@ -79,7 +85,12 @@ public static class GoblinFamilySpriteSetup
         for (int direction = 0; direction < 4; direction++)
         {
             Sprite[] row = GetRow(sprites, definition, sheetRowsByDirection[direction]);
-            clips[0, direction] = CreateClip(folder, $"Idle_{direction}", new[] { row[0] }, true);
+            // The warrior's idle previously contained a single sprite, so it looked as if
+            // the whole animator had frozen whenever the AI paused between movements.
+            Sprite[] idleFrames = definition == Warrior
+                ? row.Take(definition.WalkCount).ToArray()
+                : new[] { row[0] };
+            clips[0, direction] = CreateClip(folder, $"Idle_{direction}", idleFrames, true);
             clips[1, direction] = CreateClip(folder, $"Walk_{direction}", row.Take(definition.WalkCount).ToArray(), true);
             clips[2, direction] = CreateClip(folder, $"Attack_{direction}",
                 row.Skip(definition.AttackStart).Take(definition.AttackCount).ToArray(), false);
@@ -97,9 +108,10 @@ public static class GoblinFamilySpriteSetup
     private static Sprite[] ImportAndSlice(SheetDefinition definition)
     {
         if (!File.Exists(Path.GetFullPath(definition.TexturePath))) return null;
-        AssetDatabase.ImportAsset(definition.TexturePath, ImportAssetOptions.ForceSynchronousImport);
-        Texture2D texture = AssetDatabase.LoadAssetAtPath<Texture2D>(definition.TexturePath);
-        TextureImporter importer = AssetImporter.GetAtPath(definition.TexturePath) as TextureImporter;
+        string texturePath = definition == Warrior ? CreateCleanWarriorCopy(definition) : definition.TexturePath;
+        AssetDatabase.ImportAsset(texturePath, ImportAssetOptions.ForceSynchronousImport);
+        Texture2D texture = AssetDatabase.LoadAssetAtPath<Texture2D>(texturePath);
+        TextureImporter importer = AssetImporter.GetAtPath(texturePath) as TextureImporter;
         if (texture == null || importer == null) return null;
         importer.textureType = TextureImporterType.Sprite;
         importer.spriteImportMode = SpriteImportMode.Multiple;
@@ -122,10 +134,12 @@ public static class GoblinFamilySpriteSetup
                 int xLeft = Mathf.RoundToInt(texture.width * column / (float)definition.Columns);
                 int xRight = Mathf.RoundToInt(texture.width * (column + 1) / (float)definition.Columns);
                 bool projectileCell = definition != Warrior && topRow == 1 && column == 7;
+                int horizontalPadding = definition == Warrior || projectileCell ? 0 : CellHorizontalPadding;
                 metadata[index++] = new SpriteMetaData
                 {
                     name = $"{definition.Name}_{topRow}_{column}",
-                    rect = new Rect(xLeft, yBottom, xRight - xLeft, yTop - yBottom),
+                    rect = new Rect(xLeft + horizontalPadding, yBottom,
+                        xRight - xLeft - horizontalPadding * 2, yTop - yBottom),
                     alignment = (int)SpriteAlignment.Custom,
                     pivot = projectileCell ? new Vector2(0.5f, 0.5f) :
                         new Vector2(0.5f, definition.FootPivot), border = Vector4.zero
@@ -134,11 +148,162 @@ public static class GoblinFamilySpriteSetup
         }
         importer.spritesheet = metadata;
         importer.SaveAndReimport();
-        Sprite[] result = AssetDatabase.LoadAllAssetsAtPath(definition.TexturePath).OfType<Sprite>()
+        Sprite[] result = AssetDatabase.LoadAllAssetsAtPath(texturePath).OfType<Sprite>()
             .OrderBy(sprite => SpriteOrder(sprite, definition.Columns)).ToArray();
         if (result.Length == metadata.Length) return result;
         Debug.LogError($"{definition.Name}: expected {metadata.Length} exact cells, imported {result.Length}.");
         return null;
+    }
+
+    private static string CreateCleanWarriorCopy(SheetDefinition definition)
+    {
+        TextureImporter sourceImporter = AssetImporter.GetAtPath(definition.TexturePath) as TextureImporter;
+        bool wasReadable = sourceImporter != null && sourceImporter.isReadable;
+        if (sourceImporter == null) return definition.TexturePath;
+        sourceImporter.isReadable = true;
+        sourceImporter.textureCompression = TextureImporterCompression.Uncompressed;
+        sourceImporter.SaveAndReimport();
+        Texture2D source = AssetDatabase.LoadAssetAtPath<Texture2D>(definition.TexturePath);
+        Color32[] sourcePixels = source.GetPixels32();
+        Color32[] output = new Color32[sourcePixels.Length];
+        int rows = definition.RowCounts.Length;
+        for (int topRow = 0; topRow < rows; topRow++)
+        {
+            int yTop = Mathf.RoundToInt(source.height * (rows - topRow) / (float)rows);
+            int yBottom = Mathf.RoundToInt(source.height * (rows - topRow - 1) / (float)rows);
+            RepackWarriorRow(sourcePixels, output, source.width, yBottom, yTop,
+                definition.Columns, definition.RowCounts[topRow]);
+        }
+        Texture2D clean = new(source.width, source.height, TextureFormat.RGBA32, false);
+        clean.SetPixels32(output); clean.Apply();
+        File.WriteAllBytes(CleanWarriorPath, clean.EncodeToPNG());
+        Object.DestroyImmediate(clean);
+        AssetDatabase.ImportAsset(CleanWarriorPath, ImportAssetOptions.ForceSynchronousImport);
+        sourceImporter = AssetImporter.GetAtPath(definition.TexturePath) as TextureImporter;
+        sourceImporter.isReadable = wasReadable;
+        sourceImporter.SaveAndReimport();
+        return CleanWarriorPath;
+    }
+
+    private static void RepackWarriorRow(Color32[] source, Color32[] output, int width,
+        int yBottom, int yTop, int columns, int frameCount)
+    {
+        int rowHeight = yTop - yBottom;
+        var points = new List<int>();
+        var lookup = new Dictionary<int, int>();
+        for (int y = yBottom; y < yTop; y++)
+        for (int x = 0; x < width; x++)
+        {
+            int index = y * width + x;
+            if (source[index].a <= 12) continue;
+            lookup[(y - yBottom) * width + x] = points.Count;
+            points.Add(index);
+        }
+        var visited = new bool[points.Count];
+        var components = new List<List<int>>();
+        for (int start = 0; start < points.Count; start++)
+        {
+            if (visited[start]) continue;
+            var component = new List<int>(); var queue = new Queue<int>();
+            visited[start] = true; queue.Enqueue(start);
+            while (queue.Count > 0)
+            {
+                int current = queue.Dequeue(); component.Add(current);
+                int index = points[current], x = index % width, y = index / width - yBottom;
+                for (int dy = -1; dy <= 1; dy++)
+                for (int dx = -1; dx <= 1; dx++)
+                {
+                    if (dx == 0 && dy == 0) continue;
+                    int nx = x + dx, ny = y + dy;
+                    if (nx < 0 || nx >= width || ny < 0 || ny >= rowHeight ||
+                        !lookup.TryGetValue(ny * width + nx, out int next) || visited[next]) continue;
+                    visited[next] = true; queue.Enqueue(next);
+                }
+            }
+            if (component.Count > 32) components.Add(component);
+        }
+        components = components.OrderByDescending(value => value.Count).Take(frameCount)
+            .OrderBy(value => value.Average(point => points[point] % width)).ToList();
+        float cellWidth = width / (float)columns;
+        for (int frame = 0; frame < components.Count; frame++)
+        {
+            GetBounds(components[frame], points, width, out int minX, out int maxX, out _, out _);
+            int targetCenter = Mathf.RoundToInt((frame + 0.5f) * cellWidth);
+            int shiftX = targetCenter - (minX + maxX) / 2;
+            foreach (int point in components[frame])
+            {
+                int sourceIndex = points[point], x = sourceIndex % width, y = sourceIndex / width;
+                int targetX = x + shiftX;
+                if (targetX < 0 || targetX >= width) continue;
+                output[y * width + targetX] = source[sourceIndex];
+            }
+        }
+    }
+
+    private static void CopyMainFrameComponents(Color32[] source, Color32[] output, int textureWidth,
+        int xLeft, int xRight, int yBottom, int yTop)
+    {
+        int cellWidth = xRight - xLeft;
+        var points = new List<int>();
+        var lookup = new Dictionary<int, int>();
+        for (int y = yBottom; y < yTop; y++)
+        for (int x = xLeft; x < xRight; x++)
+        {
+            int sourceIndex = y * textureWidth + x;
+            if (source[sourceIndex].a <= 12) continue;
+            lookup[(y - yBottom) * cellWidth + x - xLeft] = points.Count;
+            points.Add(sourceIndex);
+        }
+        if (points.Count == 0) return;
+        bool[] visited = new bool[points.Count];
+        var components = new List<List<int>>();
+        for (int start = 0; start < points.Count; start++)
+        {
+            if (visited[start]) continue;
+            var component = new List<int>();
+            var queue = new Queue<int>();
+            visited[start] = true; queue.Enqueue(start);
+            while (queue.Count > 0)
+            {
+                int current = queue.Dequeue(); component.Add(current);
+                int sourceIndex = points[current], x = sourceIndex % textureWidth - xLeft;
+                int y = sourceIndex / textureWidth - yBottom;
+                for (int dy = -1; dy <= 1; dy++)
+                for (int dx = -1; dx <= 1; dx++)
+                {
+                    if (dx == 0 && dy == 0) continue;
+                    int nx = x + dx, ny = y + dy;
+                    if (nx < 0 || nx >= cellWidth || ny < 0 || ny >= yTop - yBottom ||
+                        !lookup.TryGetValue(ny * cellWidth + nx, out int next) || visited[next]) continue;
+                    visited[next] = true; queue.Enqueue(next);
+                }
+            }
+            components.Add(component);
+        }
+        int main = 0;
+        for (int i = 1; i < components.Count; i++) if (components[i].Count > components[main].Count) main = i;
+        GetBounds(components[main], points, textureWidth, out int mainMinX, out int mainMaxX,
+            out int mainMinY, out int mainMaxY);
+        for (int i = 0; i < components.Count; i++)
+        {
+            GetBounds(components[i], points, textureWidth, out int minX, out int maxX, out int minY, out int maxY);
+            int gapX = Mathf.Max(0, Mathf.Max(mainMinX - maxX, minX - mainMaxX));
+            int gapY = Mathf.Max(0, Mathf.Max(mainMinY - maxY, minY - mainMaxY));
+            if (i != main && gapX * gapX + gapY * gapY > 64) continue;
+            foreach (int point in components[i]) { int index = points[point]; output[index] = source[index]; }
+        }
+    }
+
+    private static void GetBounds(List<int> component, List<int> points, int width,
+        out int minX, out int maxX, out int minY, out int maxY)
+    {
+        minX = minY = int.MaxValue; maxX = maxY = int.MinValue;
+        foreach (int point in component)
+        {
+            int index = points[point], x = index % width, y = index / width;
+            minX = Mathf.Min(minX, x); maxX = Mathf.Max(maxX, x);
+            minY = Mathf.Min(minY, y); maxY = Mathf.Max(maxY, y);
+        }
     }
 
     private static int SpriteOrder(Sprite sprite, int columns)
@@ -208,6 +373,18 @@ public static class GoblinFamilySpriteSetup
         GameObject prefab = PrefabUtility.SaveAsPrefabAsset(root, path);
         Object.DestroyImmediate(root);
         return prefab;
+    }
+
+    private static void AssignController(GameObject prefab, SheetDefinition definition)
+    {
+        if (prefab == null) return;
+        string prefabPath = AssetDatabase.GetAssetPath(prefab);
+        GameObject contents = PrefabUtility.LoadPrefabContents(prefabPath);
+        Animator animator = contents.GetComponent<Animator>();
+        animator.runtimeAnimatorController = AssetDatabase.LoadAssetAtPath<RuntimeAnimatorController>(
+            $"{AnimationRoot}/{definition.Name}/{definition.Name}.controller");
+        PrefabUtility.SaveAsPrefabAsset(contents, prefabPath);
+        PrefabUtility.UnloadPrefabContents(contents);
     }
 
     private static GameObject BuildProjectile(string name, Sprite sprite, bool magic)

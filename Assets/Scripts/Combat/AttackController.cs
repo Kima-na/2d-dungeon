@@ -32,6 +32,7 @@ public class AttackController : MonoBehaviour
     private PlayerController controller;
     private PlayerStats stats;
     private EquipmentInventory equipmentInventory;
+    private EquipmentInventoryUI inventoryUI;
     private float nextAttackTime;
     private Coroutine weaponActionRoutine;
     private Transform crossbowVisual;
@@ -42,6 +43,10 @@ public class AttackController : MonoBehaviour
     private Transform temporarySword;
     private Transform temporaryGreatsword;
     private Transform temporarySpear;
+    private Coroutine classWeaponActionRoutine;
+    private bool classWeaponActionActive;
+    private Vector2 classWeaponDirection = Vector2.right;
+    private bool IsInventoryOpen => (inventoryUI != null ? inventoryUI : inventoryUI = GetComponent<EquipmentInventoryUI>())?.IsVisible == true;
 
     public WeaponType EquippedWeapon => equippedWeapon;
     public WeaponGrade Grade => weaponGrade;
@@ -56,6 +61,7 @@ public class AttackController : MonoBehaviour
         controller = GetComponent<PlayerController>();
         stats = GetComponent<PlayerStats>();
         equipmentInventory = GetComponent<EquipmentInventory>();
+        inventoryUI = GetComponent<EquipmentInventoryUI>();
         if (GetComponent<ArcherController>() == null) gameObject.AddComponent<ArcherController>();
         if (GetComponent<MageController>() == null) gameObject.AddComponent<MageController>();
         if (GetComponent<SkillController>() == null) gameObject.AddComponent<SkillController>();
@@ -71,8 +77,8 @@ public class AttackController : MonoBehaviour
     private void Update()
     {
         UpdateClassWeaponPose();
-        if (controller.IsInputLocked || stats.CurrentClass != PlayerStats.PlayerClass.Warrior) return;
-        HandleWeaponInput();
+        if (controller.IsInputLocked || IsInventoryOpen ||
+            stats.CurrentClass != PlayerStats.PlayerClass.Warrior) return;
         UpdateWeaponPose();
         if (!stats.IsDead && Time.time >= nextAttackTime && Mouse.current != null &&
             Mouse.current.leftButton.wasPressedThisFrame)
@@ -83,12 +89,16 @@ public class AttackController : MonoBehaviour
 
     public void Attack()
     {
-        if (controller.IsInputLocked || stats.IsDead || Time.time < nextAttackTime) return;
+        if (controller.IsInputLocked || IsInventoryOpen ||
+            stats.IsDead || Time.time < nextAttackTime) return;
         nextAttackTime = Time.time + AttackCooldown;
         Vector2 attackDirection = GetAttackDirection();
         PlayWeaponAction(attackDirection);
         Vector2 center = (Vector2)transform.position + attackDirection * (AttackRange * 0.5f);
         float hitboxRadius = AttackRange * 0.5f * meleeHitboxScale;
+        Color attackColor = equippedWeapon == WeaponType.Greatsword ? new Color(1f, 0.25f, 0.08f, 0.9f) :
+            equippedWeapon == WeaponType.Spear ? new Color(0.25f, 0.8f, 1f, 0.9f) : new Color(1f, 0.85f, 0.3f, 0.9f);
+        PlayerAttackVfx.SpawnMeleeArc(center, attackDirection, AttackRange, attackColor);
         Collider2D[] hits = Physics2D.OverlapCircleAll(center, hitboxRadius, targetLayers);
 
         var damagedTargets = new System.Collections.Generic.HashSet<Damageable>();
@@ -118,6 +128,7 @@ public class AttackController : MonoBehaviour
         int damage = CombatCalculator.RollDamage(stats, AttackDamage, out _);
         damage = CombatCalculator.ApplyTargetModifiers(hitObject, damage);
         damageable.TakeDamage(damage);
+        PlayerAttackVfx.SpawnImpact(damageable.transform.position, new Color(1f, 0.55f, 0.18f), 0.65f);
         if (!damageable.IsDead)
         {
             if (equippedWeapon == WeaponType.Greatsword)
@@ -478,7 +489,7 @@ public class AttackController : MonoBehaviour
     {
         if (controller == null) return;
         RefreshClassWeaponVisuals(stats.CurrentClass);
-        Vector2 direction = controller.LastMoveDirection.normalized;
+        Vector2 direction = classWeaponActionActive ? classWeaponDirection : controller.LastMoveDirection.normalized;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         if (crossbowVisual != null)
         {
@@ -488,12 +499,11 @@ public class AttackController : MonoBehaviour
         if (bowVisual != null)
         {
             bowVisual.localPosition = direction * 0.62f;
-            bowVisual.rotation = Quaternion.Euler(0f, 0f, angle);
+            bowVisual.rotation = Quaternion.Euler(0f, 0f, angle + 180f);
         }
         if (spellbookVisual != null)
         {
-            Vector2 side = new Vector2(-direction.y, direction.x);
-            spellbookVisual.localPosition = direction * 0.3f + side * 0.72f;
+            spellbookVisual.localPosition = direction * 0.62f;
             spellbookVisual.rotation = Quaternion.Euler(0f, 0f, Mathf.Sin(Time.time * 2f) * 5f);
         }
         if (staffVisual != null)
@@ -516,7 +526,7 @@ public class AttackController : MonoBehaviour
 
     private void OnEquipmentChanged()
     {
-        EquipmentItem weapon = equipmentInventory?.GetEquipped(EquipmentSlot.Weapon);
+        EquipmentItem weapon = equipmentInventory?.GetUsableEquippedWeapon(PlayerStats.PlayerClass.Warrior);
         if (weapon?.data != null) equippedWeapon = weapon.data.WarriorWeaponType;
         RefreshWeaponVisual();
         WeaponChanged?.Invoke(equippedWeapon);
@@ -528,28 +538,36 @@ public class AttackController : MonoBehaviour
         MageController mage = GetComponent<MageController>();
         bool isArcher = playerClass == PlayerStats.PlayerClass.Archer;
         bool isMage = playerClass == PlayerStats.PlayerClass.Mage;
-        if (bowVisual != null) bowVisual.gameObject.SetActive(isArcher && archer != null &&
+        if (bowVisual != null) bowVisual.gameObject.SetActive(classWeaponActionActive && isArcher && archer != null &&
             archer.EquippedWeapon == ArcherController.RangedWeapon.Bow);
-        if (crossbowVisual != null) crossbowVisual.gameObject.SetActive(isArcher && archer != null &&
+        if (crossbowVisual != null) crossbowVisual.gameObject.SetActive(classWeaponActionActive && isArcher && archer != null &&
             archer.EquippedWeapon == ArcherController.RangedWeapon.Crossbow);
-        if (staffVisual != null) staffVisual.gameObject.SetActive(isMage && mage != null &&
+        if (staffVisual != null) staffVisual.gameObject.SetActive(classWeaponActionActive && isMage && mage != null &&
             mage.EquippedWeapon == MageController.MagicWeapon.Staff);
-        if (spellbookVisual != null) spellbookVisual.gameObject.SetActive(isMage && mage != null &&
+        if (spellbookVisual != null) spellbookVisual.gameObject.SetActive(classWeaponActionActive && isMage && mage != null &&
             mage.EquippedWeapon == MageController.MagicWeapon.Spellbook);
+    }
+
+    public void ShowClassWeaponForAttack(Vector2 direction, float duration)
+    {
+        if (stats.CurrentClass == PlayerStats.PlayerClass.Warrior) return;
+        classWeaponDirection = direction.sqrMagnitude > 0.01f ? direction.normalized : controller.LastMoveDirection;
+        if (classWeaponActionRoutine != null) StopCoroutine(classWeaponActionRoutine);
+        classWeaponActionRoutine = StartCoroutine(ClassWeaponActionRoutine(Mathf.Max(0.08f, duration)));
+    }
+
+    private IEnumerator ClassWeaponActionRoutine(float duration)
+    {
+        classWeaponActionActive = true; RefreshClassWeaponVisuals(stats.CurrentClass);
+        yield return new WaitForSeconds(duration);
+        classWeaponActionActive = false; RefreshClassWeaponVisuals(stats.CurrentClass);
+        classWeaponActionRoutine = null;
     }
 
     private void OnDestroy()
     {
         if (stats != null) stats.ClassChanged -= OnClassChanged;
         if (equipmentInventory != null) equipmentInventory.EquipmentChanged -= OnEquipmentChanged;
-    }
-
-    private void HandleWeaponInput()
-    {
-        if (Keyboard.current == null) return;
-        if (Keyboard.current.digit1Key.wasPressedThisFrame) EquipWeapon(WeaponType.OneHandedSword);
-        else if (Keyboard.current.digit2Key.wasPressedThisFrame) EquipWeapon(WeaponType.Greatsword);
-        else if (Keyboard.current.digit3Key.wasPressedThisFrame) EquipWeapon(WeaponType.Spear);
     }
 
     private static int GetWeaponDamage(WeaponType weapon) => weapon switch

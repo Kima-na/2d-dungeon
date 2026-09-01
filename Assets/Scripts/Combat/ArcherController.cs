@@ -17,7 +17,10 @@ public class ArcherController : MonoBehaviour
 
     private PlayerController controller;
     private PlayerStats stats;
+    private EquipmentInventory equipmentInventory;
+    private EquipmentInventoryUI inventoryUI;
     private float nextAttackTime;
+    private bool IsInventoryOpen => (inventoryUI != null ? inventoryUI : inventoryUI = GetComponent<EquipmentInventoryUI>())?.IsVisible == true;
 
     public RangedWeapon EquippedWeapon => equippedWeapon;
     public int AttackDamage => PlayerStats.Dexterity + PlayerStats.AttackPowerBonus +
@@ -30,16 +33,16 @@ public class ArcherController : MonoBehaviour
     {
         controller = GetComponent<PlayerController>();
         stats = GetComponent<PlayerStats>();
+        equipmentInventory = GetComponent<EquipmentInventory>();
+        inventoryUI = GetComponent<EquipmentInventoryUI>();
+        if (equipmentInventory != null) equipmentInventory.EquipmentChanged += OnEquipmentChanged;
+        OnEquipmentChanged();
     }
 
     private void Update()
     {
-        if (controller.IsInputLocked || stats.IsDead || stats.CurrentClass != PlayerStats.PlayerClass.Archer) return;
-        if (Keyboard.current != null)
-        {
-            if (Keyboard.current.digit1Key.wasPressedThisFrame) equippedWeapon = RangedWeapon.Bow;
-            else if (Keyboard.current.digit2Key.wasPressedThisFrame) equippedWeapon = RangedWeapon.Crossbow;
-        }
+        if (controller.IsInputLocked || IsInventoryOpen || stats.IsDead ||
+            stats.CurrentClass != PlayerStats.PlayerClass.Archer) return;
         if (
             Time.time < nextAttackTime || Mouse.current == null ||
             !Mouse.current.leftButton.wasPressedThisFrame) return;
@@ -49,10 +52,12 @@ public class ArcherController : MonoBehaviour
 
     public void Shoot()
     {
-        if (controller.IsInputLocked || stats.IsDead || stats.CurrentClass != PlayerStats.PlayerClass.Archer || Time.time < nextAttackTime) return;
+        if (controller.IsInputLocked || IsInventoryOpen || stats.IsDead ||
+            stats.CurrentClass != PlayerStats.PlayerClass.Archer || Time.time < nextAttackTime) return;
         nextAttackTime = Time.time + AttackCooldown;
-
-        FireArrow(GetAimDirection(), CombatCalculator.RollDamage(stats, AttackDamage, out _));
+        Vector2 direction = GetAimDirection();
+        GetComponent<AttackController>()?.ShowClassWeaponForAttack(direction, Mathf.Min(0.22f, AttackCooldown * 0.45f));
+        FireArrow(direction, CombatCalculator.RollDamage(stats, AttackDamage, out _));
     }
 
     public void FireArrow(Vector2 direction, int damage)
@@ -65,8 +70,13 @@ public class ArcherController : MonoBehaviour
         arrow.transform.localScale = crossbow ? new Vector3(0.36f, 0.09f, 1f) : new Vector3(0.5f, 0.12f, 1f);
 
         SpriteRenderer renderer = arrow.GetComponent<SpriteRenderer>();
-        renderer.sprite = GetComponent<SpriteRenderer>()?.sprite;
+        renderer.sprite = RuntimeCombatSprites.Projectile;
         renderer.color = new Color(1f, 0.82f, 0.25f);
+        renderer.sortingOrder = 17;
+        PlayerAttackVfx.AttachTrail(arrow, crossbow ? new Color(1f, 0.45f, 0.12f) : new Color(1f, 0.9f, 0.25f),
+            crossbow ? 0.12f : 0.09f);
+        PlayerAttackVfx.SpawnMuzzle(transform.position, direction,
+            crossbow ? new Color(1f, 0.35f, 0.08f) : new Color(1f, 0.85f, 0.2f));
 
         Rigidbody2D body = arrow.GetComponent<Rigidbody2D>();
         body.gravityScale = 0f;
@@ -86,5 +96,16 @@ public class ArcherController : MonoBehaviour
             if (aim.sqrMagnitude > 0.01f) return aim.normalized;
         }
         return controller.LastMoveDirection;
+    }
+
+    private void OnEquipmentChanged()
+    {
+        EquipmentItem weapon = equipmentInventory?.GetUsableEquippedWeapon(PlayerStats.PlayerClass.Archer);
+        if (weapon?.data != null) equippedWeapon = weapon.data.ArcherWeaponType;
+    }
+
+    private void OnDestroy()
+    {
+        if (equipmentInventory != null) equipmentInventory.EquipmentChanged -= OnEquipmentChanged;
     }
 }

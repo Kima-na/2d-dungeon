@@ -13,18 +13,21 @@ MonoBehaviour:
   m_Name: Accessory_03
   m_EditorClassIdentifier: Assembly-CSharp::EquipmentData
   itemId: accessory_03
-  displayName: "\uB9C8\uB825\uC758 \uBC18\uC9C0 03"
+  displayName: "\uC804\uC0AC \uC7A5\uC2E0\uAD6C 03"
   slot: 4
   rarity: 2
+  weaponClass: 0
   warriorWeaponType: 0
-  attackPower: 4
-  defense: 0
-  maxHealth: 0
-  criticalChance: 0.0352
-  criticalDamage: 0.1056
+  archerWeaponType: 0
+  mageWeaponType: 0
+  attackPower: 5
+  defense: 2
+  maxHealth: 11
+  criticalChance: 0
+  criticalDamage: 0
   attackSpeed: 0
   moveSpeed: 0
-  maxMana: 14
+  maxMana: 0
   icon: {fileID: 0}
   equippedSprite: {fileID: 0}
   attackSprite: {fileID: 0}

@@ -162,7 +162,7 @@ public static class GameSceneBuilder
         Text mpText = CreateText(mp.transform, "MP Text", "MP  50 / 50", TextAnchor.MiddleCenter, 22);
         Text xpText = CreateText(xp.transform, "EXP Text", "EXP  0 / 100", TextAnchor.MiddleCenter, 14);
         Text levelText = CreateLabel(canvasGo.transform, "Level Text", "WARRIOR  LV.1  STR 10  DEF 5", new Vector2(40f, -190f));
-        Text weaponText = CreateLabel(canvasGo.transform, "Weapon Text", "[1/2/3] ONE-HANDED SWORD  ATK 18", new Vector2(40f, -230f));
+        Text weaponText = CreateLabel(canvasGo.transform, "Weapon Text", "ONE-HANDED SWORD  ATK 18", new Vector2(40f, -230f));
         Text skillText = CreateLabel(canvasGo.transform, "Skill Text", "[Q] WHIRLWIND  MP 10  READY", new Vector2(40f, -270f));
         Text combatStatsText = CreateLabel(canvasGo.transform, "Combat Stats Text", "CRIT 10%  CRIT DMG 150%  ATK SPD 1.00x  MOVE 1.00x", new Vector2(40f, -310f));
 

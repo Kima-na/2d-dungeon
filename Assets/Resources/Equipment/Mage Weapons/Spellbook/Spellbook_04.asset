@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b41884874c897794ebadbcfebb9b852b, type: 3}
+  m_Name: Spellbook_04
+  m_EditorClassIdentifier: Assembly-CSharp::EquipmentData
+  itemId: mage_spellbook_04
+  displayName: Spellbook 04
+  slot: 0
+  rarity: 3
+  weaponClass: 2
+  warriorWeaponType: 0
+  archerWeaponType: 0
+  mageWeaponType: 1
+  attackPower: 39
+  defense: 0
+  maxHealth: 0
+  criticalChance: 0
+  criticalDamage: 0
+  attackSpeed: 0
+  moveSpeed: 0
+  maxMana: 14
+  icon: {fileID: 0}
+  equippedSprite: {fileID: 0}
+  attackSprite: {fileID: 0}

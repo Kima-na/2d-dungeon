@@ -45,6 +45,15 @@ public sealed class DungeonFlowController : MonoBehaviour
     GameObject[] Panels => new[] { main, confirm, jobs, designs, difficulty, settings, defeated, message };
     public bool IsDifficultySelectionVisible => difficulty != null && difficulty.activeSelf;
     public bool IsBossDefeatedVisible => defeated != null && defeated.activeSelf;
+    public bool IsMenuVisible
+    {
+        get
+        {
+            foreach (GameObject panel in Panels)
+                if (panel != null && panel.activeSelf) return true;
+            return false;
+        }
+    }
 
     public static DungeonFlowController Create(DungeonGenerator generator)
     {

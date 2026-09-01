@@ -81,6 +81,8 @@ public class Room : MonoBehaviour
             boss = generator.Difficulty switch
             {
                 DungeonDifficulty.Easy => BossRoster.SpawnEasy(transform, transform.position, generator.Modifiers),
+                DungeonDifficulty.Normal => BossRoster.SpawnNormal(transform, transform.position, generator.Modifiers),
+                DungeonDifficulty.Hard => BossRoster.SpawnHard(transform, transform.position, generator.Modifiers),
                 DungeonDifficulty.Nightmare => BossRoster.SpawnNightmare(transform, transform.position, generator.Modifiers),
                 _ => BossRoster.SpawnDummy(transform, transform.position, generator.Difficulty, generator.Modifiers)
             };
@@ -214,15 +216,9 @@ public class Room : MonoBehaviour
             GameObject counter = CreateSprite("Shop Counter", new Vector2(0f, 1.1f),
                 new Vector2(4.5f, 0.7f), new Color(0.35f, 0.2f, 0.08f), sprite, -1);
             counter.AddComponent<BoxCollider2D>();
-            CreateSprite("Shop Dummy", new Vector2(0f, 2f), new Vector2(1.1f, 1.3f),
+            GameObject merchant = CreateSprite("Shop Dummy", new Vector2(0f, 2f), new Vector2(1.1f, 1.3f),
                 new Color(0.2f, 0.9f, 0.55f), sprite, 0);
-            CreateSprite("Shop Item Left", new Vector2(-2.4f, -0.7f), new Vector2(0.7f, 0.7f),
-                new Color(1f, 0.75f, 0.15f), sprite, 0);
-            CreateSprite("Shop Item Right", new Vector2(2.4f, -0.7f), new Vector2(0.7f, 0.7f),
-                new Color(0.3f, 0.7f, 1f), sprite, 0);
-            ShopItemStand.Spawn(transform, new Vector2(-3f, -1.4f), 15, "일반 장비", EquipmentRarity.Common);
-            ShopItemStand.Spawn(transform, new Vector2(0f, -1.4f), 25, "고급 장비", EquipmentRarity.Uncommon);
-            ShopItemStand.Spawn(transform, new Vector2(3f, -1.4f), 40, "희귀 장비", EquipmentRarity.Rare);
+            merchant.AddComponent<ShopMerchant>();
         }
         // Boss rooms spawn their gameplay boss on first entry. Keeping a visual
         // dummy here would display two bosses and leave a stray collider behind.

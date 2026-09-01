@@ -16,7 +16,10 @@ MonoBehaviour:
   displayName: Shortsword 08
   slot: 0
   rarity: 4
+  weaponClass: 0
   warriorWeaponType: 0
+  archerWeaponType: 0
+  mageWeaponType: 0
   attackPower: 19
   defense: 0
   maxHealth: 0

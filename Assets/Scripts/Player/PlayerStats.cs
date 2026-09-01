@@ -18,8 +18,12 @@ public class PlayerStats : MonoBehaviour, IDamageable
     [SerializeField, Min(0f)] private float criticalChancePerLevel = 0.005f;
     [SerializeField, Min(0f)] private float attackSpeedPerLevel = 0.02f;
     [SerializeField, Min(0f)] private float moveSpeedPerLevel = 0.01f;
+    [Header("Mage Mana Damage")]
+    [SerializeField, Min(0f)] private float manaDamageScaling = 0.1f;
 
     [Header("Warrior Growth")]
+    [SerializeField, Min(0)] private int warriorBaseHealthBonus = 50;
+    [SerializeField, Min(0f)] private float warriorAttackSpeedBonus = 0.1f;
     [SerializeField, Min(1)] private int strength = 10;
     [SerializeField, Min(0)] private int defense = 5;
     [SerializeField, Min(1)] private int level = 1;
@@ -42,8 +46,16 @@ public class PlayerStats : MonoBehaviour, IDamageable
     private EquipmentInventory equipment;
     private int EquipmentInt(EquipmentStat stat) => equipment != null ? Mathf.RoundToInt(equipment.Sum(stat)) : 0;
     private float EquipmentFloat(EquipmentStat stat) => equipment != null ? equipment.Sum(stat) : 0f;
-    public int MaxHealth => maxHealth + EquipmentInt(EquipmentStat.MaxHealth);
-    public int MaxMana => maxMana + EquipmentInt(EquipmentStat.MaxMana);
+    public int MaxHealth => maxHealth + (currentClass == PlayerClass.Warrior ? warriorBaseHealthBonus : 0) +
+                            EquipmentInt(EquipmentStat.MaxHealth);
+    public int MaxMana
+    {
+        get
+        {
+            int totalMana = maxMana + EquipmentInt(EquipmentStat.MaxMana);
+            return currentClass == PlayerClass.Mage ? totalMana * 3 : totalMana;
+        }
+    }
     public bool IsDead { get; private set; }
     public int Strength => strength;
     public int Defense => defense + EquipmentInt(EquipmentStat.Defense);
@@ -52,7 +64,8 @@ public class PlayerStats : MonoBehaviour, IDamageable
     public int AttackPowerBonus => EquipmentInt(EquipmentStat.AttackPower);
     public float CriticalChance => Mathf.Clamp01(criticalChance + EquipmentFloat(EquipmentStat.CriticalChance));
     public float CriticalDamageMultiplier => criticalDamageMultiplier + EquipmentFloat(EquipmentStat.CriticalDamage);
-    public float AttackSpeedMultiplier => attackSpeedMultiplier + EquipmentFloat(EquipmentStat.AttackSpeed);
+    public float AttackSpeedMultiplier => attackSpeedMultiplier +
+        (currentClass == PlayerClass.Warrior ? warriorAttackSpeedBonus : 0f) + EquipmentFloat(EquipmentStat.AttackSpeed);
     public float MoveSpeedMultiplier => moveSpeedMultiplier + EquipmentFloat(EquipmentStat.MoveSpeed);
     public PlayerClass CurrentClass => currentClass;
     public int Level => level;
@@ -66,6 +79,9 @@ public class PlayerStats : MonoBehaviour, IDamageable
     public float BaseAttackSpeed => attackSpeedMultiplier;
     public float BaseMoveSpeed => moveSpeedMultiplier;
     public int ExperienceToNextLevel => GetExperienceRequirement(level);
+    public float ManaDamageScaling => manaDamageScaling;
+    public int ManaDamageBonus => currentClass == PlayerClass.Mage
+        ? Mathf.Max(0, Mathf.FloorToInt(CurrentMana * manaDamageScaling)) : 0;
 
     public event Action<int, int> HealthChanged;
     public event Action<int, int> ManaChanged;
@@ -181,7 +197,11 @@ public class PlayerStats : MonoBehaviour, IDamageable
     {
         if (currentClass == playerClass) return;
         currentClass = playerClass;
+        CurrentHealth = Mathf.Min(CurrentHealth, MaxHealth);
+        CurrentMana = Mathf.Min(CurrentMana, MaxMana);
         ClassChanged?.Invoke(currentClass);
+        HealthChanged?.Invoke(CurrentHealth, MaxHealth);
+        ManaChanged?.Invoke(CurrentMana, MaxMana);
     }
 
     public void ResetForNewGame(PlayerClass playerClass)

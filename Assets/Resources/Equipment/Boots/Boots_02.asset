@@ -13,17 +13,20 @@ MonoBehaviour:
   m_Name: Boots_02
   m_EditorClassIdentifier: Assembly-CSharp::EquipmentData
   itemId: boots_02
-  displayName: "\uC9C8\uD48D\uC758 \uC7A5\uD654 02"
+  displayName: "\uC804\uC0AC \uC7A5\uD654 02"
   slot: 3
   rarity: 1
+  weaponClass: 0
   warriorWeaponType: 0
-  attackPower: 0
+  archerWeaponType: 0
+  mageWeaponType: 0
+  attackPower: 3
   defense: 1
-  maxHealth: 0
+  maxHealth: 11
   criticalChance: 0
   criticalDamage: 0
   attackSpeed: 0
-  moveSpeed: 0.0552
+  moveSpeed: 0
   maxMana: 0
   icon: {fileID: 0}
   equippedSprite: {fileID: 0}

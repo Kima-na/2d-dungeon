@@ -18,6 +18,7 @@ public class EnemyAI : MonoBehaviour
     [SerializeField, Min(0.1f)] private float attackCooldown = 1.2f;
     [SerializeField, Min(0f)] private float preferredDistance;
     [SerializeField, Min(1f)] private float leashRange = 14f;
+    [SerializeField, Range(0f, 1f)] private float equipmentDropChance = 0.05f;
 
     private Rigidbody2D body;
     private Damageable health;
@@ -27,6 +28,7 @@ public class EnemyAI : MonoBehaviour
     private float nextAttackTime;
     private float slimeStep;
     private bool skeletonRevived;
+    private Vector3 skeletonDeathPosition;
     private bool permanentlyDefeated;
     private int finalExperienceReward;
     private SpriteRenderer spriteRenderer;
@@ -35,6 +37,8 @@ public class EnemyAI : MonoBehaviour
     private Room ownerRoom;
     private bool dropsEnabled = true;
     private Animator animator;
+    private SkeletonVisualAnimator skeletonVisual;
+    private BerserkerVisualAnimator berserkerVisual;
     private Vector2 lastFacingDirection = Vector2.down;
     private int slimeDivisionGeneration;
     private DifficultyModifiers slimeDifficulty;
@@ -66,6 +70,8 @@ public class EnemyAI : MonoBehaviour
         health = GetComponent<Damageable>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
+        skeletonVisual = GetComponent<SkeletonVisualAnimator>();
+        berserkerVisual = GetComponent<BerserkerVisualAnimator>();
         spawnPosition = transform.position;
         body.gravityScale = 0f;
         body.freezeRotation = true;
@@ -101,6 +107,11 @@ public class EnemyAI : MonoBehaviour
     private void FixedUpdate()
     {
         if (health.IsDead) return;
+        if (skeletonVisual != null && skeletonVisual.IsReviving)
+        {
+            body.linearVelocity = Vector2.zero;
+            return;
+        }
         FindTarget();
         UpdateState();
 
@@ -116,6 +127,20 @@ public class EnemyAI : MonoBehaviour
 
     private void UpdateVisualAnimation()
     {
+        if (monsterType == MonsterType.Skeleton && skeletonVisual != null)
+        {
+            Vector2 skeletonFacing = target != null && state != State.Return
+                ? (Vector2)target.position - (Vector2)transform.position : body.linearVelocity;
+            skeletonVisual.SetMovement(skeletonFacing, body.linearVelocity.sqrMagnitude > 0.01f);
+            return;
+        }
+        if (monsterType == MonsterType.Berserker && berserkerVisual != null)
+        {
+            Vector2 berserkerFacing = target != null && state != State.Return
+                ? (Vector2)target.position - (Vector2)transform.position : body.linearVelocity;
+            berserkerVisual.SetMovement(berserkerFacing, body.linearVelocity.sqrMagnitude > 0.01f);
+            return;
+        }
         if (!HasAnimator || (monsterType != MonsterType.Slime && !IsGoblinFamily)) return;
         Vector2 velocity = body.linearVelocity;
         // Combatants keep their eyes on the player, including ranged enemies
@@ -135,9 +160,10 @@ public class EnemyAI : MonoBehaviour
             if (Time.time >= visualActionUntil) visualAction = velocity.sqrMagnitude > 0.01f ? 1 : 0;
             animator.SetInteger("Action", visualAction);
         }
-        // All animator-backed enemies use authored direction clips. The slime
-        // Left sheet already faces left, so applying flipX here reversed it.
-        if (spriteRenderer != null) spriteRenderer.flipX = false;
+        // Goblins have authored four-way frames. Slime shares one side animation
+        // for left/right so its left state is mirrored without changing art style.
+        if (spriteRenderer != null)
+            spriteRenderer.flipX = monsterType == MonsterType.Slime && direction == 3;
     }
 
     private bool IsGoblinFamily => monsterType is MonsterType.GoblinWarrior or
@@ -171,10 +197,14 @@ public class EnemyAI : MonoBehaviour
         ownerRoom = GetComponentInParent<Room>();
         float shadowSize = type == MonsterType.Slime ? 0.86f : IsGoblinFamily ? 0.88f :
             type == MonsterType.Berserker ? 1.12f : 0.94f;
-        float shadowOffset = type == MonsterType.Slime ? -0.27f : IsGoblinFamily ? -0.035f : -0.38f;
+        // Goblin sheets use a grounded custom pivot. Keep all three classes on
+        // the same tight offset so the feet overlap the ellipse instead of
+        // appearing to float above it.
+        float shadowOffset = type == MonsterType.Slime ? -0.27f :
+            IsGoblinFamily ? -0.025f : -0.38f;
         WorldShadow.Ensure(transform,
             spriteRenderer != null ? spriteRenderer.sortingOrder - 1 : -1,
-            shadowSize, shadowOffset);
+            IsGoblinFamily ? 0.82f : shadowSize, shadowOffset);
     }
 
     public void ConfigureSlimeDivision(int generation, DifficultyModifiers modifiers)
@@ -240,7 +270,7 @@ public class EnemyAI : MonoBehaviour
     {
         Vector2 direction = (destination - (Vector2)transform.position).normalized;
         body.linearVelocity = direction * speed;
-        if (Mathf.Abs(direction.x) > 0.01f && !HasAnimator)
+        if (Mathf.Abs(direction.x) > 0.01f && !HasAnimator && skeletonVisual == null && berserkerVisual == null)
             transform.localScale = new Vector3(Mathf.Sign(direction.x) * Mathf.Abs(transform.localScale.x),
                 transform.localScale.y, transform.localScale.z);
     }
@@ -258,6 +288,8 @@ public class EnemyAI : MonoBehaviour
     {
         Vector2 direction = target != null ? ((Vector2)target.position - (Vector2)transform.position).normalized : lastFacingDirection;
         if (direction.sqrMagnitude > 0.01f) lastFacingDirection = direction;
+        if (monsterType == MonsterType.Skeleton) skeletonVisual?.PlayAttack(direction);
+        if (monsterType == MonsterType.Berserker) berserkerVisual?.PlayAttack(direction);
         SetVisualAction(2, 0.36f);
         yield return new WaitForSeconds(monsterType is MonsterType.GoblinArcher or MonsterType.GoblinMage ? 0.22f : 0.12f);
         if (!health.IsDead && target != null)
@@ -298,15 +330,21 @@ public class EnemyAI : MonoBehaviour
         body.linearVelocity = Vector2.zero;
         if (monsterType == MonsterType.Skeleton && !skeletonRevived)
         {
+            skeletonVisual?.PlayDeath();
             skeletonRevived = true;
-            Invoke(nameof(ReviveSkeleton), 2.5f);
+            skeletonDeathPosition = transform.position;
+            Invoke(nameof(ReviveSkeleton), 1f);
             return;
         }
         if (monsterType == MonsterType.Slime && slimeDivisionGeneration < 3)
             SpawnSlimeOffspring();
         permanentlyDefeated = true;
         if (dropsEnabled)
+        {
             GoldPickup.Spawn(transform.position, UnityEngine.Random.Range(1, 4) + (int)monsterType);
+            if (UnityEngine.Random.value < equipmentDropChance)
+                EquipmentPickup.Spawn((Vector2)transform.position + UnityEngine.Random.insideUnitCircle * 0.45f);
+        }
         if (IsGoblinFamily)
         {
             health.SetDeactivateOnDeath(false);
@@ -346,6 +384,8 @@ public class EnemyAI : MonoBehaviour
             (lastKnownHealth <= 0 || current < lastKnownHealth);
         lastKnownHealth = current;
         if (!tookDamage || spriteRenderer == null) return;
+        if (monsterType == MonsterType.Skeleton) skeletonVisual?.PlayHit();
+        if (monsterType == MonsterType.Berserker) berserkerVisual?.PlayHit();
         SetVisualAction(3, 0.14f);
         if (hitFlashRoutine != null) StopCoroutine(hitFlashRoutine);
         hitFlashRoutine = StartCoroutine(HitFlashRoutine());
@@ -365,5 +405,9 @@ public class EnemyAI : MonoBehaviour
         gameObject.SetActive(true);
         health.SetExperienceReward(finalExperienceReward);
         health.ResetState();
+        transform.position = skeletonDeathPosition;
+        body.position = skeletonDeathPosition;
+        body.linearVelocity = Vector2.zero;
+        skeletonVisual?.PlayRevive();
     }
 }

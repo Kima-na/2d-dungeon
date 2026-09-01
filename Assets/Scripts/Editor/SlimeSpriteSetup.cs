@@ -68,17 +68,16 @@ public static class SlimeSpriteSetup
         }
         else importer.SaveAndReimport();
 
-        ConfigureLeftTexture();
-
         Sprite[] sprites = AssetDatabase.LoadAllAssetsAtPath(TexturePath)
             .OfType<Sprite>().OrderBy(sprite => sprite.name).ToArray();
-        Sprite[] leftSprites = AssetDatabase.LoadAllAssetsAtPath(LeftTexturePath)
-            .OfType<Sprite>().OrderBy(sprite => sprite.name).ToArray();
-        if (sprites.Length != 9 || leftSprites.Length != 3) return;
+        if (sprites.Length != 9) return;
         AnimationClip backClip = CreateOrUpdateClip(BackClipPath, "Slime_Back", sprites.Take(3).ToArray());
-        AnimationClip sideClip = CreateOrUpdateClip(SideClipPath, "Slime_Side", sprites.Skip(3).Take(3).ToArray());
+        Sprite[] sideSprites = sprites.Skip(3).Take(3).ToArray();
+        AnimationClip sideClip = CreateOrUpdateClip(SideClipPath, "Slime_Side", sideSprites);
         AnimationClip frontClip = CreateOrUpdateClip(FrontClipPath, "Slime_Front", sprites.Skip(6).Take(3).ToArray());
-        AnimationClip leftClip = CreateOrUpdateClip(LeftClipPath, "Slime_Left", leftSprites);
+        // Keep both side directions on the same 24px source art. EnemyAI flips
+        // the left-facing state, avoiding a visibly different high-resolution frame set.
+        AnimationClip leftClip = CreateOrUpdateClip(LeftClipPath, "Slime_Left", sideSprites);
         AnimatorController controller = CreateOrUpdateController(frontClip, backClip, sideClip, leftClip);
         GameObject prefab = CreateOrUpdatePrefab(sprites[0], controller);
         CreateOrUpdateDatabase(prefab);

@@ -1,0 +1,494 @@
+fileFormatVersion: 2
+guid: 57fc358e14f819a4aa0fe16a31a4fa19
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 4965949899523174344
+    second: hard boss anicent golem_0
+  - first:
+      213: -7650646566490507777
+    second: hard boss anicent golem_1
+  - first:
+      213: -3476349313328894551
+    second: hard boss anicent golem_2
+  - first:
+      213: -4784692262111599890
+    second: hard boss anicent golem_3
+  - first:
+      213: 8136669108678145477
+    second: hard boss anicent golem_4
+  - first:
+      213: 4776050484870837593
+    second: hard boss anicent golem_5
+  - first:
+      213: -8929920159277329616
+    second: hard boss anicent golem_6
+  - first:
+      213: -3270008318834050592
+    second: hard boss anicent golem_7
+  - first:
+      213: -8294951604550871511
+    second: hard boss anicent golem_8
+  - first:
+      213: 8800277628416641698
+    second: hard boss anicent golem_9
+  - first:
+      213: 4515095449064753921
+    second: hard boss anicent golem_10
+  - first:
+      213: -4387583331940989977
+    second: hard boss anicent golem_11
+  - first:
+      213: -2879007196948316140
+    second: hard boss anicent golem_12
+  - first:
+      213: -6740470153222796817
+    second: hard boss anicent golem_13
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: hard boss anicent golem_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 628
+        width: 819
+        height: 396
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8cf27757f199ae440800000000000000
+      internalID: 4965949899523174344
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hard boss anicent golem_1
+      rect:
+        serializedVersion: 2
+        x: 362
+        y: 813
+        width: 1149
+        height: 197
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ff5754e8b7173d590800000000000000
+      internalID: -7650646566490507777
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hard boss anicent golem_2
+      rect:
+        serializedVersion: 2
+        x: 827
+        y: 640
+        width: 138
+        height: 173
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9adabdfc7b681cfc0800000000000000
+      internalID: -3476349313328894551
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hard boss anicent golem_3
+      rect:
+        serializedVersion: 2
+        x: 962
+        y: 619
+        width: 564
+        height: 158
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ee2274decbb599db0800000000000000
+      internalID: -4784692262111599890
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hard boss anicent golem_4
+      rect:
+        serializedVersion: 2
+        x: 1120
+        y: 768
+        width: 80
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5c5b7a5c1714be070800000000000000
+      internalID: 8136669108678145477
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hard boss anicent golem_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 915
+        height: 618
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 955fe048c90f74240800000000000000
+      internalID: 4776050484870837593
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hard boss anicent golem_6
+      rect:
+        serializedVersion: 2
+        x: 370
+        y: 410
+        width: 546
+        height: 190
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 033dca98dec821480800000000000000
+      internalID: -8929920159277329616
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hard boss anicent golem_7
+      rect:
+        serializedVersion: 2
+        x: 926
+        y: 399
+        width: 601
+        height: 199
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0e9f25f52c89e92d0800000000000000
+      internalID: -3270008318834050592
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hard boss anicent golem_8
+      rect:
+        serializedVersion: 2
+        x: 920
+        y: 221
+        width: 585
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 92650b5d67962ec80800000000000000
+      internalID: -8294951604550871511
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hard boss anicent golem_9
+      rect:
+        serializedVersion: 2
+        x: 920
+        y: 229
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2aa479e80edd02a70800000000000000
+      internalID: 8800277628416641698
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hard boss anicent golem_10
+      rect:
+        serializedVersion: 2
+        x: 366
+        y: 37
+        width: 503
+        height: 177
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 10bcc709367d8ae30800000000000000
+      internalID: 4515095449064753921
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hard boss anicent golem_11
+      rect:
+        serializedVersion: 2
+        x: 881
+        y: 167
+        width: 81
+        height: 45
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7e38b3db43c2c13c0800000000000000
+      internalID: -4387583331940989977
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hard boss anicent golem_12
+      rect:
+        serializedVersion: 2
+        x: 166
+        y: 67
+        width: 77
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4104a104536bb08d0800000000000000
+      internalID: -2879007196948316140
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hard boss anicent golem_13
+      rect:
+        serializedVersion: 2
+        x: 871
+        y: 27
+        width: 634
+        height: 139
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fe94802bb1a0572a0800000000000000
+      internalID: -6740470153222796817
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      hard boss anicent golem_0: 4965949899523174344
+      hard boss anicent golem_1: -7650646566490507777
+      hard boss anicent golem_10: 4515095449064753921
+      hard boss anicent golem_11: -4387583331940989977
+      hard boss anicent golem_12: -2879007196948316140
+      hard boss anicent golem_13: -6740470153222796817
+      hard boss anicent golem_2: -3476349313328894551
+      hard boss anicent golem_3: -4784692262111599890
+      hard boss anicent golem_4: 8136669108678145477
+      hard boss anicent golem_5: 4776050484870837593
+      hard boss anicent golem_6: -8929920159277329616
+      hard boss anicent golem_7: -3270008318834050592
+      hard boss anicent golem_8: -8294951604550871511
+      hard boss anicent golem_9: 8800277628416641698
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -5,23 +5,34 @@ using UnityEngine.InputSystem;
 public sealed class EquipmentInventoryUI : MonoBehaviour
 {
     private EquipmentInventory inventory;
+    private PlayerStats stats;
+    private DungeonGenerator dungeon;
     private bool visible;
     private Vector2 scroll;
     private GUIStyle titleStyle;
     private GUIStyle sectionStyle;
     private GUIStyle itemStyle;
     private GUIStyle hintStyle;
+    public bool IsVisible => visible;
+    public void SetVisible(bool value) => visible = value;
 
-    private void Awake() => inventory = GetComponent<EquipmentInventory>();
+    private void Awake()
+    {
+        inventory = GetComponent<EquipmentInventory>();
+        stats = GetComponent<PlayerStats>();
+        dungeon = FindAnyObjectByType<DungeonGenerator>();
+    }
 
     private void Update()
     {
+        if (!IsInDungeon()) { visible = false; return; }
         if (Keyboard.current != null && Keyboard.current.iKey.wasPressedThisFrame)
-            visible = !visible;
+            SetVisible(!visible);
     }
 
     private void OnGUI()
     {
+        if (!IsInDungeon()) return;
         EnsureStyles();
         GUI.Label(new Rect(Screen.width - 210f, 12f, 200f, 26f), "[I] 배낭 열기", hintStyle);
         if (!visible || inventory == null) return;
@@ -35,8 +46,7 @@ public sealed class EquipmentInventoryUI : MonoBehaviour
         GUILayout.BeginHorizontal();
         GUILayout.Label("배낭", titleStyle);
         GUILayout.FlexibleSpace();
-        if (GUILayout.Button("랜덤 장비 획득", GUILayout.Width(150f), GUILayout.Height(32f))) inventory.RollRandomLoot();
-        if (GUILayout.Button("닫기  [I]", GUILayout.Width(100f), GUILayout.Height(32f))) visible = false;
+        if (GUILayout.Button("닫기  [I]", GUILayout.Width(100f), GUILayout.Height(32f))) SetVisible(false);
         GUILayout.EndHorizontal();
         GUILayout.Label("장비를 선택해 바로 장착하거나, 현재 장비를 해제할 수 있습니다.", hintStyle);
         GUILayout.Space(12f);
@@ -48,6 +58,8 @@ public sealed class EquipmentInventoryUI : MonoBehaviour
         foreach (EquipmentSlot slot in System.Enum.GetValues(typeof(EquipmentSlot)))
         {
             EquipmentItem equipped = inventory.GetEquipped(slot);
+            if (slot == EquipmentSlot.Weapon && stats != null &&
+                equipped?.data != null && !equipped.data.IsUsableBy(stats.CurrentClass)) equipped = null;
             GUILayout.BeginVertical(GUI.skin.box);
             GUILayout.Label(SlotName(slot), hintStyle);
             GUILayout.BeginHorizontal();
@@ -68,6 +80,7 @@ public sealed class EquipmentInventoryUI : MonoBehaviour
         foreach (EquipmentItem item in inventory.OwnedItems)
         {
             if (item?.data == null) continue;
+            if (stats != null && !item.data.IsUsableBy(stats.CurrentClass)) continue;
             Color previous = GUI.contentColor;
             GUI.contentColor = EquipmentRarityUtility.Color(item.rarity);
             GUILayout.BeginVertical(GUI.skin.box);
@@ -80,14 +93,24 @@ public sealed class EquipmentInventoryUI : MonoBehaviour
             GUI.enabled = true;
             GUILayout.EndHorizontal();
             GUI.contentColor = previous;
-            foreach (EquipmentAffix affix in item.affixes)
-                GUILayout.Label("  • " + affix.Description, hintStyle);
+            foreach (EquipmentStat stat in System.Enum.GetValues(typeof(EquipmentStat)))
+            {
+                float value = item.GetBonus(stat);
+                if (Mathf.Abs(value) > 0.0001f)
+                    GUILayout.Label("  • " + EquipmentAffix.Describe(stat, value), hintStyle);
+            }
             GUILayout.EndVertical();
         }
         GUILayout.EndScrollView();
         GUILayout.EndVertical();
         GUILayout.EndHorizontal();
         GUILayout.EndArea();
+    }
+
+    private bool IsInDungeon()
+    {
+        if (dungeon == null) dungeon = FindAnyObjectByType<DungeonGenerator>();
+        return dungeon != null && dungeon.CurrentRoom != null;
     }
 
     private void EnsureStyles()

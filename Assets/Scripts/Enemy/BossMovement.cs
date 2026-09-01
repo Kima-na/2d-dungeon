@@ -10,6 +10,10 @@ public sealed class BossMovement : MonoBehaviour
     private BossHealth health;
     private BossCombat combat;
     private NightmareBossCombat nightmareCombat;
+    private EagleKnightBossCombat eagleKnightCombat;
+    private AncientGolemCombat ancientGolemCombat;
+    private AncientGolemAnimator ancientGolemAnimator;
+    private EagleKnightAnimator eagleKnightAnimator;
     private BossAnimator bossAnimator;
     private Transform target;
     private Room ownerRoom;
@@ -33,6 +37,10 @@ public sealed class BossMovement : MonoBehaviour
         health = GetComponent<BossHealth>();
         combat = GetComponent<BossCombat>();
         nightmareCombat = GetComponent<NightmareBossCombat>();
+        eagleKnightCombat = GetComponent<EagleKnightBossCombat>();
+        ancientGolemCombat = GetComponent<AncientGolemCombat>();
+        ancientGolemAnimator = GetComponent<AncientGolemAnimator>();
+        eagleKnightAnimator = GetComponent<EagleKnightAnimator>();
         bossAnimator = GetComponent<BossAnimator>();
         ownerRoom = GetComponentInParent<Room>();
         body.gravityScale = 0f;
@@ -46,7 +54,9 @@ public sealed class BossMovement : MonoBehaviour
         FindTarget();
         if (target == null || DistanceToTarget <= stoppingDistance ||
             (combat != null && combat.IsAttacking) ||
-            (nightmareCombat != null && nightmareCombat.IsAttacking))
+            (nightmareCombat != null && nightmareCombat.IsAttacking) ||
+            (ancientGolemCombat != null && ancientGolemCombat.IsAttacking) ||
+            (eagleKnightCombat != null && (!eagleKnightCombat.CanMove || eagleKnightCombat.IsAttacking)))
         {
             Stop();
             return;
@@ -55,6 +65,8 @@ public sealed class BossMovement : MonoBehaviour
         Vector2 direction = ((Vector2)target.position - body.position).normalized;
         body.linearVelocity = direction * moveSpeed;
         bossAnimator?.SetMovement(direction, true);
+        eagleKnightAnimator?.SetMovement(direction, true);
+        ancientGolemAnimator?.SetMovement(direction, true);
     }
 
     private void LateUpdate()
@@ -70,6 +82,8 @@ public sealed class BossMovement : MonoBehaviour
     {
         body.linearVelocity = Vector2.zero;
         bossAnimator?.SetMovement(Vector2.zero, false);
+        eagleKnightAnimator?.SetMovement(Vector2.zero, false);
+        ancientGolemAnimator?.SetMovement(Vector2.zero, false);
     }
 
     private void FindTarget()

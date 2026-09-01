@@ -2,6 +2,49 @@ using UnityEngine;
 
 public static class BossRoster
 {
+    public static BossHealth SpawnNormal(Transform parent, Vector2 position, DifficultyModifiers modifiers)
+    {
+        GameObject prefab = Resources.Load<GameObject>("EagleKnight/EagleKnightBoss");
+        GameObject boss = prefab != null
+            ? Object.Instantiate(prefab, position, Quaternion.identity, parent)
+            : CreateEagleKnightFallback(parent, position);
+        boss.name = "EagleKnightBoss";
+
+        Rigidbody2D body = boss.GetComponent<Rigidbody2D>();
+        body.gravityScale = 0f; body.freezeRotation = true;
+        body.interpolation = RigidbodyInterpolation2D.Interpolate;
+        BossHealth health = boss.GetComponent<BossHealth>();
+        health.Configure(Mathf.RoundToInt(10000f * modifiers.EnemyHealth),
+            Mathf.RoundToInt(500f * modifiers.Reward), "독수리 기사", 22, 0.8f);
+        boss.GetComponent<BossMovement>()?.ConfigureSpeed(2.5f * modifiers.EnemySpeed);
+        boss.GetComponent<EagleKnightBossCombat>()?.Configure(8f, 2f, 1.5f,
+            Mathf.RoundToInt(42f * modifiers.EnemyDamage), Mathf.RoundToInt(50f * modifiers.EnemyDamage),
+            Mathf.RoundToInt(35f * modifiers.EnemyDamage), Mathf.RoundToInt(65f * modifiers.EnemyDamage));
+        return health;
+    }
+
+    private static GameObject CreateEagleKnightFallback(Transform parent, Vector2 position)
+    {
+        GameObject boss = new("EagleKnightBoss", typeof(SpriteRenderer), typeof(Rigidbody2D),
+            typeof(CapsuleCollider2D), typeof(Damageable), typeof(BossHealth), typeof(BossMovement),
+            typeof(EagleKnightAnimator), typeof(EagleKnightBossCombat));
+        boss.transform.SetParent(parent, true); boss.transform.position = position;
+        SpriteRenderer renderer = boss.GetComponent<SpriteRenderer>();
+        renderer.sprite = Resources.Load<Sprite>("EagleKnight/Idle_01") ?? MonsterRoster.PlaceholderSprite;
+        renderer.sortingOrder = 8; renderer.color = Color.white;
+        CreateHitbox(boss.transform, "SlashHitbox", new Vector2(1.8f, 1.1f));
+        CreateHitbox(boss.transform, "ChargeHitbox", new Vector2(1.2f, 0.9f));
+        CreateHitbox(boss.transform, "SkillHitbox", new Vector2(3.2f, 3.2f));
+        return boss;
+    }
+
+    private static void CreateHitbox(Transform parent, string name, Vector2 size)
+    {
+        GameObject child = new(name, typeof(BoxCollider2D)); child.transform.SetParent(parent, false);
+        BoxCollider2D hitbox = child.GetComponent<BoxCollider2D>(); hitbox.size = size;
+        hitbox.isTrigger = true; hitbox.enabled = false;
+    }
+
     public static BossHealth SpawnEasy(Transform parent, Vector2 position, DifficultyModifiers modifiers)
     {
         BossVisualDatabase database = Resources.Load<BossVisualDatabase>("BossVisualDatabase");
@@ -20,7 +63,7 @@ public static class BossRoster
         }
 
         BossHealth health = boss.GetComponent<BossHealth>();
-        health.Configure(Mathf.RoundToInt(10000f * modifiers.EnemyHealth),
+        health.Configure(Mathf.RoundToInt(8500f * modifiers.EnemyHealth),
             Mathf.RoundToInt(300f * modifiers.Reward));
         return health;
     }
@@ -49,13 +92,27 @@ public static class BossRoster
 
         int baseHealth = difficulty switch
         {
-            DungeonDifficulty.Hard => 15000,
-            DungeonDifficulty.Nightmare => 30000,
+            DungeonDifficulty.Hard => 12750,
+            DungeonDifficulty.Nightmare => 25500,
             _ => 8000
         };
         BossHealth health = boss.GetComponent<BossHealth>();
         health.Configure(Mathf.RoundToInt(baseHealth * modifiers.EnemyHealth),
             Mathf.RoundToInt(180f * modifiers.Reward), $"{difficulty} Dummy Boss", 0, 0.2f);
+        return health;
+    }
+
+    public static BossHealth SpawnHard(Transform parent, Vector2 position, DifficultyModifiers modifiers)
+    {
+        GameObject prefab = Resources.Load<GameObject>("AncientGolem/AncientGolemBoss");
+        if (prefab == null) return SpawnDummy(parent, position, DungeonDifficulty.Hard, modifiers);
+        GameObject boss = Object.Instantiate(prefab, position, Quaternion.identity, parent);
+        boss.name = "AncientGolemBoss";
+        BossHealth health = boss.GetComponent<BossHealth>();
+        health.Configure(Mathf.RoundToInt(12750f * modifiers.EnemyHealth),
+            Mathf.RoundToInt(550f * modifiers.Reward), "고대 골렘", 30, 1.1f);
+        boss.GetComponent<BossMovement>()?.ConfigureSpeed(1.65f * modifiers.EnemySpeed);
+        boss.GetComponent<AncientGolemCombat>()?.Configure(modifiers.EnemyDamage);
         return health;
     }
 
@@ -80,7 +137,7 @@ public static class BossRoster
         body.interpolation = RigidbodyInterpolation2D.Interpolate;
 
         BossHealth health = boss.GetComponent<BossHealth>();
-        health.Configure(Mathf.RoundToInt(30000f * modifiers.EnemyHealth),
+        health.Configure(Mathf.RoundToInt(25500f * modifiers.EnemyHealth),
             Mathf.RoundToInt(750f * modifiers.Reward), "혼돈의 대마도사", 18, 1.2f);
         return health;
     }

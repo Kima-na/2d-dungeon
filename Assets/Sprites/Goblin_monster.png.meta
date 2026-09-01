@@ -377,9 +377,9 @@ TextureImporter:
       name: GoblinWarrior_0_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 18
         y: 753
-        width: 167
+        width: 131
         height: 188
       alignment: 9
       pivot: {x: 0.5, y: 0.08}
@@ -399,9 +399,9 @@ TextureImporter:
       name: GoblinWarrior_0_1
       rect:
         serializedVersion: 2
-        x: 167
+        x: 185
         y: 753
-        width: 167
+        width: 131
         height: 188
       alignment: 9
       pivot: {x: 0.5, y: 0.08}
@@ -421,9 +421,9 @@ TextureImporter:
       name: GoblinWarrior_0_2
       rect:
         serializedVersion: 2
-        x: 334
+        x: 352
         y: 753
-        width: 168
+        width: 132
         height: 188
       alignment: 9
       pivot: {x: 0.5, y: 0.08}
@@ -443,9 +443,9 @@ TextureImporter:
       name: GoblinWarrior_0_3
       rect:
         serializedVersion: 2
-        x: 502
+        x: 520
         y: 753
-        width: 167
+        width: 131
         height: 188
       alignment: 9
       pivot: {x: 0.5, y: 0.08}
@@ -465,9 +465,9 @@ TextureImporter:
       name: GoblinWarrior_0_4
       rect:
         serializedVersion: 2
-        x: 669
+        x: 687
         y: 753
-        width: 167
+        width: 131
         height: 188
       alignment: 9
       pivot: {x: 0.5, y: 0.08}
@@ -487,9 +487,9 @@ TextureImporter:
       name: GoblinWarrior_0_5
       rect:
         serializedVersion: 2
-        x: 836
+        x: 854
         y: 753
-        width: 167
+        width: 131
         height: 188
       alignment: 9
       pivot: {x: 0.5, y: 0.08}
@@ -509,9 +509,9 @@ TextureImporter:
       name: GoblinWarrior_0_6
       rect:
         serializedVersion: 2
-        x: 1003
+        x: 1021
         y: 753
-        width: 167
+        width: 131
         height: 188
       alignment: 9
       pivot: {x: 0.5, y: 0.08}
@@ -531,9 +531,9 @@ TextureImporter:
       name: GoblinWarrior_0_7
       rect:
         serializedVersion: 2
-        x: 1170
+        x: 1188
         y: 753
-        width: 168
+        width: 132
         height: 188
       alignment: 9
       pivot: {x: 0.5, y: 0.08}
@@ -553,9 +553,9 @@ TextureImporter:
       name: GoblinWarrior_0_8
       rect:
         serializedVersion: 2
-        x: 1338
+        x: 1345
         y: 753
-        width: 167
+        width: 153
         height: 188
       alignment: 9
       pivot: {x: 0.5, y: 0.08}
@@ -575,9 +575,9 @@ TextureImporter:
       name: GoblinWarrior_0_9
       rect:
         serializedVersion: 2
-        x: 1505
+        x: 1512
         y: 753
-        width: 167
+        width: 153
         height: 188
       alignment: 9
       pivot: {x: 0.5, y: 0.08}
@@ -597,9 +597,9 @@ TextureImporter:
       name: GoblinWarrior_1_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 18
         y: 565
-        width: 167
+        width: 131
         height: 188
       alignment: 9
       pivot: {x: 0.5, y: 0.08}
@@ -619,9 +619,9 @@ TextureImporter:
       name: GoblinWarrior_1_1
       rect:
         serializedVersion: 2
-        x: 167
+        x: 185
         y: 565
-        width: 167
+        width: 131
         height: 188
       alignment: 9
       pivot: {x: 0.5, y: 0.08}
@@ -641,9 +641,9 @@ TextureImporter:
       name: GoblinWarrior_1_2
       rect:
         serializedVersion: 2
-        x: 334
+        x: 352
         y: 565
-        width: 168
+        width: 132
         height: 188
       alignment: 9
       pivot: {x: 0.5, y: 0.08}
@@ -663,9 +663,9 @@ TextureImporter:
       name: GoblinWarrior_1_3
       rect:
         serializedVersion: 2
-        x: 502
+        x: 520
         y: 565
-        width: 167
+        width: 131
         height: 188
       alignment: 9
       pivot: {x: 0.5, y: 0.08}
@@ -685,9 +685,9 @@ TextureImporter:
       name: GoblinWarrior_1_4
       rect:
         serializedVersion: 2
-        x: 669
+        x: 687
         y: 565
-        width: 167
+        width: 131
         height: 188
       alignment: 9
       pivot: {x: 0.5, y: 0.08}
@@ -707,9 +707,9 @@ TextureImporter:
       name: GoblinWarrior_1_5
       rect:
         serializedVersion: 2
-        x: 836
+        x: 854
         y: 565
-        width: 167
+        width: 131
         height: 188
       alignment: 9
       pivot: {x: 0.5, y: 0.08}
@@ -729,9 +729,9 @@ TextureImporter:
       name: GoblinWarrior_1_6
       rect:
         serializedVersion: 2
-        x: 1003
+        x: 1021
         y: 565
-        width: 167
+        width: 131
         height: 188
       alignment: 9
       pivot: {x: 0.5, y: 0.08}
@@ -751,9 +751,9 @@ TextureImporter:
       name: GoblinWarrior_1_7
       rect:
         serializedVersion: 2
-        x: 1170
+        x: 1188
         y: 565
-        width: 168
+        width: 132
         height: 188
       alignment: 9
       pivot: {x: 0.5, y: 0.08}
@@ -773,9 +773,9 @@ TextureImporter:
       name: GoblinWarrior_1_8
       rect:
         serializedVersion: 2
-        x: 1338
+        x: 1345
         y: 565
-        width: 167
+        width: 153
         height: 188
       alignment: 9
       pivot: {x: 0.5, y: 0.08}
@@ -795,9 +795,9 @@ TextureImporter:
       name: GoblinWarrior_1_9
       rect:
         serializedVersion: 2
-        x: 1505
+        x: 1512
         y: 565
-        width: 167
+        width: 153
         height: 188
       alignment: 9
       pivot: {x: 0.5, y: 0.08}
@@ -817,9 +817,9 @@ TextureImporter:
       name: GoblinWarrior_2_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 18
         y: 376
-        width: 167
+        width: 131
         height: 189
       alignment: 9
       pivot: {x: 0.5, y: 0.08}
@@ -839,9 +839,9 @@ TextureImporter:
       name: GoblinWarrior_2_1
       rect:
         serializedVersion: 2
-        x: 167
+        x: 185
         y: 376
-        width: 167
+        width: 131
         height: 189
       alignment: 9
       pivot: {x: 0.5, y: 0.08}
@@ -861,9 +861,9 @@ TextureImporter:
       name: GoblinWarrior_2_2
       rect:
         serializedVersion: 2
-        x: 334
+        x: 352
         y: 376
-        width: 168
+        width: 132
         height: 189
       alignment: 9
       pivot: {x: 0.5, y: 0.08}
@@ -883,9 +883,9 @@ TextureImporter:
       name: GoblinWarrior_2_3
       rect:
         serializedVersion: 2
-        x: 502
+        x: 520
         y: 376
-        width: 167
+        width: 131
         height: 189
       alignment: 9
       pivot: {x: 0.5, y: 0.08}
@@ -905,9 +905,9 @@ TextureImporter:
       name: GoblinWarrior_2_4
       rect:
         serializedVersion: 2
-        x: 669
+        x: 687
         y: 376
-        width: 167
+        width: 131
         height: 189
       alignment: 9
       pivot: {x: 0.5, y: 0.08}
@@ -927,9 +927,9 @@ TextureImporter:
       name: GoblinWarrior_2_5
       rect:
         serializedVersion: 2
-        x: 836
+        x: 854
         y: 376
-        width: 167
+        width: 131
         height: 189
       alignment: 9
       pivot: {x: 0.5, y: 0.08}
@@ -949,9 +949,9 @@ TextureImporter:
       name: GoblinWarrior_2_6
       rect:
         serializedVersion: 2
-        x: 1003
+        x: 1021
         y: 376
-        width: 167
+        width: 131
         height: 189
       alignment: 9
       pivot: {x: 0.5, y: 0.08}
@@ -971,9 +971,9 @@ TextureImporter:
       name: GoblinWarrior_2_7
       rect:
         serializedVersion: 2
-        x: 1170
+        x: 1188
         y: 376
-        width: 168
+        width: 132
         height: 189
       alignment: 9
       pivot: {x: 0.5, y: 0.08}
@@ -993,9 +993,9 @@ TextureImporter:
       name: GoblinWarrior_2_8
       rect:
         serializedVersion: 2
-        x: 1338
+        x: 1345
         y: 376
-        width: 167
+        width: 153
         height: 189
       alignment: 9
       pivot: {x: 0.5, y: 0.08}
@@ -1015,9 +1015,9 @@ TextureImporter:
       name: GoblinWarrior_2_9
       rect:
         serializedVersion: 2
-        x: 1505
+        x: 1512
         y: 376
-        width: 167
+        width: 153
         height: 189
       alignment: 9
       pivot: {x: 0.5, y: 0.08}
@@ -1037,9 +1037,9 @@ TextureImporter:
       name: GoblinWarrior_3_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 18
         y: 188
-        width: 167
+        width: 131
         height: 188
       alignment: 9
       pivot: {x: 0.5, y: 0.08}
@@ -1059,9 +1059,9 @@ TextureImporter:
       name: GoblinWarrior_3_1
       rect:
         serializedVersion: 2
-        x: 167
+        x: 185
         y: 188
-        width: 167
+        width: 131
         height: 188
       alignment: 9
       pivot: {x: 0.5, y: 0.08}
@@ -1081,9 +1081,9 @@ TextureImporter:
       name: GoblinWarrior_3_2
       rect:
         serializedVersion: 2
-        x: 334
+        x: 352
         y: 188
-        width: 168
+        width: 132
         height: 188
       alignment: 9
       pivot: {x: 0.5, y: 0.08}
@@ -1103,9 +1103,9 @@ TextureImporter:
       name: GoblinWarrior_3_3
       rect:
         serializedVersion: 2
-        x: 502
+        x: 520
         y: 188
-        width: 167
+        width: 131
         height: 188
       alignment: 9
       pivot: {x: 0.5, y: 0.08}
@@ -1125,9 +1125,9 @@ TextureImporter:
       name: GoblinWarrior_3_4
       rect:
         serializedVersion: 2
-        x: 669
+        x: 687
         y: 188
-        width: 167
+        width: 131
         height: 188
       alignment: 9
       pivot: {x: 0.5, y: 0.08}
@@ -1147,9 +1147,9 @@ TextureImporter:
       name: GoblinWarrior_3_5
       rect:
         serializedVersion: 2
-        x: 836
+        x: 854
         y: 188
-        width: 167
+        width: 131
         height: 188
       alignment: 9
       pivot: {x: 0.5, y: 0.08}
@@ -1169,9 +1169,9 @@ TextureImporter:
       name: GoblinWarrior_3_6
       rect:
         serializedVersion: 2
-        x: 1003
+        x: 1021
         y: 188
-        width: 167
+        width: 131
         height: 188
       alignment: 9
       pivot: {x: 0.5, y: 0.08}
@@ -1191,9 +1191,9 @@ TextureImporter:
       name: GoblinWarrior_3_7
       rect:
         serializedVersion: 2
-        x: 1170
+        x: 1188
         y: 188
-        width: 168
+        width: 132
         height: 188
       alignment: 9
       pivot: {x: 0.5, y: 0.08}
@@ -1213,9 +1213,9 @@ TextureImporter:
       name: GoblinWarrior_3_8
       rect:
         serializedVersion: 2
-        x: 1338
+        x: 1345
         y: 188
-        width: 167
+        width: 153
         height: 188
       alignment: 9
       pivot: {x: 0.5, y: 0.08}
@@ -1235,9 +1235,9 @@ TextureImporter:
       name: GoblinWarrior_3_9
       rect:
         serializedVersion: 2
-        x: 1505
+        x: 1512
         y: 188
-        width: 167
+        width: 153
         height: 188
       alignment: 9
       pivot: {x: 0.5, y: 0.08}
@@ -1257,9 +1257,9 @@ TextureImporter:
       name: GoblinWarrior_4_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 7
         y: 0
-        width: 167
+        width: 153
         height: 188
       alignment: 9
       pivot: {x: 0.5, y: 0.08}
@@ -1279,9 +1279,9 @@ TextureImporter:
       name: GoblinWarrior_4_1
       rect:
         serializedVersion: 2
-        x: 167
+        x: 174
         y: 0
-        width: 167
+        width: 153
         height: 188
       alignment: 9
       pivot: {x: 0.5, y: 0.08}
@@ -1301,9 +1301,9 @@ TextureImporter:
       name: GoblinWarrior_4_2
       rect:
         serializedVersion: 2
-        x: 334
+        x: 341
         y: 0
-        width: 168
+        width: 154
         height: 188
       alignment: 9
       pivot: {x: 0.5, y: 0.08}
@@ -1323,9 +1323,9 @@ TextureImporter:
       name: GoblinWarrior_4_3
       rect:
         serializedVersion: 2
-        x: 502
+        x: 509
         y: 0
-        width: 167
+        width: 153
         height: 188
       alignment: 9
       pivot: {x: 0.5, y: 0.08}
@@ -1345,9 +1345,9 @@ TextureImporter:
       name: GoblinWarrior_4_4
       rect:
         serializedVersion: 2
-        x: 669
+        x: 676
         y: 0
-        width: 167
+        width: 153
         height: 188
       alignment: 9
       pivot: {x: 0.5, y: 0.08}

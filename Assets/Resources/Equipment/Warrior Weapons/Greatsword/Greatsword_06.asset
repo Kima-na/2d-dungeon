@@ -16,7 +16,10 @@ MonoBehaviour:
   displayName: Greatsword 06
   slot: 0
   rarity: 3
+  weaponClass: 0
   warriorWeaponType: 1
+  archerWeaponType: 0
+  mageWeaponType: 0
   attackPower: 20
   defense: 0
   maxHealth: 0

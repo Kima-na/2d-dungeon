@@ -13,11 +13,14 @@ MonoBehaviour:
   m_Name: Helmet_04
   m_EditorClassIdentifier: Assembly-CSharp::EquipmentData
   itemId: helmet_04
-  displayName: "\uC218\uD638\uC790\uC758 \uD22C\uAD6C 04"
+  displayName: "\uC804\uC0AC \uD22C\uAD6C 04"
   slot: 1
   rarity: 3
+  weaponClass: 0
   warriorWeaponType: 0
-  attackPower: 0
+  archerWeaponType: 0
+  mageWeaponType: 0
+  attackPower: 4
   defense: 4
   maxHealth: 17
   criticalChance: 0

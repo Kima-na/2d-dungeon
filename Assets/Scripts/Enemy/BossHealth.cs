@@ -46,8 +46,9 @@ public sealed class BossHealth : MonoBehaviour
         CapsuleCollider2D capsule = GetComponent<CapsuleCollider2D>();
         if (capsule == null) return;
         capsule.direction = CapsuleDirection2D.Vertical;
-        capsule.size = new Vector2(0.82f, 0.96f);
-        capsule.offset = new Vector2(0f, -0.2f);
+        bool isEagleKnight = GetComponent<EagleKnightBossCombat>() != null;
+        capsule.size = isEagleKnight ? new Vector2(1.15f, 1.65f) : new Vector2(0.82f, 0.96f);
+        capsule.offset = isEagleKnight ? new Vector2(0f, 0.8f) : new Vector2(0f, -0.2f);
         capsule.isTrigger = false;
     }
 
@@ -84,6 +85,8 @@ public sealed class BossHealth : MonoBehaviour
         if (current < lastHealth && current > 0)
         {
             GetComponent<BossAnimator>()?.PlayHit();
+            GetComponent<EagleKnightAnimator>()?.PlayHit();
+            GetComponent<AncientGolemAnimator>()?.PlayHit();
             if (spriteRenderer != null) StartCoroutine(HitFlash());
         }
         lastHealth = current;
@@ -108,11 +111,19 @@ public sealed class BossHealth : MonoBehaviour
         BossMovement movement = GetComponent<BossMovement>();
         BossCombat combat = GetComponent<BossCombat>();
         NightmareBossCombat nightmareCombat = GetComponent<NightmareBossCombat>();
+        EagleKnightBossCombat eagleCombat = GetComponent<EagleKnightBossCombat>();
+        EagleKnightAnimator eagleAnimator = GetComponent<EagleKnightAnimator>();
+        AncientGolemAnimator golemAnimator = GetComponent<AncientGolemAnimator>();
+        AncientGolemCombat golemCombat = GetComponent<AncientGolemCombat>();
         BossAnimator bossAnimator = GetComponent<BossAnimator>();
         if (movement != null) movement.enabled = false;
         if (combat != null) combat.enabled = false;
         if (nightmareCombat != null) nightmareCombat.enabled = false;
+        if (eagleCombat != null) eagleCombat.enabled = false;
+        if (golemCombat != null) golemCombat.enabled = false;
         if (bossAnimator != null) bossAnimator.SetDead();
+        if (eagleAnimator != null) eagleAnimator.SetDead();
+        if (golemAnimator != null) golemAnimator.SetDead();
         Rigidbody2D body = GetComponent<Rigidbody2D>();
         if (body != null) body.linearVelocity = Vector2.zero;
 
@@ -121,8 +132,12 @@ public sealed class BossHealth : MonoBehaviour
         yield return null;
         SpriteRenderer renderer = GetComponent<SpriteRenderer>();
         if (renderer != null) renderer.enabled = true;
-        float animationLength = bossAnimator != null ? bossAnimator.DeathAnimationLength : 0f;
+        float animationLength = bossAnimator != null ? bossAnimator.DeathAnimationLength :
+            eagleAnimator != null ? eagleAnimator.DeathAnimationLength :
+            golemAnimator != null ? golemAnimator.DeathAnimationLength : 0f;
         yield return new WaitForSeconds(Mathf.Max(deathDelay, animationLength));
+        eagleCombat?.GrantRewards();
+        EquipmentPickup.Spawn(transform.position);
         Defeated?.Invoke(this);
         AnyBossDefeated?.Invoke(this);
         BossUI.Hide(this);
