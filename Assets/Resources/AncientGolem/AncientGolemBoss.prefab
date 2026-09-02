@@ -34,7 +34,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.25, y: 1.25, z: 1.25}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -230,7 +230,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 4d723e517aeb3a84dbc7a4ed00ab77ce, type: 3}
   - {fileID: 21300000, guid: 779bba6256016a84a8fe90ddea140834, type: 3}
   - {fileID: 21300000, guid: 005976796efe0134981d855b506467f7, type: 3}
-  - {fileID: 21300000, guid: 0e676f6dd0503ba47822cabed4399a16, type: 3}
   phase1Slam:
   - {fileID: 21300000, guid: 308b3413632558c44b1f9e9d783b6075, type: 3}
   - {fileID: 21300000, guid: ad35601a4fb5774439cd8578a18042d5, type: 3}
@@ -247,13 +246,11 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 8de47e11e277db446b0ad4c729046dc8, type: 3}
   - {fileID: 21300000, guid: 8525675b53d0d8e43958195a5e7eb3e1, type: 3}
   - {fileID: 21300000, guid: 451acce57cc2c34469315f6086420c00, type: 3}
-  - {fileID: 21300000, guid: e5be4e4abee0c4849a189c5e36e415a6, type: 3}
   phase2Idle:
   - {fileID: 21300000, guid: 23d2c70f0ef5b284e91460cb26fa8ff2, type: 3}
   - {fileID: 21300000, guid: 52bb06ddc95d1d4408016eefc36d9f24, type: 3}
   - {fileID: 21300000, guid: 8ceec947ee88ccc4d8f7efcba68a86a3, type: 3}
   - {fileID: 21300000, guid: 877f011477d4aba47a867aeb45e44a5a, type: 3}
-  - {fileID: 21300000, guid: ddda36cd34a75ce49afba2ac62122bc9, type: 3}
   phase2Slam:
   - {fileID: 21300000, guid: 35bae21d2a779c748b8694765748807e, type: 3}
   - {fileID: 21300000, guid: 98e5c2fa09880914ea3b685c6ec2fc01, type: 3}

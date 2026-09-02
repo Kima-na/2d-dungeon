@@ -3,6 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer), typeof(CircleCollider2D), typeof(Rigidbody2D))]
 public sealed class NightmareBossProjectile : MonoBehaviour
 {
+    private static Sprite[] phaseOneOrbs;
     private Transform owner;
     private Transform target;
     private Vector2 direction;
@@ -16,11 +17,24 @@ public sealed class NightmareBossProjectile : MonoBehaviour
         GameObject projectile = new("Nightmare Chaos Orb", typeof(SpriteRenderer),
             typeof(CircleCollider2D), typeof(Rigidbody2D), typeof(NightmareBossProjectile));
         projectile.transform.position = owner.position + (Vector3)(direction.normalized * 0.9f);
-        projectile.transform.localScale = Vector3.one * 0.32f;
+        projectile.transform.localScale = Vector3.one * 0.72f;
         SpriteRenderer renderer = projectile.GetComponent<SpriteRenderer>();
-        renderer.sprite = MonsterRoster.PlaceholderSprite;
-        renderer.color = color;
+        NightmareBossCombat combat = owner.GetComponent<NightmareBossCombat>();
+        bool usingPhaseOneArt = combat != null && combat.Phase == 1;
+        if (usingPhaseOneArt)
+        {
+            if (phaseOneOrbs == null)
+            {
+                phaseOneOrbs = new Sprite[4];
+                for (int i = 0; i < phaseOneOrbs.Length; i++)
+                    phaseOneOrbs[i] = Resources.Load<Sprite>($"NightmareBoss/Phase1Effects/Orb_{i + 2:00}");
+            }
+            renderer.sprite = phaseOneOrbs[Random.Range(0, phaseOneOrbs.Length)];
+        }
+        else renderer.sprite = RuntimeCombatSprites.Circle;
+        renderer.color = usingPhaseOneArt ? Color.white : color;
         renderer.sortingOrder = 10;
+        PlayerAttackVfx.AttachTrail(projectile, new Color(color.r, color.g, color.b, 0.75f), 0.2f);
         CircleCollider2D hitbox = projectile.GetComponent<CircleCollider2D>();
         hitbox.isTrigger = true;
         hitbox.radius = 0.55f;

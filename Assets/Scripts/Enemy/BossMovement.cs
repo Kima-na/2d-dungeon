@@ -48,10 +48,19 @@ public sealed class BossMovement : MonoBehaviour
         body.interpolation = RigidbodyInterpolation2D.Interpolate;
     }
 
-    private void FixedUpdate()
+private void FixedUpdate()
     {
         if (health.IsDead) { Stop(); return; }
         FindTarget();
+
+        Vector2 direction = target == null ? Vector2.zero : ((Vector2)target.position - body.position).normalized;
+        if (target != null)
+        {
+            bossAnimator?.SetMovement(direction, false);
+            eagleKnightAnimator?.SetMovement(direction, false);
+            ancientGolemAnimator?.SetMovement(direction, false);
+        }
+
         if (target == null || DistanceToTarget <= stoppingDistance ||
             (combat != null && combat.IsAttacking) ||
             (nightmareCombat != null && nightmareCombat.IsAttacking) ||
@@ -62,7 +71,6 @@ public sealed class BossMovement : MonoBehaviour
             return;
         }
 
-        Vector2 direction = ((Vector2)target.position - body.position).normalized;
         body.linearVelocity = direction * moveSpeed;
         bossAnimator?.SetMovement(direction, true);
         eagleKnightAnimator?.SetMovement(direction, true);

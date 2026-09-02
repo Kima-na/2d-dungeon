@@ -31,7 +31,7 @@ public class MagicProjectile : MonoBehaviour
     {
         foreach (EnemyAI enemy in EnemyAI.ActiveEnemies)
         {
-            if (enemy == null || Vector2.Distance(transform.position, enemy.transform.position) > 0.72f) continue;
+            if (enemy == null || Vector2.Distance(transform.position, enemy.transform.position) > 0.9f) continue;
             if (TryDamage(enemy.Health, enemy.gameObject)) return;
         }
     }

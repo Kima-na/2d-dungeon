@@ -17,7 +17,7 @@ public static class BossRoster
         health.Configure(Mathf.RoundToInt(10000f * modifiers.EnemyHealth),
             Mathf.RoundToInt(500f * modifiers.Reward), "독수리 기사", 22, 0.8f);
         boss.GetComponent<BossMovement>()?.ConfigureSpeed(2.5f * modifiers.EnemySpeed);
-        boss.GetComponent<EagleKnightBossCombat>()?.Configure(8f, 2f, 1.5f,
+        boss.GetComponent<EagleKnightBossCombat>()?.Configure(20f, 2f, 1.5f,
             Mathf.RoundToInt(42f * modifiers.EnemyDamage), Mathf.RoundToInt(50f * modifiers.EnemyDamage),
             Mathf.RoundToInt(35f * modifiers.EnemyDamage), Mathf.RoundToInt(65f * modifiers.EnemyDamage));
         return health;
@@ -119,9 +119,16 @@ public static class BossRoster
     public static BossHealth SpawnNightmare(Transform parent, Vector2 position,
         DifficultyModifiers modifiers)
     {
-        GameObject boss = new("Nightmare Boss", typeof(SpriteRenderer), typeof(Rigidbody2D),
-            typeof(CapsuleCollider2D), typeof(Damageable), typeof(BossHealth),
-            typeof(BossMovement), typeof(NightmareBossCombat), typeof(NightmareBossPhaseController));
+        GameObject boss = new("Nightmare Boss");
+        boss.SetActive(false);
+        boss.AddComponent<SpriteRenderer>();
+        boss.AddComponent<Rigidbody2D>();
+        boss.AddComponent<CapsuleCollider2D>();
+        boss.AddComponent<Damageable>();
+        boss.AddComponent<BossHealth>();
+        boss.AddComponent<BossMovement>();
+        boss.AddComponent<NightmareBossCombat>();
+        boss.AddComponent<NightmareBossPhaseController>();
         boss.transform.SetParent(parent, true);
         boss.transform.position = position;
 
@@ -136,9 +143,10 @@ public static class BossRoster
         body.freezeRotation = true;
         body.interpolation = RigidbodyInterpolation2D.Interpolate;
 
+        boss.SetActive(true);
         BossHealth health = boss.GetComponent<BossHealth>();
         health.Configure(Mathf.RoundToInt(25500f * modifiers.EnemyHealth),
-            Mathf.RoundToInt(750f * modifiers.Reward), "혼돈의 대마도사", 18, 1.2f);
+            Mathf.RoundToInt(750f * modifiers.Reward), "악몽의 대마도사", 18, 1.2f);
         return health;
     }
 }

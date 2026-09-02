@@ -81,7 +81,7 @@ public class MageController : MonoBehaviour
         body.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
         CircleCollider2D hitbox = projectile.GetComponent<CircleCollider2D>();
         hitbox.isTrigger = true;
-        hitbox.radius = 0.48f;
+        hitbox.radius = 0.75f;
         projectile.GetComponent<MagicProjectile>().Initialize(transform.root, stats,
             direction * projectileSpeed, damage, projectileLifetime, targetLayers);
     }

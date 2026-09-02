@@ -4,7 +4,7 @@ public sealed class WorldShadow : MonoBehaviour
 {
     private static Sprite shadowSprite;
 
-    public static void Ensure(Transform owner, int sortingOrder, float size = 1f, float verticalOffset = -0.42f)
+    public static void Ensure(Transform owner, int sortingOrder, float size = 1f, float verticalOffset = -0.42f, float alpha = 0.42f)
     {
         Transform existing = owner.Find("Ground Shadow");
         GameObject shadow = existing != null ? existing.gameObject :
@@ -14,7 +14,7 @@ public sealed class WorldShadow : MonoBehaviour
         shadow.transform.localScale = new Vector3(0.82f * size, 0.3f * size, 1f);
         SpriteRenderer renderer = shadow.GetComponent<SpriteRenderer>();
         renderer.sprite = GetSprite();
-        renderer.color = new Color(0f, 0f, 0f, 0.42f);
+        renderer.color = new Color(0f, 0f, 0f, alpha);
         renderer.sortingOrder = sortingOrder;
     }
 

@@ -25,7 +25,7 @@ public sealed class BossHealth : MonoBehaviour
     public event Action<BossHealth> Defeated;
     public static event Action<BossHealth> AnyBossDefeated;
 
-    private void Awake()
+private void Awake()
     {
         damageable = GetComponent<Damageable>();
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -33,12 +33,18 @@ public sealed class BossHealth : MonoBehaviour
         damageable.Configure(maxHealth, experienceReward, false, true);
         damageable.SetDamageReduction(defense);
         lastHealth = damageable.CurrentHealth;
+
         WorldHealthBar bar = GetComponent<WorldHealthBar>();
         if (bar == null) bar = gameObject.AddComponent<WorldHealthBar>();
         bar.Bind(damageable, true);
+
         ConfigureBodyCollider();
+        ConfigurePushResistance();
+        bool isGolem = GetComponent<AncientGolemCombat>() != null;
         WorldShadow.Ensure(transform, spriteRenderer != null ? spriteRenderer.sortingOrder - 1 : -1,
-            1.25f, -0.34f);
+            isGolem ? 2.0f : 1.25f,
+            isGolem ? -0.025f : -0.34f,
+            isGolem ? 0.55f : 0.42f);
     }
 
     private void ConfigureBodyCollider()
@@ -51,6 +57,20 @@ public sealed class BossHealth : MonoBehaviour
         capsule.offset = isEagleKnight ? new Vector2(0f, 0.8f) : new Vector2(0f, -0.2f);
         capsule.isTrigger = false;
     }
+
+private void ConfigurePushResistance()
+    {
+        Rigidbody2D body = GetComponent<Rigidbody2D>();
+        if (body == null) return;
+
+        // Kinematic bosses can still move through their AI velocity/MovePosition,
+        // but dynamic player collisions cannot transfer force into them.
+        body.bodyType = RigidbodyType2D.Kinematic;
+        body.gravityScale = 0f;
+        body.freezeRotation = true;
+        body.useFullKinematicContacts = true;
+    }
+
 
     private void OnEnable()
     {
@@ -70,6 +90,7 @@ public sealed class BossHealth : MonoBehaviour
 
     public void Configure(int health, int reward, string displayName, int damageDefense, float delay)
     {
+        if (damageable == null) damageable = GetComponent<Damageable>();
         maxHealth = Mathf.Max(1, health);
         experienceReward = Mathf.Max(0, reward);
         bossName = displayName;
@@ -80,12 +101,16 @@ public sealed class BossHealth : MonoBehaviour
         lastHealth = damageable.CurrentHealth;
     }
 
-    private void OnHealthChanged(int current, int maximum)
+private void OnHealthChanged(int current, int maximum)
     {
         if (current < lastHealth && current > 0)
         {
             GetComponent<BossAnimator>()?.PlayHit();
-            GetComponent<EagleKnightAnimator>()?.PlayHit();
+
+            EagleKnightBossCombat eagleCombat = GetComponent<EagleKnightBossCombat>();
+            if (eagleCombat == null || !eagleCombat.IsUsingEnergyBurst)
+                GetComponent<EagleKnightAnimator>()?.PlayHit();
+
             GetComponent<AncientGolemAnimator>()?.PlayHit();
             if (spriteRenderer != null) StartCoroutine(HitFlash());
         }
