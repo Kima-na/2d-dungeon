@@ -50,30 +50,111 @@ public static class SkeletonSpriteSetup
 
     private static void WriteFrame(Texture2D source, Frame frame)
     {
-        const int canvas = 256; Color32[] output = new Color32[canvas * canvas];
+        const int canvas = 256;
+        int width = frame.Rect.width;
+        int height = frame.Rect.height;
+        Color32[] crop = new Color32[width * height];
+        bool[] background = new bool[crop.Length];
+
+        for (int localY = 0; localY < height; localY++)
+        for (int localX = 0; localX < width; localX++)
+        {
+            int sourceX = frame.Rect.x + localX;
+            int sourceY = source.height - frame.Rect.y - height + localY;
+            int index = localY * width + localX;
+            if (sourceX < 0 || sourceX >= source.width || sourceY < 0 || sourceY >= source.height)
+            {
+                background[index] = true;
+                continue;
+            }
+            crop[index] = source.GetPixel(sourceX, sourceY);
+        }
+
+        Color32 backgroundColor = crop[0];
+        var pending = new Queue<int>();
+        for (int x = 0; x < width; x++)
+        {
+            QueueBackground(crop, background, pending, backgroundColor, x);
+            QueueBackground(crop, background, pending, backgroundColor, (height - 1) * width + x);
+        }
+        for (int y = 1; y < height - 1; y++)
+        {
+            QueueBackground(crop, background, pending, backgroundColor, y * width);
+            QueueBackground(crop, background, pending, backgroundColor, y * width + width - 1);
+        }
+
+        int[] floodX = { -1, 1, 0, 0 };
+        int[] floodY = { 0, 0, -1, 1 };
+        while (pending.Count > 0)
+        {
+            int index = pending.Dequeue();
+            int x = index % width;
+            int y = index / width;
+            for (int direction = 0; direction < floodX.Length; direction++)
+            {
+                int nextX = x + floodX[direction];
+                int nextY = y + floodY[direction];
+                if (nextX < 0 || nextX >= width || nextY < 0 || nextY >= height) continue;
+                QueueBackground(crop, background, pending, backgroundColor, nextY * width + nextX);
+            }
+        }
+
         var pixels = new List<(int x, int y, Color32 c)>();
-        for (int y = 0; y < frame.Rect.height; y++) for (int x = 0; x < frame.Rect.width; x++)
+        for (int index = 0; index < crop.Length; index++)
         {
-            int sx = frame.Rect.x + x, sy = source.height - frame.Rect.y - frame.Rect.height + y;
-            if (sx < 0 || sx >= source.width || sy < 0 || sy >= source.height) continue;
-            Color32 c = source.GetPixel(sx, sy); if (c.r <= 16 && c.g <= 16 && c.b <= 16) continue;
-            pixels.Add((x, y, c));
+            if (background[index]) continue;
+            pixels.Add((index % width, index / width, crop[index]));
         }
-        if (frame.Name.StartsWith("Revive_")) pixels = KeepLargestComponent(pixels, frame.Rect.width);
+
+        if (frame.Name.StartsWith("Revive_")) pixels = KeepLargestComponent(pixels, width);
         if (pixels.Count == 0) return;
-        int minX = int.MaxValue, maxX = 0, minY = int.MaxValue, maxY = 0;
-        foreach (var p in pixels) { minX = Mathf.Min(minX, p.x); maxX = Mathf.Max(maxX, p.x); minY = Mathf.Min(minY, p.y); maxY = Mathf.Max(maxY, p.y); }
-        int width = maxX - minX + 1, height = maxY - minY + 1;
-        float scale = Mathf.Min(1f, Mathf.Min(236f / width, 236f / height));
-        int offsetX = (canvas - Mathf.RoundToInt(width * scale)) / 2, offsetY = 10;
-        foreach (var p in pixels)
+
+        int minX = int.MaxValue;
+        int maxX = 0;
+        int minY = int.MaxValue;
+        int maxY = 0;
+        foreach (var pixel in pixels)
         {
-            int x = offsetX + Mathf.RoundToInt((p.x - minX) * scale), y = offsetY + Mathf.RoundToInt((p.y - minY) * scale);
-            if (x >= 0 && x < canvas && y >= 0 && y < canvas) output[y * canvas + x] = p.c;
+            minX = Mathf.Min(minX, pixel.x);
+            maxX = Mathf.Max(maxX, pixel.x);
+            minY = Mathf.Min(minY, pixel.y);
+            maxY = Mathf.Max(maxY, pixel.y);
         }
+
+        int contentWidth = maxX - minX + 1;
+        int contentHeight = maxY - minY + 1;
+        float scale = Mathf.Min(1f, Mathf.Min(236f / contentWidth, 236f / contentHeight));
+        int offsetX = (canvas - Mathf.RoundToInt(contentWidth * scale)) / 2;
+        int offsetY = 10;
+        Color32[] output = new Color32[canvas * canvas];
+
+        foreach (var pixel in pixels)
+        {
+            int x = offsetX + Mathf.RoundToInt((pixel.x - minX) * scale);
+            int y = offsetY + Mathf.RoundToInt((pixel.y - minY) * scale);
+            if (x >= 0 && x < canvas && y >= 0 && y < canvas)
+                output[y * canvas + x] = pixel.c;
+        }
+
         Texture2D texture = new(canvas, canvas, TextureFormat.RGBA32, false);
         texture.SetPixels32(output); texture.Apply(); File.WriteAllBytes($"{Output}/{frame.Name}.png", texture.EncodeToPNG());
         Object.DestroyImmediate(texture);
+    }
+
+    private static bool IsBackground(Color32 color, Color32 backgroundColor)
+    {
+        if (color.a < 8) return true;
+        return Mathf.Abs((int)color.r - backgroundColor.r) <= 4 &&
+            Mathf.Abs((int)color.g - backgroundColor.g) <= 4 &&
+            Mathf.Abs((int)color.b - backgroundColor.b) <= 4;
+    }
+
+    private static void QueueBackground(Color32[] pixels, bool[] background, Queue<int> pending, Color32 backgroundColor, int index)
+    {
+        if (index < 0 || index >= pixels.Length || background[index] ||
+            !IsBackground(pixels[index], backgroundColor)) return;
+        background[index] = true;
+        pending.Enqueue(index);
     }
 
     private static List<(int x, int y, Color32 c)> KeepLargestComponent(

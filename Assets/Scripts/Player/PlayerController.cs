@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D body;
     private PlayerStats stats;
+    private DungeonGenerator dungeon;
     private Vector2 moveInput;
     private bool movementLocked;
 
@@ -19,6 +20,7 @@ public class PlayerController : MonoBehaviour
     {
         body = GetComponent<Rigidbody2D>();
         stats = GetComponent<PlayerStats>();
+        dungeon = FindAnyObjectByType<DungeonGenerator>();
         if (GetComponent<PlayerVisualController>() == null)
             gameObject.AddComponent<PlayerVisualController>();
     }
@@ -46,8 +48,15 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!movementLocked && !stats.IsDead)
-            body.MovePosition(body.position + moveInput * moveSpeed * stats.MoveSpeedMultiplier * Time.fixedDeltaTime);
+        if (movementLocked || stats.IsDead) return;
+
+        Vector2 nextPosition = body.position +
+            moveInput * moveSpeed * stats.MoveSpeedMultiplier * Time.fixedDeltaTime;
+        if (dungeon == null) dungeon = FindAnyObjectByType<DungeonGenerator>();
+        if (dungeon != null && dungeon.CurrentRoom != null)
+            nextPosition = dungeon.CurrentRoom.ClampToInterior(nextPosition, 0.1f);
+
+        body.MovePosition(nextPosition);
     }
 
     public void SetMovementLocked(bool locked)

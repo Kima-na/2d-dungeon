@@ -16,8 +16,8 @@ public static class BerserkerSpriteSetup
     private static readonly Frame[] Frames =
     {
         new("Idle_01",270,55,145,135), new("Idle_02",420,55,145,135), new("Idle_03",570,55,150,135),
-        new("Walk_01",800,55,145,135), new("Walk_02",945,55,145,135), new("Walk_03",1075,55,200,135),
-        new("Walk_04",1225,55,200,135), new("Walk_05",1420,55,155,135),
+        new("Walk_01",800,55,145,135), new("Walk_02",945,55,145,135), new("Walk_03",1095,55,180,135),
+        new("Walk_04",1245,55,180,135), new("Walk_05",1420,55,155,135),
         new("Attack_01",270,235,150,140), new("Attack_02",420,235,150,140),
         new("Attack_03",570,235,130,140), new("Attack_04",720,235,170,140),
         new("Hit_01",930,400,150,145), new("Hit_02",1080,400,150,145),
@@ -49,62 +49,181 @@ public static class BerserkerSpriteSetup
 
     private static void WriteFrame(Texture2D source, Frame frame)
     {
-        const int canvas = 256; Color32[] output = new Color32[canvas * canvas];
-        int minX=int.MaxValue,maxX=0,minY=int.MaxValue,maxY=0;
-        var kept = new System.Collections.Generic.List<(int x,int y,Color32 c)>();
-        for (int y=0;y<frame.Rect.height;y++) for(int x=0;x<frame.Rect.width;x++)
+        const int canvas = 256;
+        int width = frame.Rect.width;
+        int height = frame.Rect.height;
+        Color32[] crop = new Color32[width * height];
+        bool[] background = new bool[crop.Length];
+        var pending = new System.Collections.Generic.Queue<Vector2Int>();
+
+        for (int y = 0; y < height; y++)
+        for (int x = 0; x < width; x++)
         {
-            int sx=frame.Rect.x+x, sy=source.height-frame.Rect.y-frame.Rect.height+y;
-            if(sx<0||sx>=source.width||sy<0||sy>=source.height) continue;
-            Color32 c=source.GetPixel(sx,sy); if(c.r<=18&&c.g<=18&&c.b<=18) continue;
-            kept.Add((x,y,c)); minX=Mathf.Min(minX,x); maxX=Mathf.Max(maxX,x); minY=Mathf.Min(minY,y); maxY=Mathf.Max(maxY,y);
-        }
-        if(frame.Name is "Walk_03" or "Walk_04")
-            RemoveEdgeFragments(kept, frame.Rect.width, frame.Rect.height, false);
-        minX=int.MaxValue;maxX=0;minY=int.MaxValue;maxY=0;
-        foreach(var p in kept){minX=Mathf.Min(minX,p.x);maxX=Mathf.Max(maxX,p.x);minY=Mathf.Min(minY,p.y);maxY=Mathf.Max(maxY,p.y);}
-        if(kept.Count==0) return;
-        int width=maxX-minX+1,height=maxY-minY+1; float scale=Mathf.Min(1f,Mathf.Min(236f/width,236f/height));
-        int ox=(canvas-Mathf.RoundToInt(width*scale))/2, oy=10;
-        foreach(var p in kept){int x=ox+Mathf.RoundToInt((p.x-minX)*scale),y=oy+Mathf.RoundToInt((p.y-minY)*scale);if(x>=0&&x<canvas&&y>=0&&y<canvas)output[y*canvas+x]=p.c;}
-        Texture2D texture=new(canvas,canvas,TextureFormat.RGBA32,false); texture.SetPixels32(output);texture.Apply();
-        File.WriteAllBytes($"{Output}/{frame.Name}.png",texture.EncodeToPNG()); Object.DestroyImmediate(texture);
-    }
-    private static void RemoveEdgeFragments(System.Collections.Generic.List<(int x,int y,Color32 c)> pixels,int width,int height,bool preserveRight)
-    {
-        var byPosition=new System.Collections.Generic.Dictionary<int,int>();
-        for(int i=0;i<pixels.Count;i++)byPosition[pixels[i].y*width+pixels[i].x]=i;
-        var visited=new bool[pixels.Count];var components=new System.Collections.Generic.List<System.Collections.Generic.List<int>>();
-        int[] offsets={-1,0,1};
-        for(int start=0;start<pixels.Count;start++)
-        {
-            if(visited[start])continue;var component=new System.Collections.Generic.List<int>();var queue=new System.Collections.Generic.Queue<int>();
-            visited[start]=true;queue.Enqueue(start);
-            while(queue.Count>0)
+            int sourceX = frame.Rect.x + x;
+            int sourceY = source.height - frame.Rect.y - height + y;
+            int index = y * width + x;
+            if (sourceX < 0 || sourceX >= source.width || sourceY < 0 || sourceY >= source.height)
             {
-                int current=queue.Dequeue();component.Add(current);var p=pixels[current];
-                foreach(int dy in offsets)foreach(int dx in offsets)
+                background[index] = true;
+                continue;
+            }
+            crop[index] = source.GetPixel(sourceX, sourceY);
+        }
+
+        Color32 backgroundColor = crop[0];
+        bool IsBackground(Color32 color)
+        {
+            if (color.a < 8) return true;
+            return Mathf.Abs((int)color.r - backgroundColor.r) <= 2 &&
+                Mathf.Abs((int)color.g - backgroundColor.g) <= 2 &&
+                Mathf.Abs((int)color.b - backgroundColor.b) <= 2;
+        }
+
+        void Seed(int x, int y)
+        {
+            int index = y * width + x;
+            if (background[index] || !IsBackground(crop[index])) return;
+            background[index] = true;
+            pending.Enqueue(new Vector2Int(x, y));
+        }
+
+        for (int x = 0; x < width; x++)
+        {
+            Seed(x, 0);
+            Seed(x, height - 1);
+        }
+        for (int y = 1; y < height - 1; y++)
+        {
+            Seed(0, y);
+            Seed(width - 1, y);
+        }
+
+        int[] floodX = { -1, 1, 0, 0 };
+        int[] floodY = { 0, 0, -1, 1 };
+        while (pending.Count > 0)
+        {
+            Vector2Int point = pending.Dequeue();
+            for (int direction = 0; direction < floodX.Length; direction++)
+            {
+                int nextX = point.x + floodX[direction];
+                int nextY = point.y + floodY[direction];
+                if (nextX < 0 || nextX >= width || nextY < 0 || nextY >= height) continue;
+                Seed(nextX, nextY);
+            }
+        }
+
+        var kept = new System.Collections.Generic.List<(int x, int y, Color32 c)>();
+        for (int y = 0; y < height; y++)
+        for (int x = 0; x < width; x++)
+        {
+            int index = y * width + x;
+            if (!background[index]) kept.Add((x, y, crop[index]));
+        }
+
+        if (kept.Count == 0) return;
+        if (frame.Name is "Walk_03" or "Walk_04")
+            RemoveEdgeFragments(kept, width, height, false);
+        if (kept.Count == 0) return;
+
+        bool[] retained = new bool[crop.Length];
+        int minX = width;
+        int maxX = -1;
+        int minY = height;
+        int maxY = -1;
+        foreach (var pixel in kept)
+        {
+            retained[pixel.y * width + pixel.x] = true;
+            minX = Mathf.Min(minX, pixel.x);
+            maxX = Mathf.Max(maxX, pixel.x);
+            minY = Mathf.Min(minY, pixel.y);
+            maxY = Mathf.Max(maxY, pixel.y);
+        }
+
+        int contentWidth = maxX - minX + 1;
+        int contentHeight = maxY - minY + 1;
+        float scale = Mathf.Min(1f, Mathf.Min(236f / contentWidth, 236f / contentHeight));
+        int drawWidth = Mathf.Max(1, Mathf.RoundToInt(contentWidth * scale));
+        int drawHeight = Mathf.Max(1, Mathf.RoundToInt(contentHeight * scale));
+        int offsetX = (canvas - drawWidth) / 2;
+        int offsetY = 10;
+        Color32[] output = new Color32[canvas * canvas];
+
+        for (int y = 0; y < drawHeight; y++)
+        for (int x = 0; x < drawWidth; x++)
+        {
+            int sourceX = minX + Mathf.Clamp(Mathf.FloorToInt(x / scale), 0, contentWidth - 1);
+            int sourceY = minY + Mathf.Clamp(Mathf.FloorToInt(y / scale), 0, contentHeight - 1);
+            int sourceIndex = sourceY * width + sourceX;
+            if (retained[sourceIndex])
+                output[(offsetY + y) * canvas + offsetX + x] = crop[sourceIndex];
+        }
+
+        Texture2D texture = new(canvas, canvas, TextureFormat.RGBA32, false);
+        texture.SetPixels32(output);
+        texture.Apply();
+        File.WriteAllBytes($"{Output}/{frame.Name}.png", texture.EncodeToPNG());
+        Object.DestroyImmediate(texture);
+    }
+    private static void RemoveEdgeFragments(System.Collections.Generic.List<(int x, int y, Color32 c)> pixels, int width, int height, bool preserveRight)
+    {
+        if (pixels.Count == 0) return;
+
+        var byPosition = new System.Collections.Generic.Dictionary<int, int>();
+        for (int i = 0; i < pixels.Count; i++)
+            byPosition[pixels[i].y * width + pixels[i].x] = i;
+
+        var visited = new bool[pixels.Count];
+        var components = new System.Collections.Generic.List<System.Collections.Generic.List<int>>();
+        int[] offsets = { -1, 0, 1 };
+
+        for (int start = 0; start < pixels.Count; start++)
+        {
+            if (visited[start]) continue;
+
+            var component = new System.Collections.Generic.List<int>();
+            var queue = new System.Collections.Generic.Queue<int>();
+            visited[start] = true;
+            queue.Enqueue(start);
+
+            while (queue.Count > 0)
+            {
+                int current = queue.Dequeue();
+                component.Add(current);
+                var pixel = pixels[current];
+
+                foreach (int dy in offsets)
+                foreach (int dx in offsets)
                 {
-                    if(dx==0&&dy==0)continue;
-                    if(byPosition.TryGetValue((p.y+dy)*width+p.x+dx,out int next)&&!visited[next]){visited[next]=true;queue.Enqueue(next);}
+                    if (dx == 0 && dy == 0) continue;
+                    if (!byPosition.TryGetValue((pixel.y + dy) * width + pixel.x + dx, out int next)) continue;
+                    if (visited[next]) continue;
+                    visited[next] = true;
+                    queue.Enqueue(next);
                 }
             }
+
             components.Add(component);
         }
-        int largest=0;for(int i=1;i<components.Count;i++)if(components[i].Count>components[largest].Count)largest=i;
-        int mainMinX=width,mainMaxX=0,mainMinY=height,mainMaxY=0;
-        foreach(int index in components[largest]){var p=pixels[index];mainMinX=Mathf.Min(mainMinX,p.x);mainMaxX=Mathf.Max(mainMaxX,p.x);mainMinY=Mathf.Min(mainMinY,p.y);mainMaxY=Mathf.Max(mainMaxY,p.y);}
-        var remove=new System.Collections.Generic.HashSet<int>();
-        for(int i=0;i<components.Count;i++)
+
+        var remove = new System.Collections.Generic.HashSet<int>();
+        foreach (var component in components)
         {
-            if(i==largest)continue;
-            int minX=width,maxX=0,minY=height,maxY=0;
-            foreach(int index in components[i]){var p=pixels[index];minX=Mathf.Min(minX,p.x);maxX=Mathf.Max(maxX,p.x);minY=Mathf.Min(minY,p.y);maxY=Mathf.Max(maxY,p.y);}
-            int gapX=Mathf.Max(0,Mathf.Max(mainMinX-maxX,minX-mainMaxX));
-            int gapY=Mathf.Max(0,Mathf.Max(mainMinY-maxY,minY-mainMaxY));
-            if(gapX*gapX+gapY*gapY>144&&(!preserveRight||maxX<mainMinX))foreach(int index in components[i])remove.Add(index);
+            int minX = width;
+            int maxX = -1;
+            foreach (int index in component)
+            {
+                minX = Mathf.Min(minX, pixels[index].x);
+                maxX = Mathf.Max(maxX, pixels[index].x);
+            }
+
+            bool leftEdgeFragment = minX <= 1 && maxX <= Mathf.Max(12, width / 4);
+            bool rightEdgeFragment = !preserveRight && maxX >= width - 2 && minX >= width * 3 / 4;
+            if (leftEdgeFragment || rightEdgeFragment)
+                foreach (int index in component) remove.Add(index);
         }
-        for(int i=pixels.Count-1;i>=0;i--)if(remove.Contains(i))pixels.RemoveAt(i);
+
+        for (int i = pixels.Count - 1; i >= 0; i--)
+            if (remove.Contains(i)) pixels.RemoveAt(i);
     }
     private static void ConfigureSprite(string path)
     {

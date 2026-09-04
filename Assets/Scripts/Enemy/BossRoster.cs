@@ -63,7 +63,7 @@ public static class BossRoster
         }
 
         BossHealth health = boss.GetComponent<BossHealth>();
-        health.Configure(Mathf.RoundToInt(8500f * modifiers.EnemyHealth),
+        health.Configure(5000,
             Mathf.RoundToInt(300f * modifiers.Reward));
         return health;
     }
@@ -92,12 +92,14 @@ public static class BossRoster
 
         int baseHealth = difficulty switch
         {
-            DungeonDifficulty.Hard => 12750,
-            DungeonDifficulty.Nightmare => 25500,
-            _ => 8000
+            DungeonDifficulty.Easy => 5000,
+            DungeonDifficulty.Normal => 10000,
+            DungeonDifficulty.Hard => 12500,
+            DungeonDifficulty.Nightmare => 15000,
+            _ => 5000
         };
         BossHealth health = boss.GetComponent<BossHealth>();
-        health.Configure(Mathf.RoundToInt(baseHealth * modifiers.EnemyHealth),
+        health.Configure(baseHealth,
             Mathf.RoundToInt(180f * modifiers.Reward), $"{difficulty} Dummy Boss", 0, 0.2f);
         return health;
     }
@@ -109,7 +111,7 @@ public static class BossRoster
         GameObject boss = Object.Instantiate(prefab, position, Quaternion.identity, parent);
         boss.name = "AncientGolemBoss";
         BossHealth health = boss.GetComponent<BossHealth>();
-        health.Configure(Mathf.RoundToInt(12750f * modifiers.EnemyHealth),
+        health.Configure(12500,
             Mathf.RoundToInt(550f * modifiers.Reward), "고대 골렘", 30, 1.1f);
         boss.GetComponent<BossMovement>()?.ConfigureSpeed(1.65f * modifiers.EnemySpeed);
         boss.GetComponent<AncientGolemCombat>()?.Configure(modifiers.EnemyDamage);
@@ -145,7 +147,7 @@ public static class BossRoster
 
         boss.SetActive(true);
         BossHealth health = boss.GetComponent<BossHealth>();
-        health.Configure(Mathf.RoundToInt(25500f * modifiers.EnemyHealth),
+        health.Configure(15000,
             Mathf.RoundToInt(750f * modifiers.Reward), "악몽의 대마도사", 18, 1.2f);
         return health;
     }

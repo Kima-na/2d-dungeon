@@ -67,7 +67,7 @@ public sealed class ShopMerchant : MonoBehaviour
             prompt.color = new Color(1f, 0.36f, 0.32f);
             return;
         }
-        EquipmentItem item = nearbyInventory.RollShopLoot(Rarities[selectedOffer], nearbyPlayer.CurrentClass);
+        EquipmentItem item = nearbyInventory.RollShopLoot(GetOfferRarity(selectedOffer), nearbyPlayer.CurrentClass);
         if (item == null)
         {
             nearbyPlayer.AddGold(price);
@@ -79,31 +79,70 @@ public sealed class ShopMerchant : MonoBehaviour
         RefreshPrompt();
     }
 
+    private EquipmentRarity GetOfferRarity(int offer)
+    {
+        DungeonGenerator generator = FindAnyObjectByType<DungeonGenerator>();
+        DungeonDifficulty difficulty = generator != null ? generator.Difficulty : DungeonDifficulty.Easy;
+        return difficulty switch
+        {
+            DungeonDifficulty.Normal => offer switch
+            {
+                0 => EquipmentRarity.Uncommon,
+                1 => EquipmentRarity.Rare,
+                _ => EquipmentRarity.Epic
+            },
+            DungeonDifficulty.Hard => offer switch
+            {
+                0 => EquipmentRarity.Rare,
+                1 => EquipmentRarity.Epic,
+                _ => EquipmentRarity.Legendary
+            },
+            DungeonDifficulty.Nightmare => offer switch
+            {
+                0 => EquipmentRarity.Epic,
+                _ => EquipmentRarity.Legendary
+            },
+            _ => Rarities[offer]
+        };
+    }
+
     private void RefreshPrompt()
     {
         if (prompt == null) return;
-        if (nearbyPlayer == null) prompt.text = "상인";
-        else if (!shopOpen) prompt.text = "[F] 상인과 대화";
+        if (nearbyPlayer == null) prompt.text = "상인 판매";
+        else if (!shopOpen) prompt.text = "[F] 상인 판매";
         else
         {
-            string rarity = selectedOffer switch { 0 => "일반", 1 => "고급", _ => "희귀" };
+            string rarity = EquipmentRarityUtility.KoreanName(GetOfferRarity(selectedOffer));
             string state = sold[selectedOffer] ? "판매 완료" : $"{Prices[selectedOffer]} GOLD";
             prompt.text = $"<{rarity} 직업 장비>  {state}\n[←/→] 상품 선택  [F] 구매  [ESC] 닫기";
         }
-        prompt.color = shopOpen ? new Color(0.42f, 1f, 0.68f) : Color.white;
+        prompt.color = shopOpen
+            ? new Color(0.42f, 1f, 0.68f)
+            : new Color(1f, 0.92f, 0.38f);
     }
 
     private TextMesh CreatePrompt()
     {
         GameObject label = new("Merchant Prompt", typeof(TextMesh));
         label.transform.SetParent(transform, false);
-        label.transform.localPosition = new Vector3(0f, 1.05f, 0f);
+
+        SpriteRenderer merchantRenderer = GetComponent<SpriteRenderer>();
+        float halfHeight = merchantRenderer != null && merchantRenderer.sprite != null
+            ? merchantRenderer.sprite.bounds.extents.y : 0.65f;
+        float worldScale = Mathf.Max(0.01f, transform.lossyScale.y);
+        label.transform.localPosition = new Vector3(0f, halfHeight + 0.28f / worldScale, -0.1f);
+        label.transform.localScale = Vector3.one *
+            (0.85f / Mathf.Max(0.01f, transform.lossyScale.x));
+
         TextMesh text = label.GetComponent<TextMesh>();
         text.anchor = TextAnchor.MiddleCenter;
         text.alignment = TextAlignment.Center;
-        text.characterSize = 0.045f;
-        text.fontSize = 34;
-        label.GetComponent<MeshRenderer>().sortingOrder = 9;
+        text.characterSize = 0.1f;
+        text.fontSize = 64;
+        text.fontStyle = FontStyle.Bold;
+        text.color = Color.white;
+        label.GetComponent<MeshRenderer>().sortingOrder = 20;
         return text;
     }
 }

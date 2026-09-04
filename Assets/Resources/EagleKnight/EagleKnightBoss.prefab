@@ -191,7 +191,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.75, y: 1.75, z: 1.75}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6419252302480509886}
@@ -432,7 +432,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: d49d9edecb07cf3438acde7add14057e, type: 3}
   - {fileID: 21300000, guid: bdc9b5eecb298034fa3280acd6539ec3, type: 3}
   - {fileID: 21300000, guid: c7cd90f9ad4842641bc682f94f9b7feb, type: 3}
-  - {fileID: 21300000, guid: 57e5a0cc8ccb93b4d91e9331185a2621, type: 3}
   skill:
   - {fileID: 21300000, guid: 8d388b0267e8bd84b9bba50573454adf, type: 3}
   - {fileID: 21300000, guid: 9c36acae73ca7644db5fdc5569229ca2, type: 3}
@@ -455,7 +454,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c495f400818916e4ca3973ce59b55b60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EagleKnightBossCombat
-  detectionRange: 8
+  detectionRange: 20
   attackRange: 2
   attackCooldown: 1.5
   introDelay: 1
@@ -470,8 +469,9 @@ MonoBehaviour:
   throwCooldown: 4
   spearSprite: {fileID: 21300000, guid: 57e5a0cc8ccb93b4d91e9331185a2621, type: 3}
   skillDamage: 110
-  skillRadius: 3.2
+  skillRadius: 5.5
   skillCooldown: 9
+  energyBurstScale: 3
   skillWarning: 1.1
 --- !u!1 &9204681137486440289
 GameObject:
@@ -549,5 +549,5 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 6.4, y: 6.4}
+  m_Size: {x: 11, y: 11}
   m_EdgeRadius: 0

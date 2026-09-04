@@ -16,6 +16,33 @@ public static class BossSpriteSetup
     private const string ControllerPath = AnimationFolder + "/EasyBoss.controller";
     private const string PrefabPath = "Assets/Prefabs/Enemies/EasyBoss.prefab";
     private const string DatabasePath = "Assets/Resources/BossVisualDatabase.asset";
+    private const string ProcessedAttackPath = "Assets/Sprites/Enemies/Boss/boss_attack_transparent.png";
+    private const string ProcessedDeathPath = "Assets/Sprites/Enemies/Boss/boss_death_transparent.png";
+
+    private readonly struct AttackFrame
+    {
+        public readonly string Name;
+        public readonly RectInt Rect;
+
+        public AttackFrame(string name, int x, int y, int width, int height)
+        {
+            Name = name;
+            Rect = new RectInt(x, y, width, height);
+        }
+    }
+
+    private static readonly AttackFrame[] AttackFrames =
+    {
+        new("boss attack_2", 44, 727, 167, 251),
+        new("boss attack_3", 238, 743, 214, 236),
+        new("boss attack_7", 0, 535, 180, 181),
+        new("boss attack_8", 180, 527, 193, 195),
+        new("boss attack_4", 392, 531, 187, 271),
+        new("boss attack_5", 618, 537, 173, 256),
+        new("boss attack_11", 10, 303, 172, 177),
+        new("boss attack_12", 187, 309, 217, 181),
+        new("boss attack_15", 14, 0, 227, 256)
+    };
 
     [InitializeOnLoadMethod]
     private static void ScheduleSetup() => EditorApplication.delayCall += Setup;
@@ -30,7 +57,9 @@ public static class BossSpriteSetup
         EnsureFolder("Assets", "Resources");
         CreateTransparentCopy();
         ConfigureAndSlice();
+        CreateAttackCopy();
         ConfigureAttackEffects();
+        CreateDeathCopy();
         ConfigureDeathSheet();
 
         Sprite[] sprites = AssetDatabase.LoadAllAssetsAtPath(ProcessedPath).OfType<Sprite>()
@@ -54,7 +83,7 @@ public static class BossSpriteSetup
                 $"Boss_Walk_{directions[row]}", frames, true);
         }
 
-        Sprite[] attackSprites = AssetDatabase.LoadAllAssetsAtPath(AttackSourcePath).OfType<Sprite>().ToArray();
+        Sprite[] attackSprites = AssetDatabase.LoadAllAssetsAtPath(ProcessedAttackPath).OfType<Sprite>().ToArray();
         AnimationClip[] attacks =
         {
             CreateClip($"{AnimationFolder}/Boss_Attack1.anim", "Boss_Attack1", Select(attackSprites, "boss attack_2", "boss attack_3"), false),
@@ -63,7 +92,7 @@ public static class BossSpriteSetup
             CreateClip($"{AnimationFolder}/Boss_Attack4.anim", "Boss_Attack4", Select(attackSprites, "boss attack_15"), false)
         };
         AnimationClip hit = CreateHitClip(sprites[0]);
-        Sprite[] deathSprites = AssetDatabase.LoadAllAssetsAtPath(DeathSourcePath).OfType<Sprite>()
+        Sprite[] deathSprites = AssetDatabase.LoadAllAssetsAtPath(ProcessedDeathPath).OfType<Sprite>()
             .OrderBy(sprite => int.Parse(sprite.name.Split('_').Last())).ToArray();
         if (deathSprites.Length != 16) return;
         AnimationClip[] deaths = CreateDeathClips(deathSprites, directions);
@@ -88,7 +117,7 @@ public static class BossSpriteSetup
         EditorUtility.SetDirty(database);
         AssetDatabase.SaveAssets();
         ValidateDirectionalFrames(idle, walk);
-        Debug.Log("Easy boss setup complete. Down, Up, Left and Right were independently cleaned and rebuilt (24 frames).");
+        Debug.Log("Easy boss setup complete. Attack frames were cleaned and the death animation was consolidated and normalized.");
     }
 
     private static void ValidateDirectionalFrames(AnimationClip[] idle, AnimationClip[] walk)
@@ -158,6 +187,178 @@ public static class BossSpriteSetup
             if (visited[index]) return;
             visited[index] = true;
             if (IsCheckerBackground(pixels[index])) queue.Enqueue(index);
+        }
+    }
+
+    private static void RemoveSmallAttackComponents(Color32[] pixels, int textureWidth, int textureHeight)
+    {
+        int[] neighbourX = { -1, 0, 1, -1, 1, -1, 0, 1 };
+        int[] neighbourY = { -1, -1, -1, 0, 0, 1, 1, 1 };
+
+        foreach (AttackFrame frame in AttackFrames)
+        {
+            RectInt rect = frame.Rect;
+            HashSet<int> remaining = new();
+            for (int y = 0; y < rect.height; y++)
+            for (int x = 0; x < rect.width; x++)
+            {
+                int sourceX = rect.x + x;
+                int sourceY = rect.y + y;
+                if (sourceX < 0 || sourceX >= textureWidth ||
+                    sourceY < 0 || sourceY >= textureHeight) continue;
+                int index = sourceY * textureWidth + sourceX;
+                if (pixels[index].a >= 8) remaining.Add(index);
+            }
+
+            var components = new List<List<int>>();
+            while (remaining.Count > 0)
+            {
+                int start = remaining.First();
+                remaining.Remove(start);
+                var component = new List<int>();
+                var queue = new Queue<int>();
+                queue.Enqueue(start);
+                while (queue.Count > 0)
+                {
+                    int current = queue.Dequeue();
+                    component.Add(current);
+                    int x = current % textureWidth;
+                    int y = current / textureWidth;
+                    for (int direction = 0; direction < neighbourX.Length; direction++)
+                    {
+                        int nextX = x + neighbourX[direction];
+                        int nextY = y + neighbourY[direction];
+                        if (nextX < rect.x || nextX >= rect.xMax ||
+                            nextY < rect.y || nextY >= rect.yMax) continue;
+                        int next = nextY * textureWidth + nextX;
+                        if (remaining.Remove(next)) queue.Enqueue(next);
+                    }
+                }
+                components.Add(component);
+            }
+
+            List<int> body = components.OrderByDescending(component => component.Count).FirstOrDefault();
+            if (body == null) continue;
+            foreach (List<int> component in components)
+            {
+                if (component == body) continue;
+                foreach (int index in component)
+                {
+                    Color32 color = pixels[index];
+                    color.a = 0;
+                    pixels[index] = color;
+                }
+            }
+        }
+    }
+
+    private static void CreateAttackCopy()
+    {
+        TextureImporter sourceImporter = AssetImporter.GetAtPath(AttackSourcePath) as TextureImporter;
+        if (sourceImporter == null) return;
+
+        bool wasReadable = sourceImporter.isReadable;
+        TextureImporterCompression previousCompression = sourceImporter.textureCompression;
+        sourceImporter.isReadable = true;
+        sourceImporter.textureCompression = TextureImporterCompression.Uncompressed;
+        sourceImporter.SaveAndReimport();
+
+        Texture2D source = AssetDatabase.LoadAssetAtPath<Texture2D>(AttackSourcePath);
+        if (source == null) return;
+        Color32[] pixels = source.GetPixels32();
+        RemoveSmallAttackComponents(pixels, source.width, source.height);
+
+        Texture2D output = new(source.width, source.height, TextureFormat.RGBA32, false);
+        output.SetPixels32(pixels);
+        output.Apply();
+        File.WriteAllBytes(ProcessedAttackPath, output.EncodeToPNG());
+        Object.DestroyImmediate(output);
+        AssetDatabase.ImportAsset(ProcessedAttackPath, ImportAssetOptions.ForceSynchronousImport);
+
+        sourceImporter = AssetImporter.GetAtPath(AttackSourcePath) as TextureImporter;
+        if (sourceImporter != null)
+        {
+            sourceImporter.isReadable = wasReadable;
+            sourceImporter.textureCompression = previousCompression;
+            sourceImporter.SaveAndReimport();
+        }
+    }
+
+    private static void CreateDeathCopy()
+    {
+        if (!File.Exists(DeathSourcePath)) return;
+        TextureImporter sourceImporter = AssetImporter.GetAtPath(DeathSourcePath) as TextureImporter;
+        if (sourceImporter == null) return;
+
+        bool wasReadable = sourceImporter.isReadable;
+        TextureImporterCompression previousCompression = sourceImporter.textureCompression;
+        sourceImporter.isReadable = true;
+        sourceImporter.textureCompression = TextureImporterCompression.Uncompressed;
+        sourceImporter.SaveAndReimport();
+
+        Texture2D source = AssetDatabase.LoadAssetAtPath<Texture2D>(DeathSourcePath);
+        if (source == null) return;
+        Color32[] sourcePixels = source.GetPixels32();
+
+        const int cellSize = 384;
+        const int sheetSize = cellSize * 4;
+        const int groundY = 20;
+        int[] rowBottoms = { 654, 459, 239, 0 };
+        int[] rowHeights = { 370, 195, 220, 239 };
+        Color32[] outputPixels = new Color32[sheetSize * sheetSize];
+
+        for (int row = 0; row < 4; row++)
+        for (int column = 0; column < 4; column++)
+        {
+            int sourceLeft = column * cellSize;
+            int sourceBottom = rowBottoms[row];
+            int sourceHeight = rowHeights[row];
+            int minX = cellSize, maxX = -1, minY = sourceHeight, maxY = -1;
+            for (int y = 0; y < sourceHeight; y++)
+            for (int x = 0; x < cellSize; x++)
+            {
+                Color32 pixel = sourcePixels[(sourceBottom + y) * source.width + sourceLeft + x];
+                if (pixel.a < 8) continue;
+                minX = Mathf.Min(minX, x);
+                maxX = Mathf.Max(maxX, x);
+                minY = Mathf.Min(minY, y);
+                maxY = Mathf.Max(maxY, y);
+            }
+            if (maxX < 0) continue;
+
+            int desiredShiftX = cellSize / 2 - Mathf.RoundToInt((minX + maxX) * 0.5f);
+            int shiftX = Mathf.Clamp(desiredShiftX, -minX, cellSize - 1 - maxX);
+            int desiredShiftY = groundY - minY;
+            int shiftY = Mathf.Clamp(desiredShiftY, -minY, cellSize - 1 - maxY);
+            int outputLeft = column * cellSize;
+            int outputBottom = (3 - row) * cellSize;
+
+            for (int y = 0; y < sourceHeight; y++)
+            for (int x = 0; x < cellSize; x++)
+            {
+                Color32 pixel = sourcePixels[(sourceBottom + y) * source.width + sourceLeft + x];
+                if (pixel.a == 0) continue;
+                int outputX = outputLeft + x + shiftX;
+                int outputY = outputBottom + y + shiftY;
+                if (outputX < outputLeft || outputX >= outputLeft + cellSize ||
+                    outputY < outputBottom || outputY >= outputBottom + cellSize) continue;
+                outputPixels[outputY * sheetSize + outputX] = pixel;
+            }
+        }
+
+        Texture2D output = new(sheetSize, sheetSize, TextureFormat.RGBA32, false);
+        output.SetPixels32(outputPixels);
+        output.Apply();
+        File.WriteAllBytes(ProcessedDeathPath, output.EncodeToPNG());
+        Object.DestroyImmediate(output);
+        AssetDatabase.ImportAsset(ProcessedDeathPath, ImportAssetOptions.ForceSynchronousImport);
+
+        sourceImporter = AssetImporter.GetAtPath(DeathSourcePath) as TextureImporter;
+        if (sourceImporter != null)
+        {
+            sourceImporter.isReadable = wasReadable;
+            sourceImporter.textureCompression = previousCompression;
+            sourceImporter.SaveAndReimport();
         }
     }
 
@@ -267,8 +468,8 @@ public static class BossSpriteSetup
 
     private static void ConfigureAttackEffects()
     {
-        AssetDatabase.ImportAsset(AttackSourcePath, ImportAssetOptions.ForceSynchronousImport);
-        TextureImporter importer = AssetImporter.GetAtPath(AttackSourcePath) as TextureImporter;
+        AssetDatabase.ImportAsset(ProcessedAttackPath, ImportAssetOptions.ForceSynchronousImport);
+        TextureImporter importer = AssetImporter.GetAtPath(ProcessedAttackPath) as TextureImporter;
         if (importer == null) return;
         importer.textureType = TextureImporterType.Sprite;
         importer.spriteImportMode = SpriteImportMode.Multiple;
@@ -277,8 +478,17 @@ public static class BossSpriteSetup
         importer.textureCompression = TextureImporterCompression.Uncompressed;
         importer.mipmapEnabled = false;
         importer.alphaIsTransparency = true;
-        List<SpriteMetaData> metadata = importer.spritesheet
-            .Where(item => !item.name.StartsWith("Effect_")).ToList();
+        List<SpriteMetaData> metadata = new();
+        foreach (AttackFrame frame in AttackFrames)
+        {
+            metadata.Add(new SpriteMetaData
+            {
+                name = frame.Name,
+                rect = new Rect(frame.Rect.x, frame.Rect.y, frame.Rect.width, frame.Rect.height),
+                alignment = (int)SpriteAlignment.Center,
+                pivot = new Vector2(0.5f, 0.5f)
+            });
+        }
         AddEffect(metadata, "Effect_DarkShockwave", new Rect(690f, 805f, 520f, 170f));
         AddEffect(metadata, "Effect_GroundWarning", new Rect(1200f, 506f, 309f, 146f));
         AddEffect(metadata, "Effect_GroundImpact", new Rect(798f, 503f, 397f, 265f));
@@ -291,9 +501,9 @@ public static class BossSpriteSetup
 
     private static void ConfigureDeathSheet()
     {
-        if (!File.Exists(DeathSourcePath)) return;
-        AssetDatabase.ImportAsset(DeathSourcePath, ImportAssetOptions.ForceSynchronousImport);
-        TextureImporter importer = AssetImporter.GetAtPath(DeathSourcePath) as TextureImporter;
+        if (!File.Exists(ProcessedDeathPath)) return;
+        AssetDatabase.ImportAsset(ProcessedDeathPath, ImportAssetOptions.ForceSynchronousImport);
+        TextureImporter importer = AssetImporter.GetAtPath(ProcessedDeathPath) as TextureImporter;
         if (importer == null) return;
         importer.textureType = TextureImporterType.Sprite;
         importer.spriteImportMode = SpriteImportMode.Multiple;
@@ -302,24 +512,19 @@ public static class BossSpriteSetup
         importer.textureCompression = TextureImporterCompression.Uncompressed;
         importer.mipmapEnabled = false;
         importer.alphaIsTransparency = true;
+        const float cellSize = 384f;
+        const float pivotY = 20f / cellSize;
         var frames = new SpriteMetaData[16];
-        const float frameWidth = 384f;
-        // The death montage is not an evenly spaced 4x4 grid. Its first row
-        // is much taller than the others, so fixed 256px cells let artwork
-        // from the row above bleed into the next animation frame.
-        float[] rowBottoms = { 654f, 459f, 239f, 0f };
-        float[] rowHeights = { 370f, 195f, 220f, 239f };
-        for (int sourceRow = 0; sourceRow < 4; sourceRow++)
+        for (int row = 0; row < 4; row++)
         for (int column = 0; column < 4; column++)
         {
-            int index = sourceRow * 4 + column;
+            int index = row * 4 + column;
             frames[index] = new SpriteMetaData
             {
-                name = $"Boss_Death_{index}",
-                rect = new Rect(column * frameWidth, rowBottoms[sourceRow],
-                    frameWidth, rowHeights[sourceRow]),
+                name = $"Boss_Death_{index:00}",
+                rect = new Rect(column * cellSize, (3 - row) * cellSize, cellSize, cellSize),
                 alignment = (int)SpriteAlignment.Custom,
-                pivot = new Vector2(0.5f, 0.08f)
+                pivot = new Vector2(0.5f, pivotY)
             };
         }
         importer.spritesheet = frames;
@@ -343,7 +548,8 @@ public static class BossSpriteSetup
     private static Sprite FindSprite(Sprite[] sprites, string name) =>
         sprites.FirstOrDefault(sprite => sprite.name == name);
 
-    private static AnimationClip CreateClip(string path, string name, Sprite[] sprites, bool loop)
+    private static AnimationClip CreateClip(string path, string name, Sprite[] sprites, bool loop,
+        float frameRate = 8f)
     {
         AnimationClip clip = AssetDatabase.LoadAssetAtPath<AnimationClip>(path);
         if (clip == null)
@@ -351,10 +557,10 @@ public static class BossSpriteSetup
             clip = new AnimationClip { name = name };
             AssetDatabase.CreateAsset(clip, path);
         }
-        clip.frameRate = 8f;
+        clip.frameRate = frameRate;
         var binding = new EditorCurveBinding { type = typeof(SpriteRenderer), path = "", propertyName = "m_Sprite" };
         ObjectReferenceKeyframe[] keys = sprites.Select((sprite, index) =>
-            new ObjectReferenceKeyframe { time = index / 8f, value = sprite }).ToArray();
+            new ObjectReferenceKeyframe { time = index / frameRate, value = sprite }).ToArray();
         AnimationUtility.SetObjectReferenceCurve(clip, binding, keys);
         AnimationClipSettings settings = AnimationUtility.GetAnimationClipSettings(clip);
         settings.loopTime = loop;
@@ -373,13 +579,12 @@ public static class BossSpriteSetup
 
     private static AnimationClip[] CreateDeathClips(Sprite[] sprites, string[] directions)
     {
-        // The supplied sheet is a single front-facing 4x4 sequence, not four
-        // directional rows. Preserve its authored order in four direction-ready
-        // clips so the Animator keeps the last facing state and replacement with
-        // true directional art later requires sprite changes only.
-        return directions.Select(direction => CreateClip(
-            $"{AnimationFolder}/Boss_Death_{direction}.anim",
-            $"Boss_Death_{direction}", sprites, false)).ToArray();
+        // The supplied death sheet is a single sequence. Keep one shared clip
+        // so death always plays in the same place and never branches by facing.
+        if (sprites == null || sprites.Length == 0) return System.Array.Empty<AnimationClip>();
+        AnimationClip clip = CreateClip(
+            $"{AnimationFolder}/Boss_Death.anim", "Boss_Death", sprites, false, 12f);
+        return new[] { clip };
     }
 
     private static AnimatorController CreateController(AnimationClip[] idle, AnimationClip[] walk,
@@ -412,10 +617,10 @@ public static class BossSpriteSetup
         }
         AnimatorState hitState = FindOrCreateState(machine, "Hit", hit);
         EnsureTriggerTransition(machine, hitState, "Hit");
-        for (int i = 0; i < deaths.Length; i++)
+        if (deaths != null && deaths.Length > 0)
         {
-            AnimatorState deathState = FindOrCreateState(machine, "Death_" + names[i], deaths[i]);
-            EnsureDeathTransition(machine, deathState, i);
+            AnimatorState deathState = FindOrCreateState(machine, "Death", deaths[0]);
+            EnsureDeathTransition(machine, deathState);
         }
         EditorUtility.SetDirty(controller);
         return controller;
@@ -423,13 +628,15 @@ public static class BossSpriteSetup
 
     private static void RemoveLegacyDeathState(AnimatorStateMachine machine)
     {
-        AnimatorState legacy = machine.states.Select(item => item.state)
-            .FirstOrDefault(state => state.name == "Death");
-        if (legacy == null) return;
-        foreach (AnimatorStateTransition transition in machine.anyStateTransitions
-                     .Where(item => item.destinationState == legacy).ToArray())
-            machine.RemoveAnyStateTransition(transition);
-        machine.RemoveState(legacy);
+        AnimatorState[] legacyStates = machine.states.Select(item => item.state)
+            .Where(state => state.name == "Death" || state.name.StartsWith("Death_")).ToArray();
+        foreach (AnimatorState legacy in legacyStates)
+        {
+            foreach (AnimatorStateTransition transition in machine.anyStateTransitions
+                         .Where(item => item.destinationState == legacy).ToArray())
+                machine.RemoveAnyStateTransition(transition);
+            machine.RemoveState(legacy);
+        }
     }
 
     private static void EnsureParameter(AnimatorController controller, string name, AnimatorControllerParameterType type)
@@ -482,7 +689,7 @@ public static class BossSpriteSetup
         transition.AddCondition(AnimatorConditionMode.If, 0f, trigger);
     }
 
-    private static void EnsureDeathTransition(AnimatorStateMachine machine, AnimatorState target, int direction)
+    private static void EnsureDeathTransition(AnimatorStateMachine machine, AnimatorState target)
     {
         AnimatorStateTransition transition = machine.anyStateTransitions.FirstOrDefault(item => item.destinationState == target);
         if (transition == null) transition = machine.AddAnyStateTransition(target);
@@ -491,7 +698,6 @@ public static class BossSpriteSetup
         transition.duration = 0.02f;
         transition.canTransitionToSelf = false;
         transition.AddCondition(AnimatorConditionMode.If, 0f, "IsDead");
-        transition.AddCondition(AnimatorConditionMode.Equals, direction, "Direction");
     }
 
     private static GameObject CreatePrefab(Sprite sprite, RuntimeAnimatorController controller)
@@ -512,6 +718,12 @@ public static class BossSpriteSetup
         Rigidbody2D body = root.GetComponent<Rigidbody2D>();
         body.gravityScale = 0f;
         body.freezeRotation = true;
+
+        SerializedObject health = new(root.GetComponent<BossHealth>());
+        SerializedProperty deathDelay = health.FindProperty("deathDelay");
+        if (deathDelay != null) deathDelay.floatValue = 1.25f;
+        health.ApplyModifiedPropertiesWithoutUndo();
+
         CreateDisabledHitbox(root.transform, "Skill1Hitbox", 0.4f);
         CreateDisabledHitbox(root.transform, "Skill2Hitbox", 2.1f);
         CreateDisabledHitbox(root.transform, "Skill3Hitbox", 2.2f);

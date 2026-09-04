@@ -13,6 +13,7 @@ public sealed class EquipmentInventoryUI : MonoBehaviour
     private GUIStyle sectionStyle;
     private GUIStyle itemStyle;
     private GUIStyle hintStyle;
+    private GUIStyle bagHintStyle;
     public bool IsVisible => visible;
     public void SetVisible(bool value) => visible = value;
 
@@ -34,7 +35,14 @@ public sealed class EquipmentInventoryUI : MonoBehaviour
     {
         if (!IsInDungeon()) return;
         EnsureStyles();
-        GUI.Label(new Rect(Screen.width - 210f, 12f, 200f, 26f), "[I] 배낭 열기", hintStyle);
+        float hintWidth = Mathf.Min(280f, Mathf.Max(12f, Screen.width - 24f));
+        Rect hintRect = new(Screen.width - hintWidth - 12f,
+            Mathf.Max(12f, Screen.height - 58f), hintWidth, 40f);
+        Color previousGuiColor = GUI.color;
+        GUI.color = new Color(0.02f, 0.04f, 0.07f, 0.96f);
+        GUI.Box(hintRect, GUIContent.none);
+        GUI.color = previousGuiColor;
+        GUI.Label(hintRect, "[I] 배낭 열기", bagHintStyle);
         if (!visible || inventory == null) return;
 
         float width = Mathf.Min(880f, Screen.width - 32f);
@@ -120,6 +128,10 @@ public sealed class EquipmentInventoryUI : MonoBehaviour
         sectionStyle ??= new GUIStyle(GUI.skin.label) { fontSize = 18, fontStyle = FontStyle.Bold };
         itemStyle ??= new GUIStyle(GUI.skin.label) { fontSize = 14, fontStyle = FontStyle.Bold, wordWrap = true };
         hintStyle ??= new GUIStyle(GUI.skin.label) { fontSize = 13, wordWrap = true };
+        bagHintStyle ??= new GUIStyle(GUI.skin.label)
+            { fontSize = 18, fontStyle = FontStyle.Bold, alignment = TextAnchor.MiddleCenter };
+        bagHintStyle.normal.textColor = Color.white;
+        bagHintStyle.normal.background = GUI.skin.box.normal.background;
     }
 
     private static string SlotName(EquipmentSlot slot) => slot switch

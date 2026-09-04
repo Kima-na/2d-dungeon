@@ -15,22 +15,17 @@ private void Awake()
         rendererComponent = GetComponent<SpriteRenderer>();
         PlayerStats player = FindAnyObjectByType<PlayerStats>();
         facingTarget = player != null ? player.transform : null;
-        Play(phase1Idle, true);
+        HoldIdle(phase1Idle);
     }
 private void Update()
     {
         UpdateFacing();
         if (current == null || current.Length == 0 || Time.time < nextFrame) return;
-        if (phaseTwo && moving && current == phase2Idle)
-        {
-            frame = 0;
-            rendererComponent.sprite = phase2Idle[0];
-            return;
-        }
         if (current == phase2Crack)
         {
             frame = 0;
             rendererComponent.sprite = phase2Crack[0];
+            nextFrame = float.PositiveInfinity;
             return;
         }
         nextFrame = Time.time + frameDuration;
@@ -56,19 +51,24 @@ private void UpdateFacing()
         this.moving = moving;
         if (Mathf.Abs(direction.x) > .05f) rendererComponent.flipX = phaseTwo ? direction.x < 0f : direction.x > 0f;
         if (dead || IsAction()) return;
-        Play(phaseTwo ? phase2Idle : phase1Idle, true);
-        if (phaseTwo && moving)
-        {
-            frame = 0;
-            rendererComponent.sprite = phase2Idle[0];
-        }
+        if (moving) Play(phaseTwo ? phase2Idle : phase1Idle, true);
+        else HoldIdle(phaseTwo ? phase2Idle : phase1Idle);
     }
-    public void SetPhaseTwo() { if (phaseTwo) return; phaseTwo = true; Play(phase2Idle, true); }
+    private void HoldIdle(Sprite[] sprites)
+    {
+        if (sprites == null || sprites.Length == 0) return;
+        current = sprites;
+        loop = false;
+        frame = 0;
+        nextFrame = float.PositiveInfinity;
+        rendererComponent.sprite = sprites[0];
+    }
+    public void SetPhaseTwo() { if (phaseTwo) return; phaseTwo = true; HoldIdle(phase2Idle); }
     public void PlaySlam() => Play(phaseTwo ? phase2Slam : phase1Slam, false);
     public void PlayRanged() => Play(phaseTwo ? phase2Volley : phase1Throw, false);
     public void PlayCrack() => Play(phase2Crack, false);
     public void PlayHit() { if (!dead) Play(phaseTwo ? phase2Hit : phase1Hit, false); }
-    public void EndAction() { if (!dead) Play(phaseTwo ? phase2Idle : phase1Idle, true); }
+    public void EndAction() { if (!dead) HoldIdle(phaseTwo ? phase2Idle : phase1Idle); }
     public void SetDead() { dead = true; Play(phaseTwo ? phase2Death : phase1Death, false); }
     private bool IsAction() => current == phase1Slam || current == phase1Throw || current == phase2Slam || current == phase2Crack || current == phase2Volley;
     private void Play(Sprite[] sprites, bool repeat) { if (sprites == null || sprites.Length == 0 || current == sprites && loop == repeat) return; current = sprites; loop = repeat; frame = 0; nextFrame = Time.time + frameDuration; rendererComponent.sprite = sprites[0]; }

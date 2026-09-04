@@ -215,7 +215,7 @@ GameObject:
   - component: {fileID: 3459418248839765117}
   - component: {fileID: 7419406556768023646}
   - component: {fileID: 497925515530826442}
-  - component: {fileID: 2003851293083350337}
+  - component: {fileID: 3628458384148782610}
   - component: {fileID: 1998963325999044626}
   - component: {fileID: 3961444303195865529}
   - component: {fileID: 2288817953942289519}
@@ -335,7 +335,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!70 &2003851293083350337
+--- !u!70 &3628458384148782610
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -429,7 +429,7 @@ MonoBehaviour:
   maxHealth: 1000
   defense: 10
   experienceReward: 300
-  deathDelay: 1.5
+  deathDelay: 1.25
 --- !u!114 &1531501283569587861
 MonoBehaviour:
   m_ObjectHideFlags: 0

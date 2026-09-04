@@ -43,8 +43,10 @@ public sealed class BossMovement : MonoBehaviour
         eagleKnightAnimator = GetComponent<EagleKnightAnimator>();
         bossAnimator = GetComponent<BossAnimator>();
         ownerRoom = GetComponentInParent<Room>();
+        body.bodyType = RigidbodyType2D.Kinematic;
         body.gravityScale = 0f;
         body.freezeRotation = true;
+        body.useFullKinematicContacts = true;
         body.interpolation = RigidbodyInterpolation2D.Interpolate;
     }
 
@@ -53,13 +55,9 @@ private void FixedUpdate()
         if (health.IsDead) { Stop(); return; }
         FindTarget();
 
+        IgnorePlayerCollision();
+
         Vector2 direction = target == null ? Vector2.zero : ((Vector2)target.position - body.position).normalized;
-        if (target != null)
-        {
-            bossAnimator?.SetMovement(direction, false);
-            eagleKnightAnimator?.SetMovement(direction, false);
-            ancientGolemAnimator?.SetMovement(direction, false);
-        }
 
         if (target == null || DistanceToTarget <= stoppingDistance ||
             (combat != null && combat.IsAttacking) ||
@@ -79,11 +77,91 @@ private void FixedUpdate()
 
     private void LateUpdate()
     {
-        if (ownerRoom == null || health.IsDead) return;
-        Vector2 clamped = ownerRoom.ClampToInterior(transform.position, 1f);
-        if ((clamped - (Vector2)transform.position).sqrMagnitude < 0.0001f) return;
-        body.position = clamped;
-        body.linearVelocity = Vector2.zero;
+        if (health == null || health.IsDead) return;
+        if (ownerRoom != null)
+        {
+            Vector2 clamped = ownerRoom.ClampToInterior(transform.position, 1f);
+            if ((clamped - (Vector2)transform.position).sqrMagnitude >= 0.0001f)
+            {
+                body.position = clamped;
+                body.linearVelocity = Vector2.zero;
+            }
+        }
+        IgnorePlayerCollision();
+        ResolvePlayerOverlap();
+    }
+
+    private void IgnorePlayerCollision()
+    {
+        if (target == null) return;
+
+        Collider2D playerCollider = target.GetComponent<Collider2D>();
+        Collider2D bossCollider = GetComponent<Collider2D>();
+        if (playerCollider == null || bossCollider == null ||
+            !playerCollider.enabled || !bossCollider.enabled) return;
+
+        Physics2D.IgnoreCollision(playerCollider, bossCollider, true);
+    }
+
+    private void ResolvePlayerOverlap()
+    {
+        if (target == null) FindTarget();
+        if (target == null) return;
+
+        PlayerStats player = target.GetComponent<PlayerStats>();
+        Rigidbody2D playerBody = target.GetComponent<Rigidbody2D>();
+        Collider2D playerCollider = target.GetComponent<Collider2D>();
+        Collider2D bossCollider = GetComponent<Collider2D>();
+        if (player == null || player.IsDead || playerBody == null ||
+            playerCollider == null || bossCollider == null ||
+            !playerCollider.enabled || !bossCollider.enabled) return;
+
+        Bounds bossBounds = bossCollider.bounds;
+        Bounds playerBounds = playerCollider.bounds;
+        Vector2 delta = playerBounds.center - bossBounds.center;
+        float overlapX = bossBounds.extents.x + playerBounds.extents.x - Mathf.Abs(delta.x);
+        float overlapY = bossBounds.extents.y + playerBounds.extents.y - Mathf.Abs(delta.y);
+        if (overlapX <= 0f || overlapY <= 0f) return;
+
+        Vector2 separation;
+        if (overlapX <= overlapY)
+        {
+            float sign = Mathf.Abs(delta.x) > 0.001f
+                ? Mathf.Sign(delta.x)
+                : Mathf.Sign(playerBody.position.x - body.position.x);
+            if (Mathf.Abs(sign) < 0.5f) sign = 1f;
+            separation = Vector2.right * sign * (overlapX + 0.04f);
+        }
+        else
+        {
+            float sign = Mathf.Abs(delta.y) > 0.001f
+                ? Mathf.Sign(delta.y)
+                : Mathf.Sign(playerBody.position.y - body.position.y);
+            if (Mathf.Abs(sign) < 0.5f) sign = 1f;
+            separation = Vector2.up * sign * (overlapY + 0.04f);
+        }
+
+        Vector2 originalPosition = playerBody.position;
+        Vector2 nextPosition = originalPosition + separation;
+        if (ownerRoom != null) nextPosition = ownerRoom.ClampToInterior(nextPosition, 0.1f);
+        playerBody.position = nextPosition;
+        Physics2D.SyncTransforms();
+
+        if (playerCollider.bounds.Intersects(bossCollider.bounds))
+        {
+            Vector2 alternatePosition = originalPosition - separation;
+            if (ownerRoom != null) alternatePosition = ownerRoom.ClampToInterior(alternatePosition, 0.1f);
+            playerBody.position = alternatePosition;
+            Physics2D.SyncTransforms();
+
+            if (playerCollider.bounds.Intersects(bossCollider.bounds))
+            {
+                playerBody.position = originalPosition;
+                Physics2D.SyncTransforms();
+            }
+        }
+
+        playerBody.linearVelocity = Vector2.zero;
     }
 
     private void Stop()

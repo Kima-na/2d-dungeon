@@ -213,11 +213,31 @@ public class Room : MonoBehaviour
             TreasureChest.Spawn(transform, Vector2.zero);
         if (roomType == RoomType.Shop && transform.Find("Shop Dummy") == null)
         {
+            Sprite merchantSprite = null;
+            Sprite[] merchantSprites = Resources.LoadAll<Sprite>("Sprites/merchant");
+            foreach (Sprite candidate in merchantSprites)
+            {
+                if (candidate.name == "merchant_0")
+                {
+                    merchantSprite = candidate;
+                    break;
+                }
+            }
+            if (merchantSprite == null && merchantSprites.Length > 0) merchantSprite = merchantSprites[0];
+
             GameObject counter = CreateSprite("Shop Counter", new Vector2(0f, 1.1f),
                 new Vector2(4.5f, 0.7f), new Color(0.35f, 0.2f, 0.08f), sprite, -1);
-            counter.AddComponent<BoxCollider2D>();
-            GameObject merchant = CreateSprite("Shop Dummy", new Vector2(0f, 2f), new Vector2(1.1f, 1.3f),
-                new Color(0.2f, 0.9f, 0.55f), sprite, 0);
+            BoxCollider2D counterCollider = counter.AddComponent<BoxCollider2D>();
+            if (merchantSprite != null)
+            {
+                counter.GetComponent<SpriteRenderer>().enabled = false;
+                counterCollider.enabled = false;
+            }
+
+            GameObject merchant = CreateSprite("Shop Dummy", new Vector2(0f, 2f),
+                merchantSprite != null ? new Vector2(0.18f, 0.18f) : new Vector2(1.1f, 1.3f),
+                merchantSprite != null ? Color.white : new Color(0.2f, 0.9f, 0.55f),
+                merchantSprite != null ? merchantSprite : sprite, 0);
             merchant.AddComponent<ShopMerchant>();
         }
         // Boss rooms spawn their gameplay boss on first entry. Keeping a visual
